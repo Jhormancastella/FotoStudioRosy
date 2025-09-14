@@ -56,6 +56,287 @@
         .fs-content{display:block;margin:auto;max-width:90%;max-height:90%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:8px;box-shadow:0 0 25px rgba(0,0,0,.5)}
         .fs-close{position:absolute;top:20px;right:30px;color:#fff;font-size:40px;font-weight:bold;cursor:pointer;z-index:2001;transition:color .3s}
         .fs-close:hover{color:#fc25a2}
+        
+        /* Estilos para paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 8px;
+        }
+        
+        .pagination.hidden {
+            display: none;
+        }
+        
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border: 1px solid #e9cde1;
+            border-radius: 8px;
+            color: #fc25a2;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-button:hover {
+            background-color: #fce4f2;
+        }
+        
+        .pagination-button.active {
+            background-color: #fc25a2;
+            color: white;
+            border-color: #fc25a2;
+        }
+        
+        .pagination-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-ellipsis {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+        
+        .pagination-info {
+            text-align: center;
+            margin-top: 15px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #000000;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Nuevos estilos para las secciones */
+        .section {
+            margin-bottom: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #8d0000;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            border-radius: 3px;
+        }
+        
+        .section-description {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #440f0f;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            cursor: col-resize;
+        }
+        
+       .image-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; /* ajusta el ancho máximo */
+    aspect-ratio: 4/3; /* mantiene proporción del comparador */
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.image-after,
+.image-before img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* <-- mantiene la imagen completa */
+    display: block;
+    background: #000; /* relleno si la imagen no cubre todo */
+}
+
+.image-after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.image-before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%; /* esto lo mueve el JS */
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.image-before img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+        .slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: white;
+            transform: translateX(-50%);
+            z-index: 3;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+        
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            z-index: 4;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+        
+        .slider-handle:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .slider-handle::before, .slider-handle::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 3px;
+            background: #2575fc;
+            border-radius: 2px;
+        }
+        
+        .slider-handle::before {
+            transform: translateX(3px) rotate(45deg);
+        }
+        
+        .slider-handle::after {
+            transform: translateX(3px) rotate(-45deg);
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(5px);
+        }
+        
+        .instructions p {
+            margin: 10px 0;
+        }
+        
+        .icon {
+            display: inline-block;
+            margin: 0 5px;
+            font-size: 1.4rem;
+            vertical-align: middle;
+        }
+        
+        .image-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            color: #e0e0e0;
+            font-style: italic;
+        }
+        
+        footer {
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .image-container {
+                padding-bottom: 70%; /* Ajuste para móviles */
+            }
+            
+            .instructions {
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -72,16 +353,7 @@
                 <div id="adminStatus" class="admin-status hidden">Modo Administrador</div>
             </div>
         </header>
-<!-- Selector de cantidad  -->
-<div style="text-align:center;margin:30px 0">
-    <label for="cantidadSelector"><strong>Imágenes a mostrar:</strong></label>
-    <select id="cantidadSelector" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:1px solid #ccc">
-        <option value="8">8</option>
-        <option value="12">12</option>
-        <option value="24">24</option>
-        <option value="9999">Todas</option>
-    </select>
-</div>
+        <!-- Selector de cantidad  -->
         <div class="main-content">
             <div id="uploadSection" class="hidden">
                 <h2>Subir Nueva Imagen</h2>
@@ -106,18 +378,89 @@
             </div>
 
             <div class="gallery-section">
-                <h2 style="text-align:center;margin-bottom:20px">Galería de Imágenes</h2>
+                
+                <h1 style="text-align:center;margin-bottom:20px">Galería de Imágenes</h1>
+                        <div style="text-align:center;margin:30px 0">
+                            <label for="cantidadSelector"><strong>Imágenes a mostrar:</strong></label>
+                            <select id="cantidadSelector" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:1px solid #ccc">
+                                <option value="8">8</option>
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                                <option value="9999">Todas</option>
+                            </select>
+                        </div>
                 <div class="gallery" id="imageGallery">
                     <p class="empty-message" id="emptyMessage">No hay imágenes en la galería.</p>
                 </div>
+                
+                <!-- Paginación -->
+                <div id="pagination" class="pagination hidden"></div>
+                <div id="paginationInfo" class="pagination-info hidden"></div>
             </div>
         </div>
     </div>
-<!-- Modal de imagen en pantalla completa -->
-<div id="fullScreenModal" class="fs-modal">
-  <span class="fs-close">&times;</span>
-  <img class="fs-content" id="fullScreenImage" src="" alt="Imagen ampliada">
-</div>
+    <br>
+      <!-- Colorisacion y restauracion   -->
+       <div class="container">
+        <h1>Comparador de Imágenes</h1>
+        <p class="subtitle">Desliza el control para ver el antes y después de nuestros trabajos</p>
+        
+         <!-- Sección de Restauración -->
+    <div class="section" id="restauracion">
+      <h2 class="section-title">Restauración</h2>
+      <p class="section-description">Nuestro proceso de restauración devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y otros daños mientras preservamos la esencia original de la imagen.</p>
+
+      <div class="comparison-container" id="comparator-restauracion">
+        <div class="image-container">
+          <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png" alt="Imagen después de restauración">
+          <div class="image-before">
+            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg" alt="Imagen antes de restauración">
+          </div>
+          <div class="slider-line"></div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+            
+            <div class="image-info">
+                <span>Antes de la restauración</span>
+                <span>Después de la restauración</span>
+            </div>
+        </div>
+        
+        <!-- Sección de Colorización -->
+    <div class="section" id="colorizacion">
+      <h2 class="section-title">Colorización</h2>
+      <p class="section-description">Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original y los detalles históricos para un resultado natural y vibrante.</p>
+
+      <div class="comparison-container" id="comparator-colorizacion">
+        <div class="image-container">
+          <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png" alt="Imagen después de colorización">
+          <div class="image-before">
+            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg" alt="Imagen antes de colorización">
+          </div>
+          <div class="slider-line"></div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+
+            
+            <div class="image-info">
+                <span>Blanco y negro original</span>
+                <span>Con colorización</span>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <p><span class="icon">↔</span> Desliza horizontalmente para comparar</p>
+            <p><span class="icon">🖱️</span> Haz clic y arrastra para un control preciso</p>
+            <p><span class="icon">📱</span> Funciona en dispositivos táctiles también</p>
+        </div>
+    </div>
+    <!-- Modal de imagen en pantalla completa -->
+    <div id="fullScreenModal" class="fs-modal">
+        <span class="fs-close">&times;</span>
+        <img class="fs-content" id="fullScreenImage" src="" alt="Imagen ampliada">
+    </div>
     <!-- Modal de login -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
@@ -129,20 +472,21 @@
             <p id="loginMessage" class="message"></p>
         </div>
     </div>
-<!-- Redes sociales -->
-<div style="text-align:center;margin:30px 0">
-  <h3 style="color:#fc25a2;margin-bottom:10px">Síguenos en nuestras redes</h3>
-  <div style="display:flex;justify-content:center;gap:15px">
-    <a href="https://wa.me/573223762998" target="_blank" aria-label="WhatsApp" style="color:#25D366;font-size:28px"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://www.facebook.com/RosyPhotoStuido" target="_blank" aria-label="Facebook" style="color:#1877F2;font-size:28px"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.instagram.com/RosyPhotoStuido" target="_blank" aria-label="Instagram" style="color:#E4405F;font-size:28px"><i class="fab fa-instagram"></i></a>
-  </div>
-</div>
-<!-- Footer -->
-<footer style="background:#e9cde1;color:#333;text-align:center;padding:20px 10px;font-size:0.9rem;margin-top:40px">
-    © 2025 Todos los derechos reservados – <strong>Jhorman Castellanos Morales</strong><br>
-    <span style="opacity:0.8">Rosy Photo Studio - Capturando momentos especiales</span>
-</footer>
+  
+    <!-- Redes sociales -->
+    <div style="text-align:center;margin:30px 0">
+        <h3 style="color:#fc25a2;margin-bottom:10px">Síguenos en nuestras redes</h3>
+        <div style="display:flex;justify-content:center;gap:15px">
+            <a href="https://wa.me/573223762998" target="_blank" aria-label="WhatsApp" style="color:#25D366;font-size:28px"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/RosyPhotoStuido" target="_blank" aria-label="Facebook" style="color:#1877F2;font-size:28px"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/RosyPhotoStuido" target="_blank" aria-label="Instagram" style="color:#E4405F;font-size:28px"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer style="background:#e9cde1;color:#333;text-align:center;padding:20px 10px;font-size:0.9rem;margin-top:40px">
+        © 2025 Todos los derechos reservados – <strong>Jhorman Castellanos Morales</strong><br>
+        <span style="opacity:0.8">Rosy Photo Studio - Capturando momentos especiales</span>
+    </footer>
 
     <!-- Cloudinary upload widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
@@ -153,6 +497,9 @@
         const ADMIN_PASSWORD= 'Nileynave';
 
         let isAdmin = localStorage.getItem('isAdmin') === 'true';
+        let currentPage = 1;
+        let itemsPerPage = 8;
+        let allImages = [];
 
         const loginModal    = document.getElementById('loginModal');
         const adminLoginBtn = document.getElementById('adminLoginBtn');
@@ -169,6 +516,9 @@
         const emptyMessage  = document.getElementById('emptyMessage');
         const cloudinaryBtn = document.getElementById('cloudinaryBtn');
         const useUrlBtn     = document.getElementById('useUrlBtn');
+        const cantidadSelector = document.getElementById('cantidadSelector');
+        const paginationContainer = document.getElementById('pagination');
+        const paginationInfo = document.getElementById('paginationInfo');
 
         initApp();
 
@@ -183,6 +533,7 @@
             urlSubmit.addEventListener('click', handleUrlUpload);
             cloudinaryBtn.addEventListener('click', openCloudinary);
             useUrlBtn.addEventListener('click', () => document.getElementById('urlUploadArea').classList.toggle('active'));
+            cantidadSelector.addEventListener('change', handleCantidadChange);
 
             const widget = cloudinary.createUploadWidget({
                 cloudName: CLOUD_NAME,
@@ -195,6 +546,22 @@
             window.cloudinaryWidget = widget;
         }
 
+        function handleCantidadChange() {
+            itemsPerPage = parseInt(cantidadSelector.value);
+            currentPage = 1; // Reset to first page when changing items per page
+            
+            if (itemsPerPage === 9999) {
+                // Show all images without pagination
+                paginationContainer.classList.add('hidden');
+                paginationInfo.classList.add('hidden');
+                renderGallery(allImages);
+            } else {
+                // Show pagination for limited items
+                updatePagination();
+                renderCurrentPage();
+            }
+        }
+
         function openCloudinary() { if (isAdmin) window.cloudinaryWidget.open(); else { alert('Inicia sesión como administrador'); openLoginModal(); } }
 
         async function loadGallery() {
@@ -203,80 +570,214 @@
                 if (!res.ok) throw new Error('No autorizado');
                 const data = await res.json();
                 const images = data.resources.map(r => ({id:r.public_id, src:r.secure_url, name:r.public_id.split('/').pop()}));
-                renderGallery(images);
+                allImages = images;
+                renderGalleryBasedOnSelection();
             } catch {
-                // Modo demostración
                 // Modo demostración – 52 imágenes
-const sampleImages = [
-    // 1-10  (tus propias imágenes de Cloudinary)
-    {id:'s1', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803305/rosy/ezho7yh4b0dj5rhnphka.png', name:'Foto 1'},
-    {id:'s2', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757804735/rosy/c97agknnaozxbqhongm3.webp', name:'Foto 2'},
-    {id:'s3', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803038/rosy/ilgq3e4ltptfbsq1wvr5.jpg', name:'Foto 3'},
-    {id:'s4', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757800541/hgownf6lkgr1mndwyad8.png', name:'Foto 4'},
-    {id:'s5', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848864/Rosy/mt5txjjghnpbedbqqc4z.jpg', name:'Foto 5'},
-    {id:'s6', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848885/Rosy/qms37hqwwrxamzw8iq3k.jpg', name:'Foto 6'},
-    {id:'s7', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png', name:'Foto 7'},
-    {id:'s8', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849386/Rosy/vhjr5yt0bx4nav67xwzq.jpg', name:'Foto 8'},
-    {id:'s9', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849370/Rosy/sdfk90ufgxnqzbs3naiy.jpg', name:'Foto 9'},
-    {id:'s10', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849472/Rosy/ryajfiy1g414yrgqiljg.jpg', name:'Foto 10'},
+                allImages = [
+                    // 1-10  (tus propias imágenes de Cloudinary)
+                    {id:'s1', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803305/rosy/ezho7yh4b0dj5rhnphka.png', name:'Foto 1'},
+                    {id:'s2', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757804735/rosy/c97agknnaozxbqhongm3.webp', name:'Foto 2'},
+                    {id:'s3', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803038/rosy/ilgq3e4ltptfbsq1wvr5.jpg', name:'Foto 3'},
+                    {id:'s4', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757800541/hgownf6lkgr1mndwyad8.png', name:'Foto 4'},
+                    {id:'s5', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848864/Rosy/mt5txjjghnpbedbqqc4z.jpg', name:'Foto 5'},
+                    {id:'s6', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848885/Rosy/qms37hqwwrxamzw8iq3k.jpg', name:'Foto 6'},
+                    {id:'s7', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png', name:'Foto 7'},
+                    {id:'s8', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849386/Rosy/vhjr5yt0bx4nav67xwzq.jpg', name:'Foto 8'},
+                    {id:'s9', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849370/Rosy/sdfk90ufgxnqzbs3naiy.jpg', name:'Foto 9'},
+                    {id:'s10', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849472/Rosy/ryajfiy1g414yrgqiljg.jpg', name:'Foto 10'},
 
-    // 11-52  (Unsplash – 300×200, parámetros idénticos)
-    {id:'s11', src:'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=300&h=200&fit=crop', name:'Foto 11'},
-    {id:'s12', src:'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=300&h=200&fit=crop', name:'Foto 12'},
-    {id:'s13', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850730/Rosy/ejmg0thr5vhapa3dr4g7.jpg', name:'Foto 13'},
-    {id:'s14', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850803/Rosy/tgbg5emywthclqsaajy2.jpg', name:'Foto 14'},
-    {id:'s15', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850817/Rosy/qfeia82arpsvdglzjcbo.jpg', name:'Foto 15'},
-    {id:'s16', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850993/Rosy/ankx8nmjxyghwdwzlvd8.jpg', name:'Foto 16'},
-    {id:'s17', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757851022/Rosy/r2wcxm2bgzi7i7edjveq.jpg', name:'Foto 17'},
-    {id:'s18', src:'', name:'Foto 18'},
-    {id:'s19', src:'', name:'Foto 19'},
-    {id:'s20', src:'', name:'Foto 20'},
-    {id:'s21', src:'', name:'Foto 21'},
-    {id:'s22', src:'', name:'Foto 22'},
-    {id:'s23', src:'', name:'Foto 23'},
-    {id:'s24', src:'', name:'Foto 24'},
-    {id:'s25', src:'', name:'Foto 25'},
-    {id:'s26', src:'', name:'Foto 26'},
-    {id:'s27', src:'', name:'Foto 27'},
-    {id:'s28', src:'', name:'Foto 28'},
-    {id:'s29', src:'', name:'Foto 29'},
-    {id:'s30', src:'', name:'Foto 30'},
-    {id:'s31', src:'', name:'Foto 31'},
-    {id:'s32', src:'', name:'Foto 32'},
-    {id:'s33', src:'', name:'Foto 33'},
-    {id:'s34', src:'', name:'Foto 34'},
-    {id:'s35', src:'', name:'Foto 35'},
-    {id:'s36', src:'', name:'Foto 36'},
-    {id:'s37', src:'', name:'Foto 37'},
-    {id:'s38', src:'', name:'Foto 38'},
-    {id:'s39', src:'', name:'Foto 39'},
-    {id:'s40', src:'', name:'Foto 40'},
-    {id:'s41', src:'', name:'Foto 41'},
-    {id:'s42', src:'', name:'Foto 42'},
-    {id:'s43', src:'', name:'Foto 43'},
-    {id:'s44', src:'', name:'Foto 44'},
-    {id:'s45', src:'', name:'Foto 45'},
-    {id:'s46', src:'', name:'Foto 46'},
-    {id:'s47', src:'', name:'Foto 47'},
-    {id:'s48', src:'', name:'Foto 48'},
-    {id:'s49', src:'', name:'Foto 49'},
-    {id:'s50', src:'', name:'Foto 50'},
-    {id:'s51', src:'', name:'Foto 51'},
-    {id:'s52', src:'' , name:'Foto 52'}
-]; 
-                renderGallery(sampleImages);
+                    // 11-52  (Unsplash – 300×200, parámetros idénticos)
+                    {id:'s11', src:'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=300&h=200&fit=crop', name:'Foto 11'},
+                    {id:'s12', src:'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=300&h=200&fit=crop', name:'Foto 12'},
+                    {id:'s13', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850730/Rosy/ejmg0thr5vhapa3dr4g7.jpg', name:'Foto 13'},
+                    {id:'s14', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850803/Rosy/tgbg5emywthclqsaajy2.jpg', name:'Foto 14'},
+                    {id:'s15', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850817/Rosy/qfeia82arpsvdglzjcbo.jpg', name:'Foto 15'},
+                    {id:'s16', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850993/Rosy/ankx8nmjxyghwdwzlvd8.jpg', name:'Foto 16'},
+                    {id:'s17', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757851022/Rosy/r2wcxm2bgzi7i7edjveq.jpg', name:'Foto 17'},
+                    {id:'s18', src:'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=300&h=200&fit=crop', name:'Foto 18'},
+                    {id:'s19', src:'', name:'Foto 19'},
+                    {id:'s20', src:'', name:'Foto 20'},
+                    {id:'s21', src:'', name:'Foto 21'},
+                    {id:'s22', src:'', name:'Foto 22'},
+                    {id:'s23', src:'', name:'Foto 23'},
+                    {id:'s24', src:'', name:'Foto 24'},
+                    {id:'s25', src:'', name:'Foto 25'},
+                    {id:'s26', src:'', name:'Foto 26'},
+                    {id:'s27', src:'', name:'Foto 27'},
+                    {id:'s28', src:'', name:'Foto 28'},
+                    {id:'s29', src:'', name:'Foto 29'},
+                    {id:'s30', src:'', name:'Foto 30'},
+                    {id:'s31', src:'', name:'Foto 31'},
+                    {id:'s32', src:'', name:'Foto 32'},
+                    {id:'s33', src:'', name:'Foto 33'},
+                    {id:'s34', src:'', name:'Foto 34'},
+                    {id:'s35', src:'', name:'Foto 35'},
+                    {id:'s36', src:'', name:'Foto 36'},
+                    {id:'s37', src:'', name:'Foto 37'},
+                    {id:'s38', src:'', name:'Foto 38'},
+                    {id:'s39', src:'', name:'Foto 39'},
+                    {id:'s40', src:'', name:'Foto 40'},
+                    {id:'s41', src:'', name:'Foto 41'},
+                    {id:'s42', src:'', name:'Foto 42'},
+                    {id:'s43', src:'', name:'Foto 43'},
+                    {id:'s44', src:'', name:'Foto 44'},
+                    {id:'s45', src:'', name:'Foto 45'},
+                    {id:'s46', src:'', name:'Foto 46'},
+                    {id:'s47', src:'', name:'Foto 47'},
+                    {id:'s48', src:'', name:'Foto 48'},
+                    {id:'s49', src:'', name:'Foto 49'},
+                    {id:'s50', src:'', name:'Foto 50'},
+                    {id:'s51', src:'', name:'Foto 51'},
+                    {id:'s52', src:'', name:'Foto 52'}
+                ]; 
+                renderGalleryBasedOnSelection();
             }
+        }
+
+        function renderGalleryBasedOnSelection() {
+            if (itemsPerPage === 9999) {
+                // Show all images without pagination
+                paginationContainer.classList.add('hidden');
+                paginationInfo.classList.add('hidden');
+                renderGallery(allImages);
+            } else {
+                // Show pagination for limited items
+                updatePagination();
+                renderCurrentPage();
+            }
+        }
+
+        function renderCurrentPage() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const imagesToShow = allImages.slice(startIndex, endIndex);
+            
+            renderGallery(imagesToShow);
+            
+            // Update pagination info
+            const totalPages = Math.ceil(allImages.length / itemsPerPage);
+            paginationInfo.textContent = `Página ${currentPage} de ${totalPages} - ${allImages.length} imágenes en total`;
+            paginationInfo.classList.remove('hidden');
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(allImages.length / itemsPerPage);
+            
+            // Clear previous pagination
+            paginationContainer.innerHTML = '';
+            
+            // Don't show pagination if there's only one page
+            if (totalPages <= 1) {
+                paginationContainer.classList.add('hidden');
+                paginationInfo.classList.add('hidden');
+                return;
+            }
+            
+            paginationContainer.classList.remove('hidden');
+            
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.className = `pagination-button ${currentPage === 1 ? 'disabled' : ''}`;
+            prevButton.innerHTML = '&laquo;';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCurrentPage();
+                    updatePagination();
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+            
+            // Page buttons
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            if (startPage > 1) {
+                const firstPageButton = document.createElement('button');
+                firstPageButton.className = 'pagination-button';
+                firstPageButton.textContent = '1';
+                firstPageButton.addEventListener('click', () => {
+                    currentPage = 1;
+                    renderCurrentPage();
+                    updatePagination();
+                });
+                paginationContainer.appendChild(firstPageButton);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `pagination-button ${i === currentPage ? 'active' : ''}`;
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderCurrentPage();
+                    updatePagination();
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+                
+                const lastPageButton = document.createElement('button');
+                lastPageButton.className = 'pagination-button';
+                lastPageButton.textContent = totalPages;
+                lastPageButton.addEventListener('click', () => {
+                    currentPage = totalPages;
+                    renderCurrentPage();
+                    updatePagination();
+                });
+                paginationContainer.appendChild(lastPageButton);
+            }
+            
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.className = `pagination-button ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextButton.innerHTML = '&raquo;';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCurrentPage();
+                    updatePagination();
+                }
+            });
+            paginationContainer.appendChild(nextButton);
         }
 
         function renderGallery(images) {
             imageGallery.innerHTML = '';
-            if (!images.length) { emptyMessage.style.display = 'block'; imageGallery.appendChild(emptyMessage); return; }
+            if (!images.length) { 
+                emptyMessage.style.display = 'block'; 
+                imageGallery.appendChild(emptyMessage); 
+                return; 
+            }
             emptyMessage.style.display = 'none';
             images.forEach(img => {
-                const item = document.createElement('div'); item.className = 'gallery-item';
+                const item = document.createElement('div'); 
+                item.className = 'gallery-item';
                 item.innerHTML = `<img src="${img.src}" alt="${img.name}" loading="lazy">`;
                 if (isAdmin) {
-                    const del = document.createElement('button'); del.className = 'delete-btn'; del.innerHTML = '×';
+                    const del = document.createElement('button'); 
+                    del.className = 'delete-btn'; 
+                    del.innerHTML = '×';
                     del.onclick = () => window.open(`https://cloudinary.com/console/media_library/folder/${FOLDER}`, '_blank');
                     item.appendChild(del);
                 }
@@ -286,15 +787,17 @@ const sampleImages = [
 
         function simulateAddImage(info) {
             const newImg = {id:info.public_id, src:info.secure_url, name:info.original_filename||'Nueva'};
-            emptyMessage.style.display = 'none';
-            const item = document.createElement('div'); item.className = 'gallery-item';
-            item.innerHTML = `<img src="${newImg.src}" alt="${newImg.name}" loading="lazy">`;
-            if (isAdmin) {
-                const del = document.createElement('button'); del.className = 'delete-btn'; del.innerHTML = '×';
-                del.onclick = () => window.open(`https://cloudinary.com/console/media_library/folder/${FOLDER}`, '_blank');
-                item.appendChild(del);
+            allImages.unshift(newImg); // Add to beginning of array
+            
+            if (itemsPerPage === 9999) {
+                // If showing all images, just re-render
+                renderGallery(allImages);
+            } else {
+                // If paginated, reset to first page
+                currentPage = 1;
+                updatePagination();
+                renderCurrentPage();
             }
-            imageGallery.appendChild(item);
         }
 
         function handleUrlUpload() {
@@ -331,71 +834,128 @@ const sampleImages = [
                 isAdmin = true; localStorage.setItem('isAdmin', 'true'); updateUI(); loginModal.style.display = 'none'; passwordInput.value='';
             } else { loginMessage.textContent = 'Contraseña incorrecta.'; }
         }
-        function renderGallery(images) {
-            imageGallery.innerHTML = '';
-            const limit = parseInt(document.getElementById('cantidadSelector').value);
-            const toShow = limit === 9999 ? images : images.slice(0, limit);
-
-            if (!toShow.length) {
-                emptyMessage.style.display = 'block';
-                imageGallery.appendChild(emptyMessage);
-                return;
-            }
-            emptyMessage.style.display = 'none';
-            toShow.forEach(img => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `<img src="${img.src}" alt="${img.name}" loading="lazy">`;
-                if (isAdmin) {
-                    const del = document.createElement('button');
-                    del.className = 'delete-btn';
-                    del.innerHTML = '×';
-                    del.onclick = () => window.open(`https://cloudinary.com/console/media_library/folder/${FOLDER}`, '_blank');
-                    item.appendChild(del);
-                }
-                imageGallery.appendChild(item);
-            });
-        }
-        document.getElementById('cantidadSelector').addEventListener('change', () => {
-            loadGallery(); // vuelve a cargar y respeta el nuevo límite
-        });
+        
         // ----------  ABRE/CIERRA  PANTALLA COMPLETA  ----------
-const fullScreenModal = document.getElementById('fullScreenModal');
-const fullScreenImage = document.getElementById('fullScreenImage');
-const fsClose         = document.querySelector('.fs-close');
+        const fullScreenModal = document.getElementById('fullScreenModal');
+        const fullScreenImage = document.getElementById('fullScreenImage');
+        const fsClose         = document.querySelector('.fs-close');
 
-// Delegación de eventos: cualquier click en una imagen de la galería
-document.getElementById('imageGallery').addEventListener('click', e => {
-  if (e.target.tagName === 'IMG') {
-    fullScreenImage.src = e.target.src;
-    fullScreenModal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // evita scroll de fondo
-  }
-});
+        // Delegación de eventos: cualquier click en una imagen de la galería
+        document.getElementById('imageGallery').addEventListener('click', e => {
+            if (e.target.tagName === 'IMG') {
+                fullScreenImage.src = e.target.src;
+                fullScreenModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // evita scroll de fondo
+            }
+        });
 
-// Cierra con la X
-fsClose.onclick = () => {
-  fullScreenModal.style.display = 'none';
-  document.body.style.overflow = '';
-};
+        // Cierra con la X
+        fsClose.onclick = () => {
+            fullScreenModal.style.display = 'none';
+            document.body.style.overflow = '';
+        };
 
-// Cierra con click fuera de la imagen
-fullScreenModal.onclick = e => {
-  if (e.target === fullScreenModal) {
-    fullScreenModal.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-};
+        // Cierra con click fuera de la imagen
+        fullScreenModal.onclick = e => {
+            if (e.target === fullScreenModal) {
+                fullScreenModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        };
 
-// Cierra con tecla ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    fullScreenModal.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-});
+        // Cierra con tecla ESC
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                fullScreenModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
     </script>
-   
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar ambos comparadores
+            initComparator('comparator-restauracion');
+            initComparator('comparator-colorizacion');
+            
+            function initComparator(comparatorId) {
+                const comparator = document.getElementById(comparatorId);
+                const beforeContainer = comparator.querySelector('.image-before');
+                const sliderLine = comparator.querySelector('.slider-line');
+                const sliderHandle = comparator.querySelector('.slider-handle');
+                
+                let isMoving = false;
+                
+                // Eventos para mouse
+                comparator.addEventListener('mousedown', function(e) {
+                    isMoving = true;
+                    moveSlider(e, beforeContainer, sliderLine, sliderHandle);
+                    // Prevenir selección de texto durante el arrastre
+                    e.preventDefault();
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    isMoving = false;
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isMoving) {
+                        moveSlider(e, beforeContainer, sliderLine, sliderHandle);
+                    }
+                });
+                
+                // Eventos para pantallas táctiles
+                comparator.addEventListener('touchstart', function(e) {
+                    isMoving = true;
+                    moveSlider(e.touches[0], beforeContainer, sliderLine, sliderHandle);
+                });
+                
+                document.addEventListener('touchend', function() {
+                    isMoving = false;
+                });
+                
+                document.addEventListener('touchmove', function(e) {
+                    if (isMoving) {
+                        moveSlider(e.touches[0], beforeContainer, sliderLine, sliderHandle);
+                    }
+                });
+                
+                // También permitir el uso del teclado para accesibilidad
+                document.addEventListener('keydown', function(e) {
+                    if (document.activeElement !== comparator) return;
+                    
+                    const currentPosition = parseFloat(beforeContainer.style.width || "50");
+                    
+                    if (e.key === 'ArrowLeft') {
+                        const newPosition = Math.max(0, currentPosition - 5);
+                        beforeContainer.style.width = newPosition + '%';
+                        sliderLine.style.left = newPosition + '%';
+                        sliderHandle.style.left = newPosition + '%';
+                    } else if (e.key === 'ArrowRight') {
+                        const newPosition = Math.min(100, currentPosition + 5);
+                        beforeContainer.style.width = newPosition + '%';
+                        sliderLine.style.left = newPosition + '%';
+                        sliderHandle.style.left = newPosition + '%';
+                    }
+                });
+                
+                // Hacer el comparador enfocable para teclado
+                comparator.setAttribute('tabindex', '0');
+            }
+            
+            // Función para mover el control deslizante
+            function moveSlider(e, beforeContainer, sliderLine, sliderHandle) {
+                const comparatorRect = beforeContainer.parentElement.parentElement.getBoundingClientRect();
+                let position = ((e.clientX - comparatorRect.left) / comparatorRect.width) * 100;
+                
+                // Asegurarse de que el valor esté entre 0 y 100
+                position = Math.max(0, Math.min(100, position));
+                
+                // Actualizar la UI
+                beforeContainer.style.width = position + '%';
+                sliderLine.style.left = position + '%';
+                sliderHandle.style.left = position + '%';
+            }
+        });
+    </script>
 </body>
-
 </html>
