@@ -67,7 +67,7 @@
             </div>
             <p class="tagline">Capturando momentos especiales para toda la vida</p>
             <div class="admin-controls">
-                <button id="adminLoginBtn" class="admin-btn"><i class="bi bi-person-circle"></i> Iniciar Sesión</button>
+                <button id="adminLoginBtn" class="admin-btn"><i class="bi bi-person-circle"></i> AD</button>
                 <button id="logoutBtn" class="admin-btn hidden"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
                 <div id="adminStatus" class="admin-status hidden">Modo Administrador</div>
             </div>
@@ -76,7 +76,7 @@
 <div style="text-align:center;margin:30px 0">
     <label for="cantidadSelector"><strong>Imágenes a mostrar:</strong></label>
     <select id="cantidadSelector" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:1px solid #ccc">
-        <option value="6">6</option>
+        <option value="8">8</option>
         <option value="12">12</option>
         <option value="24">24</option>
         <option value="9999">Todas</option>
@@ -129,11 +129,19 @@
             <p id="loginMessage" class="message"></p>
         </div>
     </div>
-
+<!-- Redes sociales -->
+<div style="text-align:center;margin:30px 0">
+  <h3 style="color:#fc25a2;margin-bottom:10px">Síguenos en nuestras redes</h3>
+  <div style="display:flex;justify-content:center;gap:15px">
+    <a href="https://wa.me/573223762998" target="_blank" aria-label="WhatsApp" style="color:#25D366;font-size:28px"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/RosyPhotoStuido" target="_blank" aria-label="Facebook" style="color:#1877F2;font-size:28px"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/RosyPhotoStuido" target="_blank" aria-label="Instagram" style="color:#E4405F;font-size:28px"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
 <!-- Footer -->
 <footer style="background:#e9cde1;color:#333;text-align:center;padding:20px 10px;font-size:0.9rem;margin-top:40px">
-    © 2025 Todos los derechos reservados – <strong>Jhorman Castellanos</strong><br>
-    <span style="opacity:0.8">Foto Estudio Rosy - Capturando momentos especiales</span>
+    © 2025 Todos los derechos reservados – <strong>Jhorman Castellanos Morales</strong><br>
+    <span style="opacity:0.8">Rosy Photo Studio - Capturando momentos especiales</span>
 </footer>
 
     <!-- Cloudinary upload widget -->
@@ -201,25 +209,25 @@
                 // Modo demostración – 52 imágenes
 const sampleImages = [
     // 1-10  (tus propias imágenes de Cloudinary)
-    {id:'s1', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757804735/rosy/c97agknnaozxbqhongm3.webp', name:'Foto 1'},
-    {id:'s2', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803305/rosy/ezho7yh4b0dj5rhnphka.png', name:'Foto 2'},
+    {id:'s1', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803305/rosy/ezho7yh4b0dj5rhnphka.png', name:'Foto 1'},
+    {id:'s2', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757804735/rosy/c97agknnaozxbqhongm3.webp', name:'Foto 2'},
     {id:'s3', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757803038/rosy/ilgq3e4ltptfbsq1wvr5.jpg', name:'Foto 3'},
     {id:'s4', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757800541/hgownf6lkgr1mndwyad8.png', name:'Foto 4'},
-    {id:'s5', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799999/rosy/qwertyuiop.jpg', name:'Foto 5'},
-    {id:'s6', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799888/rosy/asdfghjkl.jpg', name:'Foto 6'},
-    {id:'s7', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799777/rosy/zxcvbnm.jpg', name:'Foto 7'},
-    {id:'s8', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799666/rosy/123456.jpg', name:'Foto 8'},
-    {id:'s9', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799555/rosy/098765.jpg', name:'Foto 9'},
-    {id:'s10', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757799444/rosy/abcdef.jpg', name:'Foto 10'},
+    {id:'s5', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848864/Rosy/mt5txjjghnpbedbqqc4z.jpg', name:'Foto 5'},
+    {id:'s6', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757848885/Rosy/qms37hqwwrxamzw8iq3k.jpg', name:'Foto 6'},
+    {id:'s7', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png', name:'Foto 7'},
+    {id:'s8', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849386/Rosy/vhjr5yt0bx4nav67xwzq.jpg', name:'Foto 8'},
+    {id:'s9', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849370/Rosy/sdfk90ufgxnqzbs3naiy.jpg', name:'Foto 9'},
+    {id:'s10', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757849472/Rosy/ryajfiy1g414yrgqiljg.jpg', name:'Foto 10'},
 
     // 11-52  (Unsplash – 300×200, parámetros idénticos)
     {id:'s11', src:'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=300&h=200&fit=crop', name:'Foto 11'},
     {id:'s12', src:'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=300&h=200&fit=crop', name:'Foto 12'},
-    {id:'s13', src:'', name:'Foto 13'},
-    {id:'s14', src:'', name:'Foto 14'},
-    {id:'s15', src:'', name:'Foto 15'},
-    {id:'s16', src:'', name:'Foto 16'},
-    {id:'s17', src:'', name:'Foto 17'},
+    {id:'s13', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850730/Rosy/ejmg0thr5vhapa3dr4g7.jpg', name:'Foto 13'},
+    {id:'s14', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850803/Rosy/tgbg5emywthclqsaajy2.jpg', name:'Foto 14'},
+    {id:'s15', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850817/Rosy/qfeia82arpsvdglzjcbo.jpg', name:'Foto 15'},
+    {id:'s16', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757850993/Rosy/ankx8nmjxyghwdwzlvd8.jpg', name:'Foto 16'},
+    {id:'s17', src:'https://res.cloudinary.com/dipv76dpn/image/upload/v1757851022/Rosy/r2wcxm2bgzi7i7edjveq.jpg', name:'Foto 17'},
     {id:'s18', src:'', name:'Foto 18'},
     {id:'s19', src:'', name:'Foto 19'},
     {id:'s20', src:'', name:'Foto 20'},
