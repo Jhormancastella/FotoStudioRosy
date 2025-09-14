@@ -1,0 +1,1 @@
+window.ADMIN_PASSWORD = 'Nileynave';

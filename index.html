@@ -72,7 +72,16 @@
                 <div id="adminStatus" class="admin-status hidden">Modo Administrador</div>
             </div>
         </header>
-
+<!-- Selector de cantidad  -->
+<div style="text-align:center;margin:30px 0">
+    <label for="cantidadSelector"><strong>Imágenes a mostrar:</strong></label>
+    <select id="cantidadSelector" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:1px solid #ccc">
+        <option value="6">6</option>
+        <option value="12">12</option>
+        <option value="24">24</option>
+        <option value="9999">Todas</option>
+    </select>
+</div>
         <div class="main-content">
             <div id="uploadSection" class="hidden">
                 <h2>Subir Nueva Imagen</h2>
@@ -120,29 +129,20 @@
             <p id="loginMessage" class="message"></p>
         </div>
     </div>
-<!-- Selector de cantidad + Footer -->
-<div style="text-align:center;margin:30px 0">
-    <label for="cantidadSelector"><strong>Imágenes a mostrar:</strong></label>
-    <select id="cantidadSelector" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:1px solid #ccc">
-        <option value="6">6</option>
-        <option value="12">12</option>
-        <option value="24">24</option>
-        <option value="9999">Todas</option>
-    </select>
-</div>
 
+<!-- Footer -->
 <footer style="background:#e9cde1;color:#333;text-align:center;padding:20px 10px;font-size:0.9rem;margin-top:40px">
     © 2025 Todos los derechos reservados – <strong>Jhorman Castellanos</strong><br>
     <span style="opacity:0.8">Foto Estudio Rosy - Capturando momentos especiales</span>
 </footer>
-
+<script src="/config.js"></script>
     <!-- Cloudinary upload widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <script>
         const CLOUD_NAME    = 'dipv76dpn';
         const UPLOAD_PRESET = 'rosy_unsigned';
         const FOLDER        = 'Rosy';
-        const ADMIN_PASSWORD= 'Nileynave';
+        const ADMIN_PASSWORD = window.ADMIN_PASSWORD || '';
 
         let isAdmin = localStorage.getItem('isAdmin') === 'true';
 
@@ -387,5 +387,7 @@ document.addEventListener('keydown', e => {
   }
 });
     </script>
+   
 </body>
+
 </html>
