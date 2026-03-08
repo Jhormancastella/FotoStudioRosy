@@ -31,7 +31,8 @@ const TRANSLATIONS = {
         "gallery.loadError": "No se pudieron cargar las imágenes.",
         "gallery.loadRestricted": "Cloudinary bloqueó la lista pública de imágenes. Revisa Security > Restricted image types > Resource list.",
         "gallery.delete": "Eliminar",
-        "gallery.deleteUnavailable": "La eliminación segura requiere backend. Abriendo la consola de Cloudinary.",
+        "gallery.deleteUnavailable": "La eliminaci�n segura requiere backend. Abriendo la consola de Cloudinary.",
+        "gallery.deleteError": "No se pudo eliminar la imagen en este momento.",
         "pagination.info": "Página {page} de {totalPages} - {totalImages} imágenes en total",
         "comparator.title": "Comparador de Imágenes",
         "comparator.instructions.slide": "Desliza horizontalmente para comparar",
@@ -92,6 +93,7 @@ const TRANSLATIONS = {
         "gallery.loadRestricted": "Cloudinary blocked public listing. Check Security > Restricted image types > Resource list.",
         "gallery.delete": "Delete",
         "gallery.deleteUnavailable": "Secure deletion needs backend support. Opening Cloudinary console.",
+        "gallery.deleteError": "Could not delete the image right now.",
         "pagination.info": "Page {page} of {totalPages} - {totalImages} images total",
         "comparator.title": "Image Comparator",
         "comparator.instructions.slide": "Slide horizontally to compare",
@@ -160,3 +162,4 @@ export function applyTranslations(root = document) {
         node.setAttribute("placeholder", t(key));
     });
 }
+

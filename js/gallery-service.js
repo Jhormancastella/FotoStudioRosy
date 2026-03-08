@@ -99,12 +99,26 @@ export function createGalleryService(config) {
         if (config.dataSource !== "firebase") return false;
 
         const provider = getFirebaseProvider(config.firebase.providerGlobal);
-        if (!provider || typeof provider.deleteImage !== "function") {
+        if (!provider) {
             return false;
         }
 
-        await provider.deleteImage(image.id);
-        return true;
+        const docId = image?.id || "";
+        const publicId = image?.publicId || "";
+        if (!docId) return false;
+
+        if (typeof provider.deleteImageEverywhere === "function") {
+            await provider.deleteImageEverywhere({ docId, publicId });
+            return true;
+        }
+
+        // Fallback only for external URLs that do not have a Cloudinary publicId.
+        if (!publicId && typeof provider.deleteImage === "function") {
+            await provider.deleteImage(docId);
+            return true;
+        }
+
+        return false;
     }
 
     return {

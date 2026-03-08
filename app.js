@@ -362,12 +362,18 @@ function renderGallery(images) {
 }
 
 async function handleDeleteRequest(image) {
-    const deleted = await galleryService.deleteImage(image);
+    try {
+        const deleted = await galleryService.deleteImage(image);
 
-    if (deleted) {
-        state.allImages = state.allImages.filter((item) => item.id !== image.id);
-        state.currentPage = 1;
-        renderGalleryBasedOnSelection();
+        if (deleted) {
+            state.allImages = state.allImages.filter((item) => item.id !== image.id);
+            state.currentPage = 1;
+            renderGalleryBasedOnSelection();
+            return;
+        }
+    } catch (error) {
+        console.error(error);
+        alert(t("gallery.deleteError"));
         return;
     }
 

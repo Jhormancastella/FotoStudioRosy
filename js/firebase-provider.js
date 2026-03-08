@@ -15,6 +15,7 @@ import {
     deleteDoc,
     doc
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-functions.js";
 
 // This client config is public by design in Firebase web apps.
 const firebaseConfig = {
@@ -32,6 +33,8 @@ const COLLECTION_NAME = "gallery";
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app, "us-central1");
+const deleteGalleryImageCallable = httpsCallable(functions, "deleteGalleryImage");
 
 const authReady = new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, () => {
@@ -81,6 +84,14 @@ async function deleteImage(docId) {
     await deleteDoc(doc(db, COLLECTION_NAME, docId));
 }
 
+async function deleteImageEverywhere({ docId, publicId }) {
+    const payload = {
+        docId: docId || "",
+        publicId: publicId || ""
+    };
+    await deleteGalleryImageCallable(payload);
+}
+
 async function checkSession() {
     await authReady;
     return Boolean(auth.currentUser);
@@ -99,6 +110,7 @@ window.FirebaseGalleryProvider = {
     listImages,
     saveImage,
     deleteImage,
+    deleteImageEverywhere,
     checkSession,
     login,
     logout
