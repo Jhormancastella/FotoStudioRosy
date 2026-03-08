@@ -9,162 +9,208 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://upload.cloudinary.com/pages/cloudinary-core.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header>
+        <header class="site-header">
             <div class="logo">
-                <i class="fas fa-camera"></i>
-                <span>Rosy</span>
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo">
+                <span>Rosy Photo Studio</span>
             </div>
-            <p class="tagline">Capturando momentos, creando recuerdos</p>
-            <div class="admin-controls">
-                <button class="admin-btn" id="adminLoginBtn">Admin</button>
-                <button class="admin-btn hidden" id="logoutBtn">Cerrar sesión</button>
+            <p class="tagline" data-i18n="header.tagline">Capturando momentos especiales para toda la vida</p>
+
+            <div class="toolbar">
+                <div class="display-controls">
+                    <label for="languageSelect" class="visually-hidden" data-i18n="controls.languageLabel">Idioma</label>
+                    <select id="languageSelect" class="language-select" aria-label="Idioma">
+                        <option value="es" data-i18n="controls.spanish">Español</option>
+                        <option value="en" data-i18n="controls.english">English</option>
+                    </select>
+                    <button id="themeToggle" class="admin-btn" type="button" data-i18n="controls.themeToDark">Tema oscuro</button>
+                </div>
+
+                <div class="admin-controls">
+                    <button id="adminLoginBtn" class="admin-btn" type="button" aria-label="Administrador">
+                        <i class="bi bi-person-circle"></i> AD
+                    </button>
+                    <button id="logoutBtn" class="admin-btn hidden" type="button">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span data-i18n="admin.logout">Cerrar Sesión</span>
+                    </button>
+                    <div id="adminStatus" class="admin-status hidden" data-i18n="admin.status">Modo Administrador</div>
+                </div>
             </div>
         </header>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Admin Status -->
-            <div id="adminStatus" class="hidden">
-                <p style="color: #fc25a2; font-weight: bold; text-align: center;">✓ Sesión de administrador activa</p>
-            </div>
-
-            <!-- Upload Section (Solo para Admin) -->
-            <div id="uploadSection" class="hidden">
+            <section id="uploadSection" class="hidden">
+                <h2 data-i18n="upload.title">Subir Nueva Imagen</h2>
                 <div class="upload-options">
-                    <!-- Cloudinary Upload -->
                     <div class="option-card">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Subir desde Cloudinary</h3>
-                        <p>Sube fotos directamente desde tu dispositivo, URL o cámara</p>
-                        <button id="cloudinaryBtn">Abrir Cloudinary</button>
+                        <i class="fas fa-upload"></i>
+                        <h3 data-i18n="upload.deviceTitle">Subir desde tu dispositivo</h3>
+                        <button id="cloudinaryBtn" type="button" data-i18n="upload.deviceButton">Abrir Cloudinary</button>
                     </div>
-
-                    <!-- URL Upload -->
                     <div class="option-card">
                         <i class="fas fa-link"></i>
-                        <h3>Subir desde URL</h3>
-                        <p>Pega la URL de una imagen para agregarla a la galería</p>
-                        <button id="useUrlBtn">Usar URL</button>
+                        <h3 data-i18n="upload.urlTitle">Usar enlace de imagen</h3>
+                        <button id="useUrlBtn" type="button" data-i18n="upload.urlButton">Usar URL</button>
                     </div>
                 </div>
-
-                <!-- URL Upload Area -->
                 <div id="urlUploadArea" class="upload-area">
-                    <i class="fas fa-image"></i>
-                    <h3>Ingresa la URL de la imagen</h3>
-                    <input type="text" id="urlInput" class="url-input" placeholder="https://ejemplo.com/imagen.jpg">
-                    <button id="urlSubmit" class="submit-btn">Agregar imagen</button>
-                </div>
-            </div>
-
-            <!-- Comparadores Antes/Después -->
-            <section class="section">
-                <h2 class="section-title">Restauración de Fotos</h2>
-                <p class="section-description">
-                    Restauramos tus fotos antiguas con técnicas profesionales. Desliza para ver la transformación.
-                </p>
-                <div class="image-container">
-                    <img class="image-after" id="restaurationAfter" src="" alt="Restauración - Después">
-                    <div class="image-before">
-                        <img id="restaurationBefore" src="" alt="Restauración - Antes">
-                    </div>
-                    <div class="slider-line"></div>
-                    <div class="slider-handle">
-                        <i class="fas fa-chevron-left"></i>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
+                    <i class="fas fa-link"></i>
+                    <p data-i18n="upload.urlDescription">Ingresa la URL de una imagen en internet</p>
+                    <input
+                        type="text"
+                        id="urlInput"
+                        class="url-input"
+                        placeholder="https://ejemplo.com/imagen.jpg"
+                        data-i18n-placeholder="upload.urlPlaceholder"
+                    >
+                    <button class="submit-btn" id="urlSubmit" type="button" data-i18n="upload.addImage">Agregar Imagen</button>
                 </div>
             </section>
 
-            <section class="section">
-                <h2 class="section-title">Colorización de Fotos</h2>
-                <p class="section-description">
-                    Transformamos fotos en blanco y negro a color con precisión artística. Desliza para ver el resultado.
-                </p>
-                <div class="image-container">
-                    <img class="image-after" id="colorizationAfter" src="" alt="Colorización - Después">
-                    <div class="image-before">
-                        <img id="colorizationBefore" src="" alt="Colorización - Antes">
-                    </div>
-                    <div class="slider-line"></div>
-                    <div class="slider-handle">
-                        <i class="fas fa-chevron-left"></i>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-            </section>
+            <section class="gallery-section">
+                <h1 data-i18n="gallery.title">Galería de Imágenes</h1>
 
-            <!-- Gallery Section -->
-            <section class="section">
-                <h2 class="section-title">Galería de Trabajos</h2>
-                <p class="section-description">
-                    Explora nuestros trabajos recientes. Cada foto cuenta una historia.
-                </p>
-
-                <!-- Items per page selector -->
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="cantidadSelector" style="margin-right: 10px;">Imágenes por página:</label>
-                    <select id="cantidadSelector" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd;">
-                        <option value="6">6</option>
-                        <option value="9">9</option>
+                <div class="quantity-row">
+                    <label for="cantidadSelector"><strong data-i18n="gallery.amountLabel">Imágenes a mostrar:</strong></label>
+                    <select id="cantidadSelector">
+                        <option value="8">8</option>
                         <option value="12">12</option>
-                        <option value="9999">Ver todas</option>
+                        <option value="24">24</option>
+                        <option value="9999" data-i18n="gallery.optionAll">Todas</option>
                     </select>
                 </div>
 
-                <!-- Gallery -->
-                <div id="imageGallery" class="gallery">
-                    <div id="emptyMessage" class="empty-message">
-                        Cargando imágenes de la galería...
-                    </div>
+                <div class="gallery" id="imageGallery">
+                    <p class="empty-message" id="emptyMessage" data-i18n="gallery.empty">No hay imágenes en la galería.</p>
                 </div>
 
-                <!-- Pagination -->
                 <div id="pagination" class="pagination hidden"></div>
                 <div id="paginationInfo" class="pagination-info hidden"></div>
             </section>
-
-            <!-- Footer -->
-            <footer style="text-align: center; padding: 30px 0; border-top: 1px solid #eee; margin-top: 40px; color: #777;">
-                <div style="margin-bottom: 15px;">
-                    <a href="#" style="margin: 0 10px; color: #fc25a2; text-decoration: none;">
-                        <i class="fab fa-facebook"></i> Facebook
-                    </a>
-                    <a href="#" style="margin: 0 10px; color: #fc25a2; text-decoration: none;">
-                        <i class="fab fa-instagram"></i> Instagram
-                    </a>
-                    <a href="#" style="margin: 0 10px; color: #fc25a2; text-decoration: none;">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </a>
-                </div>
-                <p>&copy; 2025 Foto Estudio Rosy. Todos los derechos reservados.</p>
-            </footer>
         </div>
     </div>
 
-    <!-- Login Modal -->
+    <div class="container comparators-container">
+        <h1 data-i18n="comparator.title">Comparador de Imágenes</h1>
+        <div class="instructions">
+            <p><span class="icon">↔</span> <span data-i18n="comparator.instructions.slide">Desliza horizontalmente para comparar</span></p>
+            <p><span class="icon">🖱️</span> <span data-i18n="comparator.instructions.drag">Haz clic y arrastra para un control preciso</span></p>
+            <p><span class="icon">📱</span> <span data-i18n="comparator.instructions.mobile">Funciona en dispositivos táctiles también</span></p>
+        </div>
+
+        <section class="section" id="restauracion">
+            <h2 class="section-title" data-i18n="restoration.title">Restauración</h2>
+            <p class="section-description" data-i18n="restoration.description">
+                Nuestro proceso de restauración devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y otros daños mientras preservamos la esencia original de la imagen.
+            </p>
+
+            <div class="comparison-container" id="comparator-restauracion">
+                <div class="image-container">
+                    <img
+                        class="image-after"
+                        src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png"
+                        alt="Imagen después de restauración"
+                    >
+                    <div class="image-before">
+                        <img
+                            src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg"
+                            alt="Imagen antes de restauración"
+                        >
+                    </div>
+                    <div class="slider-line"></div>
+                    <div class="slider-handle"></div>
+                </div>
+            </div>
+
+            <div class="image-info">
+                <span data-i18n="restoration.before">Antes de la restauración</span>
+                <span data-i18n="restoration.after">Después de la restauración</span>
+            </div>
+        </section>
+
+        <section class="section" id="colorizacion">
+            <h2 class="section-title" data-i18n="colorization.title">Colorización</h2>
+            <p class="section-description" data-i18n="colorization.description">
+                Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original y los detalles históricos para un resultado natural y vibrante.
+            </p>
+
+            <div class="comparison-container" id="comparator-colorizacion">
+                <div class="image-container">
+                    <img
+                        class="image-after"
+                        src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png"
+                        alt="Imagen después de colorización"
+                    >
+                    <div class="image-before">
+                        <img
+                            src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg"
+                            alt="Imagen antes de colorización"
+                        >
+                    </div>
+                    <div class="slider-line"></div>
+                    <div class="slider-handle"></div>
+                </div>
+            </div>
+
+            <div class="image-info">
+                <span data-i18n="colorization.before">Blanco y negro original</span>
+                <span data-i18n="colorization.after">Con colorización</span>
+            </div>
+        </section>
+    </div>
+
+    <div id="fullScreenModal" class="fs-modal">
+        <span class="fs-close">&times;</span>
+        <img class="fs-content" id="fullScreenImage" src="" alt="Imagen ampliada">
+    </div>
+
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Acceso de Administrador</h2>
-            <input type="password" id="passwordInput" placeholder="Ingresa la contraseña">
-            <button id="loginBtn">Ingresar</button>
-            <p id="loginMessage" style="color: red; text-align: center; margin-top: 10px;"></p>
+            <h2 data-i18n="login.title">Acceso de Administrador</h2>
+            <p data-i18n="login.description">Ingresa la contraseña para acceder al modo administrador:</p>
+            <input
+                type="email"
+                id="emailInput"
+                placeholder="Correo administrador"
+                data-i18n-placeholder="login.emailPlaceholder"
+            >
+            <input
+                type="password"
+                id="passwordInput"
+                placeholder="Contraseña"
+                data-i18n-placeholder="login.passwordPlaceholder"
+            >
+            <button id="loginBtn" type="button" data-i18n="login.submit">Ingresar</button>
+            <p id="loginMessage" class="message"></p>
         </div>
     </div>
 
-    <!-- Fullscreen Modal -->
-    <div id="fullscreenModal" class="fs-modal">
-        <img id="fullscreenImage" class="fs-content" src="" alt="Imagen a pantalla completa">
-        <span class="fs-close">&times;</span>
-    </div>
+    <section class="social-section">
+        <h3 data-i18n="social.title">Síguenos en nuestras redes</h3>
+        <div class="social-links">
+            <a href="https://wa.me/573223762998" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.facebook.com/RosyPhotoStuido" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/RosyPhotoStuido" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="app.js"></script>
+    <footer class="site-footer">
+        <span data-i18n="footer.rights">© 2025 Todos los derechos reservados – </span><strong>Jhorman Castellanos Morales</strong><br>
+        <span data-i18n="footer.caption">Rosy Photo Studio - Capturando momentos especiales</span>
+    </footer>
+
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

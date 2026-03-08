@@ -1,526 +1,496 @@
-// ========== CONFIGURACIÓN DE CLOUDINARY ==========
-const CLOUD_NAME = 'dipv76dpn';
-const UPLOAD_PRESET = 'rosy_unsigned';
-const FOLDER = 'Rosy';
-const ADMIN_PASSWORD = 'Nileynave';
+import "./js/firebase-provider.js";
+import { APP_CONFIG } from "./js/config.js";
+import { createAuthClient } from "./js/auth.js";
+import { initComparators } from "./js/comparator.js";
+import { createGalleryService } from "./js/gallery-service.js";
+import { applyTranslations, getInitialLanguage, setLanguage, t } from "./js/i18n.js";
+import { getTheme, initTheme, toggleTheme } from "./js/theme.js";
 
-// URLs de los comparadores antes/después (fijas)
-const COMPARATORS = {
-    restoration: {
-        before: 'https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg',
-        after: 'https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873175/Rosy/riqnvhzae5niudf8zyue.png'
-    },
-    colorization: {
-        before: 'https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg',
-        after: 'https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757806166/Rosy/xrcskkzenwojxwengwss.png'
-    }
+const state = {
+    isAdmin: false,
+    allImages: [],
+    currentPage: 1,
+    itemsPerPage: APP_CONFIG.defaults.itemsPerPage,
+    galleryError: "",
+    cloudinaryWidget: null
 };
 
-// ========== VARIABLES GLOBALES ==========
-let allImages = [];
-let isAdmin = false;
-let currentPage = 1;
-let itemsPerPage = 6;
+const dom = {};
+const authClient = createAuthClient(APP_CONFIG.auth);
+const galleryService = createGalleryService(APP_CONFIG);
 
-// ========== ELEMENTOS DEL DOM ==========
-const adminLoginBtn = document.getElementById('adminLoginBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const adminStatus = document.getElementById('adminStatus');
-const uploadSection = document.getElementById('uploadSection');
-const passwordInput = document.getElementById('passwordInput');
-const loginBtn = document.getElementById('loginBtn');
-const loginMessage = document.getElementById('loginMessage');
-const loginModal = document.getElementById('loginModal');
-const closeModal = document.querySelector('.modal .close');
-const urlInput = document.getElementById('urlInput');
-const urlSubmit = document.getElementById('urlSubmit');
-const imageGallery = document.getElementById('imageGallery');
-const emptyMessage = document.getElementById('emptyMessage');
-const cloudinaryBtn = document.getElementById('cloudinaryBtn');
-const useUrlBtn = document.getElementById('useUrlBtn');
-const cantidadSelector = document.getElementById('cantidadSelector');
-const paginationContainer = document.getElementById('pagination');
-const paginationInfo = document.getElementById('paginationInfo');
-const fullscreenModal = document.getElementById('fullscreenModal');
-const fullscreenImage = document.getElementById('fullscreenImage');
-const fsClose = document.querySelector('.fs-close');
+document.addEventListener("DOMContentLoaded", initApp);
 
-// ========== INICIALIZACIÓN ==========
-document.addEventListener('DOMContentLoaded', initApp);
-
-function initApp() {
-    // Cargar comparadores
-    loadComparators();
-
-    // Cargar galería
-    loadGallery();
-
-    // Event listeners
-    adminLoginBtn.addEventListener('click', openLoginModal);
-    logoutBtn.addEventListener('click', logout);
-    loginBtn.addEventListener('click', attemptLogin);
-    closeModal.addEventListener('click', () => loginModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === loginModal) loginModal.style.display = 'none';
-    });
-    urlSubmit.addEventListener('click', handleUrlUpload);
-    cloudinaryBtn.addEventListener('click', openCloudinary);
-    useUrlBtn.addEventListener('click', () => {
-        document.getElementById('urlUploadArea').classList.toggle('active');
-    });
-    cantidadSelector.addEventListener('change', handleCantidadChange);
-    fsClose.addEventListener('click', closeFullscreen);
-    fullscreenModal.addEventListener('click', closeFullscreen);
-
-    // Inicializar Cloudinary Widget
-    const widget = cloudinary.createUploadWidget(
-        {
-            cloudName: CLOUD_NAME,
-            uploadPreset: UPLOAD_PRESET,
-            folder: FOLDER,
-            sources: ['local', 'url', 'camera']
-        },
-        (error, result) => {
-            if (!error && result && result.event === 'success') {
-                simulateAddImage(result.info);
-            }
-        }
-    );
-    window.cloudinaryWidget = widget;
-
+async function initApp() {
+    cacheDom();
+    initLanguage();
+    initThemeControl();
+    initComparators(["comparator-restauracion", "comparator-colorizacion"]);
+    bindEvents();
+    initCloudinaryWidget();
+    await initializeSession();
+    await refreshGallery();
     updateUI();
 }
 
-// ========== CARGAR COMPARADORES ==========
-function loadComparators() {
-    // Restauración
-    const restaurationAfter = document.getElementById('restaurationAfter');
-    const restaurationBefore = document.getElementById('restaurationBefore');
-    restaurationAfter.src = COMPARATORS.restoration.after;
-    restaurationBefore.src = COMPARATORS.restoration.before;
-
-    // Colorización
-    const colorizationAfter = document.getElementById('colorizationAfter');
-    const colorizationBefore = document.getElementById('colorizationBefore');
-    colorizationAfter.src = COMPARATORS.colorization.after;
-    colorizationBefore.src = COMPARATORS.colorization.before;
-
-    // Inicializar sliders
-    initSliders();
+function cacheDom() {
+    dom.loginModal = document.getElementById("loginModal");
+    dom.adminLoginBtn = document.getElementById("adminLoginBtn");
+    dom.logoutBtn = document.getElementById("logoutBtn");
+    dom.adminStatus = document.getElementById("adminStatus");
+    dom.uploadSection = document.getElementById("uploadSection");
+    dom.emailInput = document.getElementById("emailInput");
+    dom.passwordInput = document.getElementById("passwordInput");
+    dom.loginBtn = document.getElementById("loginBtn");
+    dom.loginMessage = document.getElementById("loginMessage");
+    dom.closeModal = document.querySelector(".modal .close");
+    dom.urlInput = document.getElementById("urlInput");
+    dom.urlSubmit = document.getElementById("urlSubmit");
+    dom.imageGallery = document.getElementById("imageGallery");
+    dom.emptyMessage = document.getElementById("emptyMessage");
+    dom.cloudinaryBtn = document.getElementById("cloudinaryBtn");
+    dom.useUrlBtn = document.getElementById("useUrlBtn");
+    dom.urlUploadArea = document.getElementById("urlUploadArea");
+    dom.cantidadSelector = document.getElementById("cantidadSelector");
+    dom.paginationContainer = document.getElementById("pagination");
+    dom.paginationInfo = document.getElementById("paginationInfo");
+    dom.fullScreenModal = document.getElementById("fullScreenModal");
+    dom.fullScreenImage = document.getElementById("fullScreenImage");
+    dom.fsClose = document.querySelector(".fs-close");
+    dom.languageSelect = document.getElementById("languageSelect");
+    dom.themeToggle = document.getElementById("themeToggle");
 }
 
-// ========== INICIALIZAR SLIDERS DE COMPARADORES ==========
-function initSliders() {
-    const containers = document.querySelectorAll('.image-container');
+function initLanguage() {
+    const language = getInitialLanguage(APP_CONFIG.defaults.language);
+    setLanguage(language);
+    applyTranslations(document);
+    dom.languageSelect.value = language;
+}
 
-    containers.forEach((container) => {
-        const imageBefore = container.querySelector('.image-before');
-        let isSliding = false;
+function initThemeControl() {
+    initTheme(APP_CONFIG.defaults.theme);
+    updateThemeButtonLabel();
+}
 
-        const startSlide = (e) => {
-            isSliding = true;
-            updateSlide(e, container, imageBefore);
-        };
+function updateThemeButtonLabel() {
+    const key = getTheme() === "dark" ? "controls.themeToLight" : "controls.themeToDark";
+    dom.themeToggle.textContent = t(key);
+}
 
-        const stopSlide = () => {
-            isSliding = false;
-        };
+function bindEvents() {
+    dom.adminLoginBtn.addEventListener("click", openLoginModal);
+    dom.logoutBtn.addEventListener("click", handleLogout);
+    dom.loginBtn.addEventListener("click", attemptLogin);
+    dom.closeModal.addEventListener("click", closeLoginModal);
+    dom.urlSubmit.addEventListener("click", handleUrlUpload);
+    dom.cloudinaryBtn.addEventListener("click", openCloudinaryWidget);
+    dom.useUrlBtn.addEventListener("click", () => dom.urlUploadArea.classList.toggle("active"));
+    dom.cantidadSelector.addEventListener("change", handleCantidadChange);
+    dom.languageSelect.addEventListener("change", handleLanguageChange);
+    dom.themeToggle.addEventListener("click", handleThemeToggle);
+    dom.imageGallery.addEventListener("click", handleGalleryClick);
+    dom.fsClose.addEventListener("click", closeFullScreen);
+    dom.fullScreenModal.addEventListener("click", (event) => {
+        if (event.target === dom.fullScreenModal) closeFullScreen();
+    });
 
-        const moveSlide = (e) => {
-            if (isSliding) {
-                updateSlide(e, container, imageBefore);
-            }
-        };
+    window.addEventListener("click", (event) => {
+        if (event.target === dom.loginModal) closeLoginModal();
+    });
 
-        container.addEventListener('mousedown', startSlide);
-        container.addEventListener('touchstart', startSlide);
-        document.addEventListener('mouseup', stopSlide);
-        document.addEventListener('touchend', stopSlide);
-        document.addEventListener('mousemove', moveSlide);
-        document.addEventListener('touchmove', moveSlide);
-
-        // Click para mover
-        container.addEventListener('click', (e) => {
-            updateSlide(e, container, imageBefore);
-        });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeLoginModal();
+            closeFullScreen();
+        }
     });
 }
 
-function updateSlide(e, container, imageBefore) {
-    const rect = container.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-
-    // Para touch events
-    if (e.touches) {
-        x = e.touches[0].clientX - rect.left;
-    }
-
-    // Limitar entre 0 y el ancho del contenedor
-    x = Math.max(0, Math.min(x, rect.width));
-
-    const percentage = (x / rect.width) * 100;
-    imageBefore.style.width = percentage + '%';
+function handleLanguageChange() {
+    const selectedLanguage = dom.languageSelect.value;
+    setLanguage(selectedLanguage);
+    applyTranslations(document);
+    updateThemeButtonLabel();
+    updateUI();
+    renderGalleryBasedOnSelection();
 }
 
-// ========== CARGAR GALERÍA DESDE CLOUDINARY ==========
-async function loadGallery() {
-    try {
-        emptyMessage.textContent = 'Cargando imágenes de la galería...';
+function handleThemeToggle() {
+    toggleTheme();
+    updateThemeButtonLabel();
+}
 
-        const res = await fetch(
-            `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${FOLDER}.json`
-        );
+async function initializeSession() {
+    state.isAdmin = await authClient.checkSession();
+}
 
-        if (!res.ok) {
-            throw new Error(`Error HTTP: ${res.status}`);
-        }
+function initCloudinaryWidget() {
+    if (!window.cloudinary) {
+        dom.cloudinaryBtn.disabled = true;
+        return;
+    }
 
-        const data = await res.json();
+    const widgetOptions = {
+        cloudName: APP_CONFIG.cloudinary.cloudName,
+        uploadPreset: APP_CONFIG.cloudinary.uploadPreset,
+        tags: [APP_CONFIG.cloudinary.listTag],
+        sources: APP_CONFIG.cloudinary.sources
+    };
 
-        if (!data.resources || data.resources.length === 0) {
-            emptyMessage.textContent =
-                'No hay imágenes en la galería. Sube algunas fotos para comenzar.';
-            allImages = [];
-            renderGalleryBasedOnSelection();
+    if (APP_CONFIG.cloudinary.assetFolder) {
+        widgetOptions.folder = APP_CONFIG.cloudinary.assetFolder;
+        widgetOptions.asset_folder = APP_CONFIG.cloudinary.assetFolder;
+    }
+
+    state.cloudinaryWidget = window.cloudinary.createUploadWidget(widgetOptions, async (error, result) => {
+        if (error) {
+            alert(t("cloudinary.openError"));
             return;
         }
 
-        // Mapear recursos y agregar optimización f_auto,q_auto
-        allImages = data.resources.map((r) => {
-            // Construir URL con optimización
-            const baseUrl = r.secure_url;
-            const optimizedUrl = baseUrl.replace(
-                '/image/upload/',
-                '/image/upload/f_auto,q_auto/'
-            );
+        if (!result || result.event !== "success") return;
 
-            return {
-                id: r.public_id,
-                src: optimizedUrl,
-                name: r.public_id.split('/').pop()
-            };
-        });
+        try {
+            const newImage = await galleryService.saveUploadedImage(result.info);
+            state.allImages.unshift(newImage);
+            state.currentPage = 1;
+            renderGalleryBasedOnSelection();
+            alert(t("upload.added"));
+        } catch (uploadError) {
+            console.error(uploadError);
+            alert(t("firebase.notConfigured"));
+        }
+    });
+}
 
-        renderGalleryBasedOnSelection();
+async function refreshGallery() {
+    state.galleryError = "";
+
+    try {
+        const images = await galleryService.listImages();
+        state.allImages = images;
     } catch (error) {
-        console.error('Error cargando galería:', error);
-        emptyMessage.innerHTML = `
-            <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #fc25a2; margin-bottom: 10px; display: block;"></i>
-            <p><strong>No se pudieron cargar las imágenes</strong></p>
-            <p style="font-size: 0.9rem; margin-top: 10px;">
-                Asegúrate de que la carpeta "${FOLDER}" en Cloudinary tenga habilitado "resource list".
-            </p>
-            <p style="font-size: 0.85rem; margin-top: 5px; color: #999;">
-                Error: ${error.message}
-            </p>
-        `;
-        allImages = [];
-        renderGalleryBasedOnSelection();
+        console.error(error);
+        state.allImages = [];
+        state.galleryError = String(error.message || "UNKNOWN_ERROR");
     }
+
+    renderGalleryBasedOnSelection();
 }
 
-// ========== RENDERIZAR GALERÍA SEGÚN SELECCIÓN ==========
+function resolveEmptyStateMessage() {
+    if (!state.galleryError) return t("gallery.empty");
+
+    const errorText = state.galleryError.toLowerCase();
+    if (errorText.includes("restricted")) return t("gallery.loadRestricted");
+    if (errorText.includes("no resources found")) return t("gallery.empty");
+    if (errorText.includes("firebase_provider_missing")) return t("firebase.notConfigured");
+    return t("gallery.loadError");
+}
+
+function handleCantidadChange() {
+    state.itemsPerPage = Number.parseInt(dom.cantidadSelector.value, 10);
+    state.currentPage = 1;
+    renderGalleryBasedOnSelection();
+}
+
 function renderGalleryBasedOnSelection() {
-    if (itemsPerPage === 9999) {
-        // Mostrar todas las imágenes sin paginación
-        paginationContainer.classList.add('hidden');
-        paginationInfo.classList.add('hidden');
-        renderGallery(allImages);
-    } else {
-        // Mostrar con paginación
-        updatePagination();
-        renderCurrentPage();
+    if (state.itemsPerPage === 9999) {
+        dom.paginationContainer.classList.add("hidden");
+        dom.paginationInfo.classList.add("hidden");
+        renderGallery(state.allImages);
+        return;
     }
+
+    updatePagination();
+    renderCurrentPage();
 }
 
-// ========== RENDERIZAR PÁGINA ACTUAL ==========
 function renderCurrentPage() {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const imagesToShow = allImages.slice(startIndex, endIndex);
-
+    const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+    const endIndex = startIndex + state.itemsPerPage;
+    const imagesToShow = state.allImages.slice(startIndex, endIndex);
     renderGallery(imagesToShow);
 
-    // Actualizar info de paginación
-    const totalPages = Math.ceil(allImages.length / itemsPerPage);
-    paginationInfo.textContent = `Página ${currentPage} de ${totalPages} - ${allImages.length} imágenes en total`;
-    paginationInfo.classList.remove('hidden');
+    const totalPages = Math.max(1, Math.ceil(state.allImages.length / state.itemsPerPage));
+    dom.paginationInfo.textContent = t("pagination.info", {
+        page: String(state.currentPage),
+        totalPages: String(totalPages),
+        totalImages: String(state.allImages.length)
+    });
+    dom.paginationInfo.classList.toggle("hidden", state.allImages.length === 0);
 }
 
-// ========== RENDERIZAR GALERÍA ==========
-function renderGallery(images) {
-    imageGallery.innerHTML = '';
+function updatePagination() {
+    const totalPages = Math.ceil(state.allImages.length / state.itemsPerPage);
+    dom.paginationContainer.innerHTML = "";
 
-    if (images.length === 0) {
-        emptyMessage.textContent =
-            'No hay imágenes para mostrar. Sube fotos para comenzar.';
-        imageGallery.appendChild(emptyMessage);
+    if (totalPages <= 1) {
+        dom.paginationContainer.classList.add("hidden");
+        dom.paginationInfo.classList.add("hidden");
+        return;
+    }
+
+    dom.paginationContainer.classList.remove("hidden");
+
+    const prevButton = createPageButton("«", state.currentPage === 1, () => {
+        if (state.currentPage > 1) {
+            state.currentPage -= 1;
+            renderCurrentPage();
+            updatePagination();
+        }
+    });
+    dom.paginationContainer.appendChild(prevButton);
+
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, state.currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+        dom.paginationContainer.appendChild(createPageButton("1", false, () => jumpToPage(1)));
+        if (startPage > 2) dom.paginationContainer.appendChild(createEllipsis());
+    }
+
+    for (let page = startPage; page <= endPage; page += 1) {
+        dom.paginationContainer.appendChild(
+            createPageButton(String(page), false, () => jumpToPage(page), page === state.currentPage)
+        );
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) dom.paginationContainer.appendChild(createEllipsis());
+        dom.paginationContainer.appendChild(createPageButton(String(totalPages), false, () => jumpToPage(totalPages)));
+    }
+
+    const nextButton = createPageButton("»", state.currentPage === totalPages, () => {
+        if (state.currentPage < totalPages) {
+            state.currentPage += 1;
+            renderCurrentPage();
+            updatePagination();
+        }
+    });
+    dom.paginationContainer.appendChild(nextButton);
+}
+
+function jumpToPage(page) {
+    state.currentPage = page;
+    renderCurrentPage();
+    updatePagination();
+}
+
+function createPageButton(label, disabled, onClick, active = false) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `pagination-button ${disabled ? "disabled" : ""} ${active ? "active" : ""}`.trim();
+    button.textContent = label;
+    button.disabled = disabled;
+    button.addEventListener("click", onClick);
+    return button;
+}
+
+function createEllipsis() {
+    const ellipsis = document.createElement("span");
+    ellipsis.className = "pagination-ellipsis";
+    ellipsis.textContent = "...";
+    return ellipsis;
+}
+
+function renderGallery(images) {
+    dom.imageGallery.innerHTML = "";
+
+    if (!images.length) {
+        dom.emptyMessage.textContent = resolveEmptyStateMessage();
+        dom.emptyMessage.style.display = "block";
+        dom.imageGallery.appendChild(dom.emptyMessage);
         return;
     }
 
     images.forEach((image) => {
-        if (!image.src) return; // Saltar imágenes sin URL
+        if (!image.src) return;
 
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
+        const item = document.createElement("article");
+        item.className = "gallery-item";
+        item.dataset.src = image.src;
 
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = image.src;
-        img.alt = image.name;
-        img.addEventListener('click', () => openFullscreen(image.src));
-
+        img.alt = image.name || "Imagen";
+        img.loading = "lazy";
         item.appendChild(img);
 
-        // Botón de eliminar (solo para admin)
-        if (isAdmin) {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'delete-btn';
-            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteImage(image.id);
+        if (state.isAdmin) {
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "delete-btn";
+            deleteButton.title = t("gallery.delete");
+            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteButton.addEventListener("click", async (event) => {
+                event.stopPropagation();
+                await handleDeleteRequest(image);
             });
-            item.appendChild(deleteBtn);
+            item.appendChild(deleteButton);
         }
 
-        imageGallery.appendChild(item);
+        dom.imageGallery.appendChild(item);
     });
 }
 
-// ========== ACTUALIZAR PAGINACIÓN ==========
-function updatePagination() {
-    const totalPages = Math.ceil(allImages.length / itemsPerPage);
+async function handleDeleteRequest(image) {
+    const deleted = await galleryService.deleteImage(image);
 
-    paginationContainer.innerHTML = '';
-
-    if (totalPages <= 1) {
-        paginationContainer.classList.add('hidden');
-        paginationInfo.classList.add('hidden');
+    if (deleted) {
+        state.allImages = state.allImages.filter((item) => item.id !== image.id);
+        state.currentPage = 1;
+        renderGalleryBasedOnSelection();
         return;
     }
 
-    paginationContainer.classList.remove('hidden');
-
-    // Botón anterior
-    const prevButton = document.createElement('button');
-    prevButton.className = `pagination-button ${currentPage === 1 ? 'disabled' : ''}`;
-    prevButton.innerHTML = '&laquo;';
-    prevButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            renderCurrentPage();
-            updatePagination();
-        }
-    });
-    paginationContainer.appendChild(prevButton);
-
-    // Números de página
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
-
-    if (startPage > 1) {
-        const firstBtn = document.createElement('button');
-        firstBtn.className = 'pagination-button';
-        firstBtn.textContent = '1';
-        firstBtn.addEventListener('click', () => {
-            currentPage = 1;
-            renderCurrentPage();
-            updatePagination();
-        });
-        paginationContainer.appendChild(firstBtn);
-
-        if (startPage > 2) {
-            const ellipsis = document.createElement('span');
-            ellipsis.className = 'pagination-ellipsis';
-            ellipsis.textContent = '...';
-            paginationContainer.appendChild(ellipsis);
-        }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-        const btn = document.createElement('button');
-        btn.className = `pagination-button ${i === currentPage ? 'active' : ''}`;
-        btn.textContent = i;
-        btn.addEventListener('click', () => {
-            currentPage = i;
-            renderCurrentPage();
-            updatePagination();
-        });
-        paginationContainer.appendChild(btn);
-    }
-
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            const ellipsis = document.createElement('span');
-            ellipsis.className = 'pagination-ellipsis';
-            ellipsis.textContent = '...';
-            paginationContainer.appendChild(ellipsis);
-        }
-
-        const lastBtn = document.createElement('button');
-        lastBtn.className = 'pagination-button';
-        lastBtn.textContent = totalPages;
-        lastBtn.addEventListener('click', () => {
-            currentPage = totalPages;
-            renderCurrentPage();
-            updatePagination();
-        });
-        paginationContainer.appendChild(lastBtn);
-    }
-
-    // Botón siguiente
-    const nextButton = document.createElement('button');
-    nextButton.className = `pagination-button ${currentPage === totalPages ? 'disabled' : ''}`;
-    nextButton.innerHTML = '&raquo;';
-    nextButton.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            renderCurrentPage();
-            updatePagination();
-        }
-    });
-    paginationContainer.appendChild(nextButton);
+    alert(t("gallery.deleteUnavailable"));
+    const folder = encodeURIComponent(APP_CONFIG.cloudinary.assetFolder || "");
+    window.open(`https://cloudinary.com/console/media_library/folder/${folder}`, "_blank", "noopener,noreferrer");
 }
 
-// ========== CAMBIAR CANTIDAD DE IMÁGENES POR PÁGINA ==========
-function handleCantidadChange() {
-    itemsPerPage = parseInt(cantidadSelector.value);
-    currentPage = 1;
-
-    if (itemsPerPage === 9999) {
-        paginationContainer.classList.add('hidden');
-        paginationInfo.classList.add('hidden');
-        renderGallery(allImages);
-    } else {
-        updatePagination();
-        renderCurrentPage();
-    }
+function handleGalleryClick(event) {
+    if (event.target.tagName !== "IMG") return;
+    dom.fullScreenImage.src = event.target.src;
+    dom.fullScreenModal.style.display = "block";
+    document.body.style.overflow = "hidden";
 }
 
-// ========== ADMIN - LOGIN ==========
+function closeFullScreen() {
+    dom.fullScreenModal.style.display = "none";
+    dom.fullScreenImage.src = "";
+    document.body.style.overflow = "";
+}
+
 function openLoginModal() {
-    loginModal.style.display = 'block';
-    passwordInput.focus();
-}
-
-function attemptLogin() {
-    const password = passwordInput.value;
-    if (password === ADMIN_PASSWORD) {
-        isAdmin = true;
-        loginModal.style.display = 'none';
-        passwordInput.value = '';
-        loginMessage.textContent = '';
-        updateUI();
+    dom.loginMessage.textContent = "";
+    if (dom.emailInput) dom.emailInput.value = APP_CONFIG.auth.firebaseAdminEmail || "";
+    dom.passwordInput.value = "";
+    dom.loginModal.style.display = "block";
+    if (dom.emailInput && !dom.emailInput.value) {
+        dom.emailInput.focus();
     } else {
-        loginMessage.textContent = 'Contraseña incorrecta';
-        passwordInput.value = '';
+        dom.passwordInput.focus();
     }
 }
 
-function logout() {
-    isAdmin = false;
+function closeLoginModal() {
+    dom.loginModal.style.display = "none";
+}
+
+async function attemptLogin() {
+    const email = (dom.emailInput?.value || APP_CONFIG.auth.firebaseAdminEmail || "").trim();
+    const password = dom.passwordInput.value.trim();
+
+    if (!password) {
+        dom.loginMessage.textContent = t("auth.badCredentials");
+        return;
+    }
+
+    if (APP_CONFIG.auth.mode === "firebase" && !email) {
+        dom.loginMessage.textContent = t("auth.emailRequired");
+        return;
+    }
+
+    try {
+        const isAuthenticated = await authClient.login({ email, password });
+        if (!isAuthenticated) {
+            dom.loginMessage.textContent = t("auth.badCredentials");
+            return;
+        }
+
+        state.isAdmin = true;
+        closeLoginModal();
+        updateUI();
+    } catch (error) {
+        const knownInvalid = error.message === "INVALID_CREDENTIALS";
+        dom.loginMessage.textContent = knownInvalid ? t("auth.badCredentials") : t("auth.unavailable");
+    }
+}
+
+async function handleLogout() {
+    try {
+        await authClient.logout();
+    } catch (error) {
+        console.error(error);
+        alert(t("auth.logoutError"));
+    }
+
+    state.isAdmin = false;
     updateUI();
 }
 
-function updateUI() {
-    if (isAdmin) {
-        adminLoginBtn.classList.add('hidden');
-        logoutBtn.classList.remove('hidden');
-        adminStatus.classList.remove('hidden');
-        uploadSection.classList.remove('hidden');
-    } else {
-        adminLoginBtn.classList.remove('hidden');
-        logoutBtn.classList.add('hidden');
-        adminStatus.classList.add('hidden');
-        uploadSection.classList.add('hidden');
-    }
-}
-
-// ========== ABRIR CLOUDINARY WIDGET ==========
-function openCloudinary() {
-    if (isAdmin) {
-        window.cloudinaryWidget.open();
-    } else {
-        alert('Inicia sesión como administrador');
+function openCloudinaryWidget() {
+    if (!state.isAdmin) {
+        alert(t("auth.required"));
         openLoginModal();
+        return;
     }
+
+    if (!state.cloudinaryWidget) {
+        alert(t("cloudinary.unavailable"));
+        return;
+    }
+
+    state.cloudinaryWidget.open();
 }
 
-// ========== SUBIR POR URL ==========
 async function handleUrlUpload() {
-    const url = urlInput.value.trim();
+    if (!state.isAdmin) {
+        alert(t("auth.required"));
+        openLoginModal();
+        return;
+    }
 
+    const url = dom.urlInput.value.trim();
     if (!url) {
-        alert('Por favor ingresa una URL válida');
+        alert(t("upload.urlEmpty"));
         return;
     }
 
     try {
-        // Validar que sea una URL válida
         new URL(url);
-
-        // Simular agregación de imagen
-        simulateAddImage({ secure_url: url, public_id: 'url_upload_' + Date.now() });
-        urlInput.value = '';
-        document.getElementById('urlUploadArea').classList.remove('active');
     } catch {
-        alert('La URL no es válida');
-    }
-}
-
-// ========== SIMULAR AGREGACIÓN DE IMAGEN ==========
-function simulateAddImage(imageInfo) {
-    // Agregar optimización f_auto,q_auto
-    const baseUrl = imageInfo.secure_url;
-    const optimizedUrl = baseUrl.includes('cloudinary.com')
-        ? baseUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/')
-        : baseUrl;
-
-    const newImage = {
-        id: imageInfo.public_id,
-        src: optimizedUrl,
-        name: imageInfo.public_id.split('/').pop()
-    };
-
-    allImages.unshift(newImage);
-    currentPage = 1;
-    renderGalleryBasedOnSelection();
-    alert('¡Imagen agregada exitosamente!');
-}
-
-// ========== ELIMINAR IMAGEN ==========
-async function deleteImage(imageId) {
-    if (!confirm('¿Estás seguro de que deseas eliminar esta imagen?')) {
+        alert(t("upload.urlInvalid"));
         return;
     }
 
-    try {
-        // Aquí iría la lógica para eliminar de Cloudinary
-        // Por ahora, solo eliminamos del array local
-        allImages = allImages.filter((img) => img.id !== imageId);
-        currentPage = 1;
-        renderGalleryBasedOnSelection();
-        alert('Imagen eliminada');
-    } catch (error) {
-        alert('Error al eliminar la imagen: ' + error.message);
+    const image = new Image();
+    image.onload = async () => {
+        try {
+            const newImage = await galleryService.saveExternalImage(url);
+            state.allImages.unshift(newImage);
+            state.currentPage = 1;
+            renderGalleryBasedOnSelection();
+            dom.urlInput.value = "";
+            dom.urlUploadArea.classList.remove("active");
+        } catch (error) {
+            console.error(error);
+            alert(t("firebase.notConfigured"));
+        }
+    };
+    image.onerror = () => alert(t("upload.urlLoadError"));
+    image.src = url;
+}
+
+function updateUI() {
+    dom.adminStatus.textContent = t("admin.status");
+
+    if (state.isAdmin) {
+        dom.adminStatus.classList.remove("hidden");
+        dom.uploadSection.classList.remove("hidden");
+        dom.adminLoginBtn.classList.add("hidden");
+        dom.logoutBtn.classList.remove("hidden");
+    } else {
+        dom.adminStatus.classList.add("hidden");
+        dom.uploadSection.classList.add("hidden");
+        dom.adminLoginBtn.classList.remove("hidden");
+        dom.logoutBtn.classList.add("hidden");
     }
 }
-
-// ========== PANTALLA COMPLETA ==========
-function openFullscreen(imageSrc) {
-    fullscreenImage.src = imageSrc;
-    fullscreenModal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeFullscreen() {
-    fullscreenModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Cerrar pantalla completa al presionar Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeFullscreen();
-    }
-});
