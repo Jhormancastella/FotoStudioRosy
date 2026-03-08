@@ -157,7 +157,6 @@ function initCloudinaryWidget() {
             state.allImages.unshift(newImage);
             state.currentPage = 1;
             renderGalleryBasedOnSelection();
-            alert(t("upload.added"));
         } catch (uploadError) {
             console.error(uploadError);
             alert(t("firebase.notConfigured"));
