@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rosy Photo Studio: galeria fotografica profesional, restauracion y colorizacion de imagenes.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jhormancastella.github.io/FotoStudioRosy/">
     <title>Foto Estudio Rosy - Galería</title>
     <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -84,8 +87,14 @@
                     </select>
                 </div>
 
-                <div class="gallery" id="imageGallery">
-                    <p class="empty-message" id="emptyMessage" data-i18n="gallery.empty">No hay imágenes en la galería.</p>
+                <div class="gallery-wrapper">
+                    <div class="gallery-loading hidden" id="galleryLoading" aria-live="polite">
+                        <span class="loading-spinner" aria-hidden="true"></span>
+                        <span data-i18n="gallery.loading">Cargando imágenes...</span>
+                    </div>
+                    <div class="gallery" id="imageGallery">
+                        <p class="empty-message" id="emptyMessage" data-i18n="gallery.empty">No hay imágenes en la galería.</p>
+                    </div>
                 </div>
 
                 <div id="pagination" class="pagination hidden"></div>

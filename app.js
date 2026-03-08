@@ -48,6 +48,7 @@ function cacheDom() {
     dom.urlSubmit = document.getElementById("urlSubmit");
     dom.imageGallery = document.getElementById("imageGallery");
     dom.emptyMessage = document.getElementById("emptyMessage");
+    dom.galleryLoading = document.getElementById("galleryLoading");
     dom.cloudinaryBtn = document.getElementById("cloudinaryBtn");
     dom.useUrlBtn = document.getElementById("useUrlBtn");
     dom.urlUploadArea = document.getElementById("urlUploadArea");
@@ -166,6 +167,7 @@ function initCloudinaryWidget() {
 
 async function refreshGallery() {
     state.galleryError = "";
+    setGalleryLoading(true);
 
     try {
         const images = await galleryService.listImages();
@@ -174,9 +176,19 @@ async function refreshGallery() {
         console.error(error);
         state.allImages = [];
         state.galleryError = String(error.message || "UNKNOWN_ERROR");
+    } finally {
+        renderGalleryBasedOnSelection();
+        setGalleryLoading(false);
     }
+}
 
-    renderGalleryBasedOnSelection();
+function setGalleryLoading(isLoading) {
+    if (!dom.galleryLoading) return;
+    dom.galleryLoading.classList.toggle("hidden", !isLoading);
+    dom.imageGallery.classList.toggle("gallery-dimmed", isLoading);
+    if (isLoading) {
+        dom.emptyMessage.style.display = "none";
+    }
 }
 
 function resolveEmptyStateMessage() {
@@ -314,13 +326,22 @@ function renderGallery(images) {
         if (!image.src) return;
 
         const item = document.createElement("article");
-        item.className = "gallery-item";
+        item.className = "gallery-item is-loading";
         item.dataset.src = image.src;
 
         const img = document.createElement("img");
-        img.src = image.src;
+        img.className = "gallery-image";
         img.alt = image.name || "Imagen";
         img.loading = "lazy";
+        img.addEventListener("load", () => {
+            item.classList.remove("is-loading");
+            img.classList.add("loaded");
+        });
+        img.addEventListener("error", () => {
+            item.classList.remove("is-loading");
+            img.classList.add("loaded");
+        });
+        img.src = image.src;
         item.appendChild(img);
 
         if (state.isAdmin) {
