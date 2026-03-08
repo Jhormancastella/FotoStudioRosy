@@ -78,6 +78,10 @@ body {
     align-items: center;
     justify-content: center;
     gap: 15px;
+    text-decoration: none;
+    color: inherit;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .logo img {
