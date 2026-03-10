@@ -488,24 +488,40 @@ body {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 50%;
+    left: 0;
     width: 4px;
-    transform: translateX(-50%);
+    transform: translateX(0);
     background: #ffffff;
     z-index: 3;
+    will-change: transform;
 }
 
 .slider-handle {
     position: absolute;
-    left: 50%;
+    left: 0;
     top: 50%;
     width: 44px;
     height: 44px;
-    transform: translate(-50%, -50%);
+    transform: translate(0, -50%);
     border-radius: 50%;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     z-index: 4;
+    /* Evitar comportamiento táctil por defecto durante el arrastre */
+    touch-action: none;
+    will-change: transform;
+}
+
+/* Transición suave cuando no hay arrastre activo, controlada con clases */
+.comparison-container.is-animating .slider-line,
+.comparison-container.is-animating .slider-handle {
+    transition: transform 200ms ease-out;
+}
+
+/* Durante arrastre quitar cualquier transición para máxima respuesta */
+.comparison-container.is-dragging .slider-line,
+.comparison-container.is-dragging .slider-handle {
+    transition: none !important;
 }
 
 .image-info {
