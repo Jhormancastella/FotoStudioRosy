@@ -1,64 +1,57 @@
-# 🌸 Rosy Photo Studio
-Servicios de fotografía profesional para eventos, retratos y productos.  
-**Capturando momentos especiales con un enfoque artístico y técnico.**
+# 📸 Rosy Photo Studio
+
+![Version](https://img.shields.io/badge/version-1.5-blue.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34C26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-181717?style=flat&logo=github&logoColor=white)
+
+## web
+
+<div align="center">
+
+Explóralo y dime qué te parece.
+
+[![Ver Rosy Photo Studio en Vivo](https://img.shields.io/badge/📸_Ver_Rosy_Photo_Studio_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://jhormancastella.github.io/FotoStudioRosy/)
+
+</div>
+
+## 🌟 Descripción breve
+
+Sitio para exhibir servicios de restauración y colorización fotográfica, con galería responsive, modo administrador (Cloudinary/Firebase) y comparador interactivo Antes/Después con soporte táctil y de ratón.
+
+## 🖼️ Imágenes de referencia
+
+- Restauración (Antes/Después)
+  - After: <https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png>
+  - Before: <https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg>
+- Colorización (Antes/Después)
+  - After: <https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png>
+  - Before: <https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg>
+
+## - Restauración (Antes/Después)
+
+<div align="center">
+  <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg" alt="Restauración - Antes" width="380" />
+  <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png" alt="Restauración - Después" width="380" />
+  
+  <br/>
+
+## - Colorización (Antes/Después)
+
+  <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg" alt="Colorización - Antes" width="380" />
+  <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png" alt="Colorización - Después" width="380" />
+  
+</div>
+
+## 🧾 Versión
+
+- Actual: v1.5
+  - Mejora de fluidez e interacción del comparador (móvil/escritorio)
+  - Ajustes de usabilidad táctil y rendimiento
 
 ---
 
-## 🚀 WEB
-Visita la galería oficial:  
-👉 https://jhormancastella.github.io/FotoStudioRosy/
-
----
-
-## 📸 ¿Qué encontrarás?
-- Galería responsive con **52 espacios** de muestra.
-- Selector de cantidad (8, 12, 24 o todas).
-- Vista **pantalla completa** al hacer clic en cualquier imagen.
-- Panel de administrador oculto para subir o eliminar fotos vía **Cloudinary**.
-- Sección de **redes sociales** y derechos reservados.
-
----
-
-## 🛠️ Tecnologías usadas
-- HTML5 + CSS3 (sin frameworks)
-- JavaScript vanilla
-- [Cloudinary](https://cloudinary.com) para almacenamiento de imágenes
-- GitHub Pages (hosting gratuito)
-
----
-
-## ✨ Características
-| Visitante | Administrador |
-|-----------|---------------|
-| Ver galería responsive | Subir imágenes desde PC o URL |
-| Elegir cuántas fotos mostrar | Eliminar imágenes desde Cloudinary |
-| Ver fotos en pantalla completa | Acceso con contraseña oculta |
-| Contactar por redes sociales | Gestión sin backend |
-
-
-
-## 🎨 Personalización
-| Archivo | Qué puedes cambiar |
-|---------|--------------------|
-| `index.html` | Título, logo, colores, textos |
-| `config.js` | Contraseña de admin |
-| Cloudinary | Carpeta, calidad, efectos, etc. |
-
----
-
-## 📬 Contacto
-¿Quieres tu propia galería? Escríbeme:
-- WhatsApp: [+57 322 376 2998](https://wa.me/573223762998)
-- Instagram: [@RosyPhotoStudio](https://instagram.com/pendiete)
-- Facebook: [Rosy Photo Studio](https://facebook.com/pendiente)
-
----
-
-## 📄 Licencia
-Este proyecto es de uso libre para fines personales y comerciales.  
-Se agradece mencionar al autor: **Jhorman Castellanos © 2025**.
-
----
-
-¡Gracias por visitar **Rosy Photo Studio**! 📸✨
-```
+© 2025 Jhorman Castellanos Morales
