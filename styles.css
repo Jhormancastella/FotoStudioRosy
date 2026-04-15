@@ -340,16 +340,35 @@ body {
     right: 8px;
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     background: rgba(231, 76, 60, 0.9);
     color: #ffffff;
     cursor: pointer;
     display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: background 0.2s ease;
 }
 
-.gallery-item:hover .delete-btn {
-    display: block;
+.delete-btn:hover {
+    background: rgba(192, 57, 43, 1);
+}
+
+/* Escritorio: mostrar al hacer hover sobre la card */
+@media (hover: hover) {
+    .gallery-item:hover .delete-btn {
+        display: flex;
+    }
+}
+
+/* Móvil/táctil: siempre visible en modo admin */
+@media (hover: none) {
+    .delete-btn {
+        display: flex;
+    }
 }
 
 .empty-message {
@@ -721,5 +740,32 @@ body {
 
     .image-info {
         font-size: 0.9rem;
+    }
+
+    .upload-options {
+        flex-direction: column;
+    }
+
+    .option-card {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .display-controls,
+    .admin-controls {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .admin-status {
+        text-align: center;
+        width: 100%;
     }
 }
