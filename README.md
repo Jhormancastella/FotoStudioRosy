@@ -14,7 +14,7 @@
 
 Explóralo y dime qué te parece.
 
-[![Ver Rosy Photo Studio en Vivo](https://img.shields.io/badge/📸_Ver_Rosy_Photo_Studio_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://jhormancastella.github.io/FotoStudioRosy/)
+[![Ver Rosy Photo Studio en Vivo](https://img.shields.io/badge/📸_Ver_Rosy_Photo_Studio_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://rosyfotostudio.qd.je/)
 
 </div>
 
