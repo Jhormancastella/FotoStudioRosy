@@ -75,8 +75,10 @@ function initThemeControl() {
 }
 
 function updateThemeButtonLabel() {
-    const key = getTheme() === "dark" ? "controls.themeToLight" : "controls.themeToDark";
-    dom.themeToggle.textContent = t(key);
+    const isDark = getTheme() === "dark";
+    const key = isDark ? "controls.themeToLight" : "controls.themeToDark";
+    const icon = isDark ? "fas fa-sun" : "fas fa-moon";
+    dom.themeToggle.innerHTML = `<i class="${icon} text-[10px]"></i><span>${t(key)}</span>`;
 }
 
 function bindEvents() {
@@ -86,7 +88,7 @@ function bindEvents() {
     dom.closeModal.addEventListener("click", closeLoginModal);
     dom.urlSubmit.addEventListener("click", handleUrlUpload);
     dom.cloudinaryBtn.addEventListener("click", openCloudinaryWidget);
-    dom.useUrlBtn.addEventListener("click", () => dom.urlUploadArea.classList.toggle("active"));
+    dom.useUrlBtn.addEventListener("click", () => dom.urlUploadArea.classList.toggle("hidden"));
     dom.cantidadSelector.addEventListener("change", handleCantidadChange);
     dom.languageSelect.addEventListener("change", handleLanguageChange);
     dom.themeToggle.addEventListener("click", handleThemeToggle);
@@ -543,7 +545,7 @@ async function handleUrlUpload() {
             state.currentPage = 1;
             renderGalleryBasedOnSelection();
             dom.urlInput.value = "";
-            dom.urlUploadArea.classList.remove("active");
+            dom.urlUploadArea.classList.add("hidden");
         } catch (error) {
             console.error(error);
             alert(t("firebase.notConfigured"));

@@ -9,77 +9,213 @@
     <title>Foto Estudio Rosy - Galería</title>
     <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['selector', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        script: ['"Great Vibes"', 'cursive'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: {
+                            DEFAULT: '#fc25a2',
+                            dark: '#ff4cb5',
+                            soft: '#fce4f2',
+                            'soft-dark': '#4f1d42',
+                        },
+                        surface: {
+                            DEFAULT: '#ffffff',
+                            soft: '#f9f9ff',
+                            card: '#ffffff',
+                            'dark': '#111827',
+                            'dark-soft': '#1f2937',
+                            'dark-card': '#182334',
+                        }
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 1.2s linear infinite',
+                        'spin-slow': 'spin 0.8s linear infinite',
+                        'fade-in': 'fadeIn 0.3s ease',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '200% 0' },
+                            '100%': { backgroundPosition: '-200% 0' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.97)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'header-light': 'linear-gradient(135deg, #f8e1f0 0%, #fc25a2 100%)',
+                        'header-dark': 'linear-gradient(135deg, #3f1d3d 0%, #93256b 100%)',
+                        'page-light': 'linear-gradient(135deg, #f0f4ff 0%, #e8d5f0 50%, #fce4f2 100%)',
+                        'page-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="container">
-        <header class="site-header">
-            <a class="logo" href="./" aria-label="Recargar página">
-                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo">
-                <span>Rosy Photo Studio</span>
-            </a>
-            <p class="tagline" data-i18n="header.tagline">Capturando momentos especiales para toda la vida</p>
+<body class="min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#e8d5f0] to-[#fce4f2] dark:from-[#0f172a] dark:via-[#1a1f35] dark:to-[#1e293b] text-gray-800 dark:text-gray-100 font-sans transition-colors duration-300 p-4 md:p-6">
 
-            <div class="toolbar">
-                <div class="display-controls">
-                    <label for="languageSelect" class="visually-hidden" data-i18n="controls.languageLabel">Idioma</label>
-                    <select id="languageSelect" class="language-select" aria-label="Idioma">
-                        <option value="es" data-i18n="controls.spanish">Español</option>
-                        <option value="en" data-i18n="controls.english">English</option>
-                    </select>
-                    <button id="themeToggle" class="admin-btn" type="button" data-i18n="controls.themeToDark">Tema oscuro</button>
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+
+        <!-- Header -->
+        <header class="relative overflow-hidden text-white" style="background: linear-gradient(135deg, #2d0a1f 0%, #6b1045 35%, #c01878 70%, #fc25a2 100%);">
+
+            <!-- Subtle noise texture overlay -->
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+
+            <!-- Glow orbs -->
+            <div class="absolute -top-16 -left-16 w-64 h-64 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #ff80c8 0%, transparent 70%);"></div>
+            <div class="absolute -bottom-10 -right-10 w-56 h-56 rounded-full opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ff4cb5 0%, transparent 70%);"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 opacity-10 pointer-events-none blur-3xl" style="background: #fc25a2;"></div>
+
+            <!-- Top bar: controls -->
+            <div class="relative flex items-center justify-between px-5 pt-4 pb-0">
+                <!-- Left: language + theme -->
+                <div class="flex items-center gap-2">
+                    <label for="languageSelect" class="sr-only" data-i18n="controls.languageLabel">Idioma</label>
+                    <div class="relative">
+                        <select id="languageSelect"
+                                aria-label="Idioma"
+                                class="appearance-none bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg pl-3 pr-7 py-1.5 text-xs font-medium cursor-pointer outline-none transition-all duration-200 backdrop-blur-sm [&>option]:text-gray-900 [&>option]:bg-white">
+                            <option value="es" data-i18n="controls.spanish">Español</option>
+                            <option value="en" data-i18n="controls.english">English</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-2 top-1/2 -translate-y-1/2 text-white/60 text-[9px] pointer-events-none"></i>
+                    </div>
+                    <button id="themeToggle"
+                            type="button"
+                            class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg px-3 py-1.5 text-xs font-medium cursor-pointer transition-all duration-200 backdrop-blur-sm"
+                            data-i18n="controls.themeToDark">
+                        <i class="fas fa-moon text-[10px]"></i>
+                        <span>Tema oscuro</span>
+                    </button>
                 </div>
 
-                <div class="admin-controls">
-                    <button id="adminLoginBtn" class="admin-btn" type="button" aria-label="Administrador">
-                        <i class="bi bi-person-circle"></i> AD
+                <!-- Right: admin -->
+                <div class="flex items-center gap-2">
+                    <button id="adminLoginBtn"
+                            type="button"
+                            aria-label="Acceso administrador"
+                            title="Acceso administrador"
+                            class="flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/25 text-white/80 hover:text-white rounded-lg w-8 h-8 cursor-pointer transition-all duration-200 backdrop-blur-sm group">
+                        <i class="fas fa-lock text-xs group-hover:text-yellow-300 transition-colors"></i>
                     </button>
-                    <button id="logoutBtn" class="admin-btn hidden" type="button">
-                        <i class="bi bi-box-arrow-right"></i>
+                    <button id="logoutBtn"
+                            type="button"
+                            class="hidden items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg px-3 py-1.5 text-xs font-medium cursor-pointer transition-all duration-200 backdrop-blur-sm">
+                        <i class="fas fa-sign-out-alt text-[10px]"></i>
                         <span data-i18n="admin.logout">Cerrar Sesión</span>
                     </button>
-                    <div id="adminStatus" class="admin-status hidden" data-i18n="admin.status">Modo Administrador</div>
+                    <div id="adminStatus"
+                         class="hidden items-center gap-1.5 bg-yellow-400/20 text-yellow-200 text-xs font-medium rounded-lg px-3 py-1.5 border border-yellow-400/30 backdrop-blur-sm"
+                         data-i18n="admin.status">
+                        <i class="fas fa-shield-alt text-[10px]"></i>
+                        Modo Administrador
+                    </div>
                 </div>
             </div>
+
+            <!-- Center: branding -->
+            <div class="relative text-center px-6 py-7">
+                <a class="inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 no-underline text-white group" href="./" aria-label="Recargar página">
+                    <!-- Logo with glow ring -->
+                    <div class="relative">
+                        <div class="absolute inset-0 rounded-full blur-md opacity-60" style="background: radial-gradient(circle, #ff80c8, transparent 70%);"></div>
+                        <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png"
+                             alt="Logo Rosy Photo Studio"
+                             class="relative h-24 w-auto drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                    </div>
+
+                    <!-- Title block -->
+                    <div class="flex flex-col items-center sm:items-start gap-1">
+                        <!-- Thin divider line on desktop -->
+                        <div class="hidden sm:block w-px h-14 bg-white/20 absolute" style="left: calc(50% - 1px); display: none;"></div>
+                        <span class="font-script leading-none drop-shadow-lg" style="font-size: clamp(2.8rem, 6vw, 4.5rem); text-shadow: 0 2px 20px rgba(0,0,0,0.3);">Rosy Photo Studio</span>
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="w-8 h-px bg-white/40"></div>
+                            <i class="fas fa-camera text-white/60 text-xs"></i>
+                            <div class="w-8 h-px bg-white/40"></div>
+                        </div>
+                        <p class="text-white/75 text-sm font-light tracking-[0.15em] uppercase mt-0.5" data-i18n="header.tagline">
+                            Capturando momentos especiales
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bottom decorative border -->
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
         </header>
 
-        <div class="main-content">
-            <section id="uploadSection" class="hidden">
-                <h2 data-i18n="upload.title">Subir Nueva Imagen</h2>
-                <div class="upload-options">
-                    <div class="option-card">
-                        <i class="fas fa-upload"></i>
-                        <h3 data-i18n="upload.deviceTitle">Subir desde tu dispositivo</h3>
-                        <button id="cloudinaryBtn" type="button" data-i18n="upload.deviceButton">Abrir Cloudinary</button>
+        <!-- Main Content -->
+        <main class="p-6 md:p-8">
+
+            <!-- Upload Section (admin only) -->
+            <section id="uploadSection" class="hidden mb-8 animate-fade-in">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-5 flex items-center gap-2">
+                    <span class="w-8 h-8 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cloud-upload-alt text-[#fc25a2] text-sm"></i>
+                    </span>
+                    <span data-i18n="upload.title">Subir Nueva Imagen</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 p-6 text-center hover:border-[#fc25a2]/50 hover:shadow-md transition-all duration-200">
+                        <div class="w-12 h-12 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-upload text-[#fc25a2] text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-gray-100 mb-3" data-i18n="upload.deviceTitle">Subir desde tu dispositivo</h3>
+                        <button id="cloudinaryBtn"
+                                type="button"
+                                class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
+                                data-i18n="upload.deviceButton">Abrir Cloudinary</button>
                     </div>
-                    <div class="option-card">
-                        <i class="fas fa-link"></i>
-                        <h3 data-i18n="upload.urlTitle">Usar enlace de imagen</h3>
-                        <button id="useUrlBtn" type="button" data-i18n="upload.urlButton">Usar URL</button>
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 p-6 text-center hover:border-[#fc25a2]/50 hover:shadow-md transition-all duration-200">
+                        <div class="w-12 h-12 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-link text-[#fc25a2] text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-gray-100 mb-3" data-i18n="upload.urlTitle">Usar enlace de imagen</h3>
+                        <button id="useUrlBtn"
+                                type="button"
+                                class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
+                                data-i18n="upload.urlButton">Usar URL</button>
                     </div>
                 </div>
-                <div id="urlUploadArea" class="upload-area">
-                    <i class="fas fa-link"></i>
-                    <p data-i18n="upload.urlDescription">Ingresa la URL de una imagen en internet</p>
-                    <input
-                        type="text"
-                        id="urlInput"
-                        class="url-input"
-                        placeholder="https://ejemplo.com/imagen.jpg"
-                        data-i18n-placeholder="upload.urlPlaceholder"
-                    >
-                    <button class="submit-btn" id="urlSubmit" type="button" data-i18n="upload.addImage">Agregar Imagen</button>
+                <div id="urlUploadArea" class="hidden border-2 border-dashed border-[#fc25a2]/40 rounded-xl bg-[#fc25a2]/5 dark:bg-[#fc25a2]/5 p-6 text-center">
+                    <i class="fas fa-link text-[#fc25a2] text-3xl mb-3 block"></i>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm" data-i18n="upload.urlDescription">Ingresa la URL de una imagen en internet</p>
+                    <input type="text"
+                           id="urlInput"
+                           class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all"
+                           placeholder="https://ejemplo.com/imagen.jpg"
+                           data-i18n-placeholder="upload.urlPlaceholder">
+                    <button class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-6 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
+                            id="urlSubmit"
+                            type="button"
+                            data-i18n="upload.addImage">Agregar Imagen</button>
                 </div>
             </section>
 
+            <!-- Gallery Section -->
             <section class="gallery-section">
-                <h1 data-i18n="gallery.title">Galería de Imágenes</h1>
+                <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-2" data-i18n="gallery.title">Galería de Imágenes</h1>
+                <div class="w-16 h-1 bg-gradient-to-r from-[#fc25a2] to-pink-300 rounded-full mx-auto mb-6"></div>
 
-                <div class="quantity-row">
-                    <label for="cantidadSelector"><strong data-i18n="gallery.amountLabel">Imágenes a mostrar:</strong></label>
-                    <select id="cantidadSelector">
+                <div class="flex justify-center items-center gap-3 mb-6">
+                    <label for="cantidadSelector" class="text-sm font-medium text-gray-600 dark:text-gray-400" data-i18n="gallery.amountLabel">Imágenes a mostrar:</label>
+                    <select id="cantidadSelector"
+                            class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all cursor-pointer">
                         <option value="8">8</option>
                         <option value="12">12</option>
                         <option value="24">24</option>
@@ -87,137 +223,270 @@
                     </select>
                 </div>
 
-                <div class="gallery-wrapper">
-                    <div class="gallery-loading hidden" id="galleryLoading" aria-live="polite">
-                        <span class="loading-spinner" aria-hidden="true"></span>
+                <div class="gallery-wrapper relative">
+                    <div class="gallery-loading hidden absolute inset-0 z-10 flex items-center justify-center gap-3 rounded-xl bg-white/75 dark:bg-gray-900/75 backdrop-blur-sm font-semibold text-gray-700 dark:text-gray-200" id="galleryLoading" aria-live="polite">
+                        <span class="loading-spinner w-5 h-5 rounded-full border-2 border-gray-300 border-t-[#fc25a2] animate-spin-slow" aria-hidden="true"></span>
                         <span data-i18n="gallery.loading">Cargando imágenes...</span>
                     </div>
-                    <div class="gallery" id="imageGallery">
-                        <p class="empty-message" id="emptyMessage" data-i18n="gallery.empty">No hay imágenes en la galería.</p>
+                    <div class="gallery grid gap-4 min-h-[140px]" id="imageGallery"
+                         style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))">
+                        <p class="empty-message col-span-full bg-gray-50 dark:bg-gray-800 rounded-xl p-10 text-center text-gray-500 dark:text-gray-400"
+                           id="emptyMessage"
+                           data-i18n="gallery.empty">No hay imágenes en la galería.</p>
                     </div>
                 </div>
 
-                <div id="pagination" class="pagination hidden"></div>
-                <div id="paginationInfo" class="pagination-info hidden"></div>
+                <div id="pagination" class="hidden mt-6 flex justify-center gap-2 flex-wrap"></div>
+                <div id="paginationInfo" class="hidden text-center mt-3 text-sm text-gray-500 dark:text-gray-400"></div>
             </section>
-        </div>
+        </main>
     </div>
 
-    <div class="container comparators-container">
-        <h1 data-i18n="comparator.title">Comparador de Imágenes</h1>
-        <div class="instructions">
-            <p><span class="icon">↔</span> <span data-i18n="comparator.instructions.slide">Desliza horizontalmente para comparar</span></p>
-            <p><span class="icon">🖱️</span> <span data-i18n="comparator.instructions.drag">Haz clic y arrastra para un control preciso</span></p>
-            <p><span class="icon">📱</span> <span data-i18n="comparator.instructions.mobile">Funciona en dispositivos táctiles también</span></p>
+    <!-- Comparator Section -->
+    <div class="max-w-6xl mx-auto mt-6 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+
+        <!-- Section Header -->
+        <div class="relative bg-gradient-to-r from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-800/80 dark:via-gray-800/60 dark:to-gray-800/80 px-6 md:px-10 py-8 border-b border-gray-100 dark:border-gray-700/50">
+            <div class="text-center">
+                <span class="inline-flex items-center gap-2 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 text-[#fc25a2] text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
+                    <i class="fas fa-magic text-[10px]"></i> Nuestros Servicios
+                </span>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2" data-i18n="comparator.title">Comparador de Imágenes</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-sm max-w-md mx-auto">Desliza el divisor para ver la transformación en tiempo real</p>
+            </div>
+
+            <!-- Instructions pills -->
+            <div class="flex flex-wrap justify-center gap-2 mt-5">
+                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
+                    <span>↔</span> <span data-i18n="comparator.instructions.slide">Desliza para comparar</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
+                    <span>🖱️</span> <span data-i18n="comparator.instructions.drag">Arrastra con precisión</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
+                    <span>📱</span> <span data-i18n="comparator.instructions.mobile">Compatible táctil</span>
+                </span>
+            </div>
         </div>
 
-        <section class="section" id="restauracion">
-            <h2 class="section-title" data-i18n="restoration.title">Restauración</h2>
-            <p class="section-description" data-i18n="restoration.description">
-                Nuestro proceso de restauración devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y otros daños mientras preservamos la esencia original de la imagen.
-            </p>
+        <div class="p-6 md:p-10 space-y-8">
 
-            <div class="comparison-container" id="comparator-restauracion">
-                <div class="image-container">
-                    <img
-                        class="image-after"
-                        src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png"
-                        alt="Imagen después de restauración"
-                    >
-                    <div class="image-before">
-                        <img
-                            src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg"
-                            alt="Imagen antes de restauración"
-                        >
+            <!-- Restoration -->
+            <section id="restauracion" class="group">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-center">
+
+                    <!-- Info panel -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-magic text-rose-600 dark:text-rose-400"></i>
+                            </div>
+                            <h2 class="section-title text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="restoration.title">Restauración</h2>
+                        </div>
+
+                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm" data-i18n="restoration.description">
+                            Nuestro proceso de restauración devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y otros daños mientras preservamos la esencia original de la imagen.
+                        </p>
+
+                        <!-- Feature pills -->
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Desgarros y rasgaduras
+                            </span>
+                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Manchas y deterioro
+                            </span>
+                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Fotos antiguas
+                            </span>
+                        </div>
+
+                        <!-- Before/After legend -->
+                        <div class="flex items-center gap-4 pt-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="restoration.before">Antes</span>
+                            </div>
+                            <div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#fc25a2]"></span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="restoration.after">Después</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="slider-line"></div>
-                    <div class="slider-handle"></div>
-                </div>
-            </div>
 
-            <div class="image-info">
-                <span data-i18n="restoration.before">Antes de la restauración</span>
-                <span data-i18n="restoration.after">Después de la restauración</span>
-            </div>
-        </section>
-
-        <section class="section" id="colorizacion">
-            <h2 class="section-title" data-i18n="colorization.title">Colorización</h2>
-            <p class="section-description" data-i18n="colorization.description">
-                Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original y los detalles históricos para un resultado natural y vibrante.
-            </p>
-
-            <div class="comparison-container" id="comparator-colorizacion">
-                <div class="image-container">
-                    <img
-                        class="image-after"
-                        src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png"
-                        alt="Imagen después de colorización"
-                    >
-                    <div class="image-before">
-                        <img
-                            src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg"
-                            alt="Imagen antes de colorización"
-                        >
+                    <!-- Comparator -->
+                    <div class="lg:col-span-3">
+                        <div class="comparison-container rounded-2xl overflow-hidden shadow-xl cursor-col-resize ring-1 ring-gray-200 dark:ring-gray-700" id="comparator-restauracion">
+                            <div class="image-container relative w-full overflow-hidden" style="aspect-ratio: 4/3">
+                                <img class="image-after absolute inset-0 w-full h-full object-contain bg-black z-[1]"
+                                     src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png"
+                                     alt="Imagen después de restauración">
+                                <div class="image-before absolute inset-y-0 left-0 w-1/2 overflow-hidden z-[2]">
+                                    <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg"
+                                         alt="Imagen antes de restauración"
+                                         class="absolute inset-0 w-full h-full object-contain bg-black">
+                                </div>
+                                <!-- Before label -->
+                                <span class="absolute top-3 left-3 z-[3] bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="restoration.before">Antes</span>
+                                <!-- After label -->
+                                <span class="absolute top-3 right-3 z-[3] bg-[#fc25a2]/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="restoration.after">Después</span>
+                                <div class="slider-line absolute top-0 bottom-0 left-0 w-[3px] bg-white z-[5] will-change-transform shadow-[0_0_8px_rgba(0,0,0,0.5)]"></div>
+                                <div class="slider-handle absolute left-0 top-1/2 w-11 h-11 -translate-y-1/2 rounded-full bg-white shadow-[0_0_16px_rgba(0,0,0,0.5)] z-[6] touch-none will-change-transform flex items-center justify-center border-2 border-[#fc25a2]/30">
+                                    <div class="flex gap-0.5">
+                                        <i class="fas fa-chevron-left text-[#fc25a2] text-xs"></i>
+                                        <i class="fas fa-chevron-right text-[#fc25a2] text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="slider-line"></div>
-                    <div class="slider-handle"></div>
                 </div>
-            </div>
+            </section>
 
-            <div class="image-info">
-                <span data-i18n="colorization.before">Blanco y negro original</span>
-                <span data-i18n="colorization.after">Con colorización</span>
-            </div>
-        </section>
-    </div>
+            <!-- Divider -->
+            <div class="border-t border-gray-100 dark:border-gray-700/50"></div>
 
-    <div id="fullScreenModal" class="fs-modal">
-        <span class="fs-close">&times;</span>
-        <img class="fs-content" id="fullScreenImage" src="" alt="Imagen ampliada">
-    </div>
+            <!-- Colorization -->
+            <section id="colorizacion" class="group">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-center">
 
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 data-i18n="login.title">Acceso de Administrador</h2>
-            <p data-i18n="login.description">Ingresa la contraseña para acceder al modo administrador:</p>
-            <input
-                type="email"
-                id="emailInput"
-                placeholder="Correo administrador"
-                data-i18n-placeholder="login.emailPlaceholder"
-            >
-            <input
-                type="password"
-                id="passwordInput"
-                placeholder="Contraseña"
-                data-i18n-placeholder="login.passwordPlaceholder"
-            >
-            <button id="loginBtn" type="button" data-i18n="login.submit">Ingresar</button>
-            <p id="loginMessage" class="message"></p>
+                    <!-- Comparator (left on desktop) -->
+                    <div class="lg:col-span-3 lg:order-1 order-2">
+                        <div class="comparison-container rounded-2xl overflow-hidden shadow-xl cursor-col-resize ring-1 ring-gray-200 dark:ring-gray-700" id="comparator-colorizacion">
+                            <div class="image-container relative w-full overflow-hidden" style="aspect-ratio: 4/3">
+                                <img class="image-after absolute inset-0 w-full h-full object-contain bg-black z-[1]"
+                                     src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png"
+                                     alt="Imagen después de colorización">
+                                <div class="image-before absolute inset-y-0 left-0 w-1/2 overflow-hidden z-[2]">
+                                    <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg"
+                                         alt="Imagen antes de colorización"
+                                         class="absolute inset-0 w-full h-full object-contain bg-black">
+                                </div>
+                                <!-- Before label -->
+                                <span class="absolute top-3 left-3 z-[3] bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="colorization.before">B&N original</span>
+                                <!-- After label -->
+                                <span class="absolute top-3 right-3 z-[3] bg-[#fc25a2]/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="colorization.after">Con color</span>
+                                <div class="slider-line absolute top-0 bottom-0 left-0 w-[3px] bg-white z-[5] will-change-transform shadow-[0_0_8px_rgba(0,0,0,0.5)]"></div>
+                                <div class="slider-handle absolute left-0 top-1/2 w-11 h-11 -translate-y-1/2 rounded-full bg-white shadow-[0_0_16px_rgba(0,0,0,0.5)] z-[6] touch-none will-change-transform flex items-center justify-center border-2 border-[#fc25a2]/30">
+                                    <div class="flex gap-0.5">
+                                        <i class="fas fa-chevron-left text-[#fc25a2] text-xs"></i>
+                                        <i class="fas fa-chevron-right text-[#fc25a2] text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info panel (right on desktop) -->
+                    <div class="lg:col-span-2 lg:order-2 order-1 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-palette text-fuchsia-600 dark:text-fuchsia-400"></i>
+                            </div>
+                            <h2 class="section-title text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="colorization.title">Colorización</h2>
+                        </div>
+
+                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm" data-i18n="colorization.description">
+                            Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original y los detalles históricos para un resultado natural y vibrante.
+                        </p>
+
+                        <!-- Feature pills -->
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Colores naturales
+                            </span>
+                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Respeta iluminación
+                            </span>
+                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
+                                <i class="fas fa-check text-[10px] mr-1"></i>Resultado vibrante
+                            </span>
+                        </div>
+
+                        <!-- Before/After legend -->
+                        <div class="flex items-center gap-4 pt-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="colorization.before">B&N original</span>
+                            </div>
+                            <div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-fuchsia-500"></span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="colorization.after">Con colorización</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 
-    <section class="social-section">
-        <h3 data-i18n="social.title">Síguenos en nuestras redes</h3>
-        <div class="social-links">
-            <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <!-- Social Section -->
+    <section class="max-w-6xl mx-auto mt-6 text-center">
+        <h3 class="text-lg font-semibold text-[#fc25a2] dark:text-[#ff4cb5] mb-4" data-i18n="social.title">Síguenos en nuestras redes</h3>
+        <div class="flex justify-center gap-5">
+            <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#25d366] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
                 <i class="fab fa-whatsapp"></i>
             </a>
-            <a href="https://www.facebook.com/profile.php?id=61585030661867" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href="https://www.facebook.com/profile.php?id=61585030661867" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#1877f2] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
                 <i class="fab fa-facebook"></i>
             </a>
-            <a href="https://www.instagram.com/rosyphotostudio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="https://www.instagram.com/rosyphotostudio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#e4405f] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
                 <i class="fab fa-instagram"></i>
             </a>
         </div>
     </section>
 
-    <footer class="site-footer">
-        <span data-i18n="footer.rights">© 2025 Todos los derechos reservados – </span><strong>Jhorman Castellanos Morales</strong><br>
-        <span data-i18n="footer.caption">Rosy Photo Studio - Capturando momentos especiales</span>
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto mt-6 bg-white dark:bg-gray-900 rounded-2xl shadow-md text-center py-6 px-4 text-sm text-gray-600 dark:text-gray-400">
+        <div class="flex items-center justify-center gap-2 mb-1">
+            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="h-6 w-auto opacity-70">
+            <span class="font-script text-[#fc25a2] text-xl">Rosy Photo Studio</span>
+        </div>
+        <p><span data-i18n="footer.rights">© 2025 Todos los derechos reservados – </span><strong class="text-gray-800 dark:text-gray-200">Jhorman Castellanos Morales</strong></p>
+        <p class="mt-1 text-xs text-gray-400 dark:text-gray-500" data-i18n="footer.caption">Rosy Photo Studio - Capturando momentos especiales</p>
     </footer>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullScreenModal" class="fs-modal fixed inset-0 z-[2000] cursor-pointer" style="background: rgba(0,0,0,0.15); backdrop-filter: blur(20px) brightness(0.4); -webkit-backdrop-filter: blur(20px) brightness(0.4);">
+        <span class="fs-close absolute right-7 top-5 text-white text-5xl cursor-pointer hover:text-gray-300 transition-colors leading-none drop-shadow-lg">&times;</span>
+        <img class="fs-content max-w-[90%] max-h-[90%] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
+             id="fullScreenImage" src="" alt="Imagen ampliada">
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm">
+        <div class="modal-content relative mt-[15vh] mx-auto w-full max-w-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-2xl p-7 shadow-2xl border border-gray-100 dark:border-gray-700 animate-fade-in">
+            <span class="close absolute right-5 top-4 text-2xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer leading-none transition-colors">&times;</span>
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-lock text-[#fc25a2] text-sm"></i>
+                </div>
+                <h2 class="text-xl font-bold text-[#fc25a2]" data-i18n="login.title">Acceso de Administrador</h2>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="login.description">Ingresa la contraseña para acceder al modo administrador:</p>
+            <input type="email"
+                   id="emailInput"
+                   placeholder="Correo administrador"
+                   data-i18n-placeholder="login.emailPlaceholder"
+                   class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all">
+            <input type="password"
+                   id="passwordInput"
+                   placeholder="Contraseña"
+                   data-i18n-placeholder="login.passwordPlaceholder"
+                   class="w-full mt-3 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all">
+            <button id="loginBtn"
+                    type="button"
+                    class="w-full mt-4 bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg py-2.5 font-semibold text-sm transition-colors duration-200 cursor-pointer"
+                    data-i18n="login.submit">Ingresar</button>
+            <p id="loginMessage" class="min-h-[20px] mt-3 text-sm text-red-500 text-center"></p>
+        </div>
+    </div>
 
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <script type="module" src="app.js"></script>
