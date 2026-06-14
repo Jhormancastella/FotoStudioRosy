@@ -210,6 +210,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: center;
     background: #000;
     display: block;
 }
@@ -228,9 +229,18 @@
     z-index: 2;
 }
 
+/* La imagen interna del before NO debe adaptarse al contenedor recortado.
+   Su ancho lo controla JS para que siempre coincida con el contenedor padre. */
 .image-before img {
     position: absolute;
-    inset: 0;
+    inset: 0 auto 0 0;
+    width: 100%; /* JS sobreescribe esto con el ancho real en px */
+    height: 100%;
+    max-width: none; /* evita que Tailwind o el navegador lo restrinja */
+    object-fit: contain;
+    object-position: center;
+    background: #000;
+    display: block;
 }
 
 .slider-line {

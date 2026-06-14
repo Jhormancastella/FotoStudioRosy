@@ -6,6 +6,8 @@ function initComparator(comparatorId) {
     const sliderLine = comparator.querySelector(".slider-line");
     const sliderHandle = comparator.querySelector(".slider-handle");
     const imageContainer = comparator.querySelector(".image-container");
+    // La imagen interna del "before" debe mantener siempre el ancho total del contenedor
+    const beforeInnerImg = beforeContainer ? beforeContainer.querySelector("img") : null;
 
     if (!beforeContainer || !sliderLine || !sliderHandle || !imageContainer) return;
 
@@ -25,24 +27,27 @@ function initComparator(comparatorId) {
         return Math.max(min, Math.min(max, x));
     }
 
-    function toPercent(xPx, widthPx) {
-        if (widthPx <= 0) return 50;
-        return (xPx / widthPx) * 100;
+    // Fuerza la imagen interna a mantener el ancho completo del contenedor
+    // para que no se deforme al recortar el contenedor padre
+    function syncInnerImageWidth() {
+        if (!beforeInnerImg) return;
+        const w = imageContainer.offsetWidth;
+        beforeInnerImg.style.width = w + "px";
     }
 
     function setVisualPosition(xPx) {
         const b = bounds();
         const w = b.width;
         const x = clamp(xPx, 0, w);
-        const percent = toPercent(x, w);
 
-        // Actualiza el recorte del BEFORE (más eficiente que forzar layout global)
-        // Ajustamos con width en px dentro del contenedor
+        // Recorta el contenedor del BEFORE sin alterar la posición interna de la imagen
         beforeContainer.style.width = `${x}px`;
 
-        // Mover línea y manija con transform para mejor rendimiento (GPU)
+        // Mueve línea y manija con transform (GPU, sin forzar layout)
+        // La línea se desplaza desde su borde izquierdo (origen 0)
         sliderLine.style.transform = `translateX(${x}px)`;
-        sliderHandle.style.transform = `translate(${x}px, -50%)`;
+        // El handle se centra sobre la línea restando la mitad de su ancho (22px = 44px / 2)
+        sliderHandle.style.transform = `translate(calc(${x}px - 50%), -50%)`;
     }
 
     function scheduleRender(nextXPx) {
@@ -54,6 +59,19 @@ function initComparator(comparatorId) {
             if (targetXPx == null) return;
             setVisualPosition(targetXPx);
         });
+    }
+
+    // Actualiza el ancho de la imagen interna al redimensionar la ventana
+    function onResize() {
+        syncInnerImageWidth();
+        // Reposiciona al 50% si aún no se ha interactuado
+        const currentWidth = parseFloat(beforeContainer.style.width);
+        if (!Number.isNaN(currentWidth)) {
+            const b = bounds();
+            // Mantener la proporción relativa actual
+            const ratio = currentWidth / (b.width || 1);
+            setVisualPosition(ratio * b.width);
+        }
     }
 
     function positionFromClientX(clientX) {
@@ -149,11 +167,12 @@ function initComparator(comparatorId) {
     comparator.setAttribute("tabindex", "0");
     comparator.dataset.ready = "true";
 
-    // Posición inicial al 50%
+    // Sincroniza el ancho de la imagen interna y posiciona al 50% inicial
+    window.addEventListener("resize", onResize);
     requestAnimationFrame(() => {
+        syncInnerImageWidth();
         const b = bounds();
-        const xPx = b.width / 2;
-        setVisualPosition(xPx);
+        setVisualPosition(b.width / 2);
     });
 }
 
