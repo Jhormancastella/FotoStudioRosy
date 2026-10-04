@@ -3,489 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Rosy Photo Studio: galeria fotografica profesional, restauracion y colorizacion de imagenes.">
+    <meta name="description" content="Rosy Photo Studio — Restauración, colorización y galería fotográfica profesional en Tibú, Norte de Santander, Colombia.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://rosyfotostudio.qd.je/">
-    <title>Foto Estudio Rosy - Galería</title>
+    <title>Rosy Photo Studio — Inicio</title>
     <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: ['selector', '[data-theme="dark"]'],
-            theme: {
-                extend: {
-                    fontFamily: {
-                        script: ['"Great Vibes"', 'cursive'],
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        accent: {
-                            DEFAULT: '#fc25a2',
-                            dark: '#ff4cb5',
-                            soft: '#fce4f2',
-                            'soft-dark': '#4f1d42',
-                        },
-                        surface: {
-                            DEFAULT: '#ffffff',
-                            soft: '#f9f9ff',
-                            card: '#ffffff',
-                            'dark': '#111827',
-                            'dark-soft': '#1f2937',
-                            'dark-card': '#182334',
-                        }
-                    },
-                    animation: {
-                        'shimmer': 'shimmer 1.2s linear infinite',
-                        'spin-slow': 'spin 0.8s linear infinite',
-                        'fade-in': 'fadeIn 0.3s ease',
-                    },
-                    keyframes: {
-                        shimmer: {
-                            '0%': { backgroundPosition: '200% 0' },
-                            '100%': { backgroundPosition: '-200% 0' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'scale(0.97)' },
-                            '100%': { opacity: '1', transform: 'scale(1)' },
-                        }
-                    },
-                    backgroundImage: {
-                        'header-light': 'linear-gradient(135deg, #f8e1f0 0%, #fc25a2 100%)',
-                        'header-dark': 'linear-gradient(135deg, #3f1d3d 0%, #93256b 100%)',
-                        'page-light': 'linear-gradient(135deg, #f0f4ff 0%, #e8d5f0 50%, #fce4f2 100%)',
-                        'page-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-                    }
-                }
-            }
+            theme: { extend: {
+                fontFamily: { script: ['"Great Vibes"','cursive'], sans: ['Inter','system-ui','sans-serif'] }
+            }}
         }
     </script>
     <link rel="stylesheet" href="styles.css">
-</head>
-<body class="min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#e8d5f0] to-[#fce4f2] dark:from-[#0f172a] dark:via-[#1a1f35] dark:to-[#1e293b] text-gray-800 dark:text-gray-100 font-sans transition-colors duration-300 p-4 md:p-6">
+    <!-- Aplica el tema guardado ANTES de renderizar para evitar flash blanco -->
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script></head>
+<body class="page-body">
 
-    <!-- Main Container -->
-    <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+    <!-- Navbar inyectada por JS -->
+    <div id="nav-placeholder"></div>
 
-        <!-- Header -->
-        <header class="relative overflow-hidden text-white" style="background: linear-gradient(135deg, #2d0a1f 0%, #6b1045 35%, #c01878 70%, #fc25a2 100%);">
+    <div class="page-wrapper">
 
-            <!-- Subtle noise texture overlay -->
-            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-
-            <!-- Glow orbs -->
-            <div class="absolute -top-16 -left-16 w-64 h-64 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #ff80c8 0%, transparent 70%);"></div>
-            <div class="absolute -bottom-10 -right-10 w-56 h-56 rounded-full opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ff4cb5 0%, transparent 70%);"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 opacity-10 pointer-events-none blur-3xl" style="background: #fc25a2;"></div>
-
-            <!-- Top bar: controls -->
-            <div class="relative flex items-center justify-between px-5 pt-4 pb-0">
-                <!-- Left: language + theme -->
-                <div class="flex items-center gap-2">
-                    <label for="languageSelect" class="sr-only" data-i18n="controls.languageLabel">Idioma</label>
-                    <div class="relative">
-                        <select id="languageSelect"
-                                aria-label="Idioma"
-                                class="appearance-none bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg pl-3 pr-7 py-1.5 text-xs font-medium cursor-pointer outline-none transition-all duration-200 backdrop-blur-sm [&>option]:text-gray-900 [&>option]:bg-white">
-                            <option value="es" data-i18n="controls.spanish">Español</option>
-                            <option value="en" data-i18n="controls.english">English</option>
-                        </select>
-                        <i class="fas fa-chevron-down absolute right-2 top-1/2 -translate-y-1/2 text-white/60 text-[9px] pointer-events-none"></i>
-                    </div>
-                    <button id="themeToggle"
-                            type="button"
-                            class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg px-3 py-1.5 text-xs font-medium cursor-pointer transition-all duration-200 backdrop-blur-sm"
-                            data-i18n="controls.themeToDark">
-                        <i class="fas fa-moon text-[10px]"></i>
-                        <span>Tema oscuro</span>
-                    </button>
-                </div>
-
-                <!-- Right: admin -->
-                <div class="flex items-center gap-2">
-                    <button id="adminLoginBtn"
-                            type="button"
-                            aria-label="Acceso administrador"
-                            title="Acceso administrador"
-                            class="flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/25 text-white/80 hover:text-white rounded-lg w-8 h-8 cursor-pointer transition-all duration-200 backdrop-blur-sm group">
-                        <i class="fas fa-lock text-xs group-hover:text-yellow-300 transition-colors"></i>
-                    </button>
-                    <button id="logoutBtn"
-                            type="button"
-                            class="hidden items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white rounded-lg px-3 py-1.5 text-xs font-medium cursor-pointer transition-all duration-200 backdrop-blur-sm">
-                        <i class="fas fa-sign-out-alt text-[10px]"></i>
-                        <span data-i18n="admin.logout">Cerrar Sesión</span>
-                    </button>
-                    <div id="adminStatus"
-                         class="hidden items-center gap-1.5 bg-yellow-400/20 text-yellow-200 text-xs font-medium rounded-lg px-3 py-1.5 border border-yellow-400/30 backdrop-blur-sm"
-                         data-i18n="admin.status">
-                        <i class="fas fa-shield-alt text-[10px]"></i>
-                        Modo Administrador
+        <!-- ── Hero ──────────────────────────────────────────── -->
+        <section class="page-card animate-fade-in" style="margin-top:1.5rem">
+            <div class="hero-section-inner">
+                <div class="hero-dots-bg" aria-hidden="true"></div>
+                <div style="position:relative;z-index:1">
+                    <span class="section-badge"><i class="fas fa-camera"></i> Foto Estudio Profesional</span>
+                    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3.2rem);margin-top:.5rem">
+                        Transformamos tus <span style="color:#fc25a2">recuerdos</span> en arte
+                    </h1>
+                    <p class="section-subtitle" style="max-width:560px;margin:.75rem auto 1.75rem">
+                        Restauración, colorización y reencuadre de fotografías históricas. Capturamos la esencia de cada momento con precisión y cuidado artesanal.
+                    </p>
+                    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+                        <a href="pages/catalogo.html" class="btn-primary">
+                            <i class="fas fa-th-large"></i> Ver Catálogo
+                        </a>
+                        <a href="pages/cotizar.html" class="btn-secondary">
+                            <i class="fas fa-calculator"></i> Cotizar ahora
+                        </a>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Center: branding -->
-            <div class="relative text-center px-6 py-7">
-                <a class="inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 no-underline text-white group" href="./" aria-label="Recargar página">
-                    <!-- Logo with glow ring -->
-                    <div class="relative">
-                        <div class="absolute inset-0 rounded-full blur-md opacity-60" style="background: radial-gradient(circle, #ff80c8, transparent 70%);"></div>
-                        <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png"
-                             alt="Logo Rosy Photo Studio"
-                             class="relative h-24 w-auto drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+        <!-- ── Servicios rápidos ────────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-magic"></i> Lo que hacemos</span>
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;padding:0 1.5rem 2rem">
+                <div class="service-card">
+                    <div class="service-card__icon"><i class="fas fa-magic"></i></div>
+                    <div>
+                        <p class="service-card__title">Restauración</p>
+                        <p class="service-card__desc">Reparamos desgarros, manchas y deterioro de fotos antiguas con resultados sorprendentes.</p>
                     </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> Desgarros</span>
+                        <span class="pill"><i class="fas fa-check"></i> Manchas</span>
+                    </div>
+                    <a href="pages/servicios.html#restauracion" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Ver más →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(139,92,246,.1);color:#7c3aed"><i class="fas fa-palette"></i></div>
+                    <div>
+                        <p class="service-card__title">Colorización</p>
+                        <p class="service-card__desc">Damos vida a tus fotos en blanco y negro con colores naturales y vibrantes.</p>
+                    </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> B&amp;N → Color</span>
+                        <span class="pill"><i class="fas fa-check"></i> Natural</span>
+                    </div>
+                    <a href="pages/servicios.html#colorizacion" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Ver más →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(16,185,129,.1);color:#059669"><i class="fas fa-crop-alt"></i></div>
+                    <div>
+                        <p class="service-card__title">Reencuadre y retoque</p>
+                        <p class="service-card__desc">Ajustamos composición, eliminamos fondos y aplicamos retoques profesionales.</p>
+                    </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> Composición</span>
+                        <span class="pill"><i class="fas fa-check"></i> Retoque</span>
+                    </div>
+                    <a href="pages/servicios.html" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Ver más →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(245,158,11,.1);color:#d97706"><i class="fas fa-print"></i></div>
+                    <div>
+                        <p class="service-card__title">Impresión profesional</p>
+                        <p class="service-card__desc">Imprimimos en papel fotográfico, canvas, acrílico, madera y aluminio en múltiples tamaños.</p>
+                    </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> Canvas</span>
+                        <span class="pill"><i class="fas fa-check"></i> Acrílico</span>
+                    </div>
+                    <a href="pages/cotizar.html" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Cotizar →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(6,182,212,.1);color:#0891b2"><i class="fas fa-flag"></i></div>
+                    <div>
+                        <p class="service-card__title">Pendones</p>
+                        <p class="service-card__desc">Pendones verticales de alta resolución para eventos, negocios y publicidad. Impresión en lona brillante o mate.</p>
+                    </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> Lona brillante</span>
+                        <span class="pill"><i class="fas fa-check"></i> Lona mate</span>
+                    </div>
+                    <a href="pages/cotizar.html" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Cotizar →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(234,179,8,.1);color:#ca8a04"><i class="fas fa-image"></i></div>
+                    <div>
+                        <p class="service-card__title">Retablos</p>
+                        <p class="service-card__desc">Retablos fotográficos montados en madera o PVC, ideales para decoración y recuerdos especiales.</p>
+                    </div>
+                    <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                        <span class="pill"><i class="fas fa-check"></i> Madera</span>
+                        <span class="pill"><i class="fas fa-check"></i> PVC</span>
+                    </div>
+                    <a href="pages/cotizar.html" class="btn-secondary" style="align-self:flex-start;font-size:.8rem">Cotizar →</a>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Title block -->
-                    <div class="flex flex-col items-center sm:items-start gap-1">
-                        <!-- Thin divider line on desktop -->
-                        <div class="hidden sm:block w-px h-14 bg-white/20 absolute" style="left: calc(50% - 1px); display: none;"></div>
-                        <span class="font-script leading-none drop-shadow-lg" style="font-size: clamp(2.8rem, 6vw, 4.5rem); text-shadow: 0 2px 20px rgba(0,0,0,0.3);">Rosy Photo Studio</span>
-                        <div class="flex items-center gap-2 mt-1">
-                            <div class="w-8 h-px bg-white/40"></div>
-                            <i class="fas fa-camera text-white/60 text-xs"></i>
-                            <div class="w-8 h-px bg-white/40"></div>
-                        </div>
-                        <p class="text-white/75 text-sm font-light tracking-[0.15em] uppercase mt-0.5" data-i18n="header.tagline">
-                            Capturando momentos especiales
-                        </p>
-                    </div>
+        <!-- ── Galería preview ──────────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-images"></i> Galería</span>
+                <h2 class="section-title">Trabajos recientes</h2>
+                <p class="section-subtitle">Una muestra de nuestra galería completa</p>
+                <div class="section-divider"></div>
+            </div>
+            <div style="padding:0 1.5rem 1rem">
+                <div class="gallery-loading" id="galleryLoading">
+                    <span class="loading-spinner"></span>
+                    <span>Cargando imágenes…</span>
+                </div>
+                <div class="gallery-grid" id="imageGallery"></div>
+            </div>
+            <div style="text-align:center;padding:1rem 1.5rem 2rem">
+                <a href="pages/catalogo.html" class="btn-primary">
+                    <i class="fas fa-th-large"></i> Ver catálogo completo
                 </a>
             </div>
+        </section>
 
-            <!-- Bottom decorative border -->
-            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="p-6 md:p-8">
-
-            <!-- Upload Section (admin only) -->
-            <section id="uploadSection" class="hidden mb-8 animate-fade-in">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-5 flex items-center gap-2">
-                    <span class="w-8 h-8 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-cloud-upload-alt text-[#fc25a2] text-sm"></i>
-                    </span>
-                    <span data-i18n="upload.title">Subir Nueva Imagen</span>
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 p-6 text-center hover:border-[#fc25a2]/50 hover:shadow-md transition-all duration-200">
-                        <div class="w-12 h-12 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-upload text-[#fc25a2] text-xl"></i>
-                        </div>
-                        <h3 class="font-medium text-gray-800 dark:text-gray-100 mb-3" data-i18n="upload.deviceTitle">Subir desde tu dispositivo</h3>
-                        <button id="cloudinaryBtn"
-                                type="button"
-                                class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
-                                data-i18n="upload.deviceButton">Abrir Cloudinary</button>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 p-6 text-center hover:border-[#fc25a2]/50 hover:shadow-md transition-all duration-200">
-                        <div class="w-12 h-12 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-link text-[#fc25a2] text-xl"></i>
-                        </div>
-                        <h3 class="font-medium text-gray-800 dark:text-gray-100 mb-3" data-i18n="upload.urlTitle">Usar enlace de imagen</h3>
-                        <button id="useUrlBtn"
-                                type="button"
-                                class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
-                                data-i18n="upload.urlButton">Usar URL</button>
-                    </div>
-                </div>
-                <div id="urlUploadArea" class="hidden border-2 border-dashed border-[#fc25a2]/40 rounded-xl bg-[#fc25a2]/5 dark:bg-[#fc25a2]/5 p-6 text-center">
-                    <i class="fas fa-link text-[#fc25a2] text-3xl mb-3 block"></i>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm" data-i18n="upload.urlDescription">Ingresa la URL de una imagen en internet</p>
-                    <input type="text"
-                           id="urlInput"
-                           class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all"
-                           placeholder="https://ejemplo.com/imagen.jpg"
-                           data-i18n-placeholder="upload.urlPlaceholder">
-                    <button class="bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg px-6 py-2.5 text-sm font-medium transition-colors duration-200 cursor-pointer"
-                            id="urlSubmit"
-                            type="button"
-                            data-i18n="upload.addImage">Agregar Imagen</button>
-                </div>
-            </section>
-
-            <!-- Gallery Section -->
-            <section class="gallery-section">
-                <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-2" data-i18n="gallery.title">Galería de Imágenes</h1>
-                <div class="w-16 h-1 bg-gradient-to-r from-[#fc25a2] to-pink-300 rounded-full mx-auto mb-6"></div>
-
-                <div class="flex justify-center items-center gap-3 mb-6">
-                    <label for="cantidadSelector" class="text-sm font-medium text-gray-600 dark:text-gray-400" data-i18n="gallery.amountLabel">Imágenes a mostrar:</label>
-                    <select id="cantidadSelector"
-                            class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all cursor-pointer">
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="9999" data-i18n="gallery.optionAll">Todas</option>
-                    </select>
-                </div>
-
-                <div class="gallery-wrapper relative">
-                    <div class="gallery-loading hidden absolute inset-0 z-10 flex items-center justify-center gap-3 rounded-xl bg-white/75 dark:bg-gray-900/75 backdrop-blur-sm font-semibold text-gray-700 dark:text-gray-200" id="galleryLoading" aria-live="polite">
-                        <span class="loading-spinner w-5 h-5 rounded-full border-2 border-gray-300 border-t-[#fc25a2] animate-spin-slow" aria-hidden="true"></span>
-                        <span data-i18n="gallery.loading">Cargando imágenes...</span>
-                    </div>
-                    <div class="gallery grid gap-4 min-h-[140px]" id="imageGallery"
-                         style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))">
-                        <p class="empty-message col-span-full bg-gray-50 dark:bg-gray-800 rounded-xl p-10 text-center text-gray-500 dark:text-gray-400"
-                           id="emptyMessage"
-                           data-i18n="gallery.empty">No hay imágenes en la galería.</p>
-                    </div>
-                </div>
-
-                <div id="pagination" class="hidden mt-6 flex justify-center gap-2 flex-wrap"></div>
-                <div id="paginationInfo" class="hidden text-center mt-3 text-sm text-gray-500 dark:text-gray-400"></div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Comparator Section -->
-    <div class="max-w-6xl mx-auto mt-6 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
-
-        <!-- Section Header -->
-        <div class="relative bg-gradient-to-r from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-800/80 dark:via-gray-800/60 dark:to-gray-800/80 px-6 md:px-10 py-8 border-b border-gray-100 dark:border-gray-700/50">
-            <div class="text-center">
-                <span class="inline-flex items-center gap-2 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 text-[#fc25a2] text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
-                    <i class="fas fa-magic text-[10px]"></i> Nuestros Servicios
-                </span>
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2" data-i18n="comparator.title">Comparador de Imágenes</h1>
-                <p class="text-gray-500 dark:text-gray-400 text-sm max-w-md mx-auto">Desliza el divisor para ver la transformación en tiempo real</p>
+        <!-- ── Comparador preview ───────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-exchange-alt"></i> Antes / Después</span>
+                <h2 class="section-title">Ve la diferencia</h2>
+                <p class="section-subtitle">Desliza el divisor para comparar el resultado</p>
+                <div class="section-divider"></div>
             </div>
+            <div class="comparators-preview-grid">
+                <!-- Restauración -->
+                <div>
+                    <p style="font-weight:600;font-size:.875rem;color:#6b7280;margin-bottom:.5rem;text-align:center">Restauración</p>
+                    <div class="comparison-container" id="comparator-restauracion">
+                        <div class="image-container">
+                            <!-- image-after = fondo (derecha) = RESTAURADA -->
+                            <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg" alt="Foto restaurada">
+                            <!-- image-before = recorte izquierda = ORIGINAL DAÑADA -->
+                            <div class="image-before">
+                                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873175/Rosy/riqnvhzae5niudf8zyue.png" alt="Foto dañada original">
+                            </div>
+                            <!-- Izquierda muestra la Original (image-before empieza desde izquierda) -->
+                            <span style="position:absolute;top:.5rem;left:.5rem;z-index:3;background:rgba(0,0,0,.65);color:#fff;font-size:.68rem;font-weight:600;padding:.2rem .55rem;border-radius:99px">Restaurada</span>
+                            <!-- Derecha muestra Restaurada (image-after = fondo a la derecha) -->
+                            <span style="position:absolute;top:.5rem;right:.5rem;z-index:3;background:rgba(252,37,162,.9);color:#fff;font-size:.68rem;font-weight:600;padding:.2rem .55rem;border-radius:99px">✨ Original</span>
+                            <div class="slider-line"></div>
+                            <div class="slider-handle"><div style="display:flex;gap:2px"><i class="fas fa-chevron-left" style="color:#fc25a2;font-size:.65rem"></i><i class="fas fa-chevron-right" style="color:#fc25a2;font-size:.65rem"></i></div></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Colorización -->
+                <div>
+                    <p style="font-weight:600;font-size:.875rem;color:#6b7280;margin-bottom:.5rem;text-align:center">Colorización</p>
+                    <div class="comparison-container" id="comparator-colorizacion">
+                        <div class="image-container">
+                            <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png" alt="Después colorización" loading="lazy">
+                            <div class="image-before">
+                                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg" alt="Antes colorización">
+                            </div>
+                            <span style="position:absolute;top:.5rem;left:.5rem;z-index:3;background:rgba(0,0,0,.55);color:#fff;font-size:.68rem;font-weight:600;padding:.2rem .55rem;border-radius:99px">B&amp;N</span>
+                            <span style="position:absolute;top:.5rem;right:.5rem;z-index:3;background:rgba(252,37,162,.85);color:#fff;font-size:.68rem;font-weight:600;padding:.2rem .55rem;border-radius:99px">Con color</span>
+                            <div class="slider-line"></div>
+                            <div class="slider-handle"><div style="display:flex;gap:2px"><i class="fas fa-chevron-left" style="color:#fc25a2;font-size:.65rem"></i><i class="fas fa-chevron-right" style="color:#fc25a2;font-size:.65rem"></i></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;padding:0 1.5rem 2rem">
+                <a href="pages/servicios.html" class="btn-primary">
+                    <i class="fas fa-magic"></i> Ver todos los servicios
+                </a>
+            </div>
+        </section>
 
-            <!-- Instructions pills -->
-            <div class="flex flex-wrap justify-center gap-2 mt-5">
-                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
-                    <span>↔</span> <span data-i18n="comparator.instructions.slide">Desliza para comparar</span>
-                </span>
-                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
-                    <span>🖱️</span> <span data-i18n="comparator.instructions.drag">Arrastra con precisión</span>
-                </span>
-                <span class="inline-flex items-center gap-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 shadow-sm">
-                    <span>📱</span> <span data-i18n="comparator.instructions.mobile">Compatible táctil</span>
-                </span>
+        <!-- ── Por qué elegirnos ────────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-star"></i> ¿Por qué elegirnos?</span>
+                <h2 class="section-title">Calidad garantizada</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;padding:0 1.5rem 2.5rem;text-align:center">
+                <div style="padding:1.25rem .5rem">
+                    <div style="width:3rem;height:3rem;background:rgba(252,37,162,.1);border-radius:.85rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;color:#fc25a2;font-size:1.3rem"><i class="fas fa-award"></i></div>
+                    <p style="font-weight:700;font-size:.95rem;color:#111827" class="dark-title">+10 años de experiencia</p>
+                    <p style="font-size:.82rem;color:#6b7280;margin-top:.3rem">Técnicas profesionales depuradas con el tiempo</p>
+                </div>
+                <div style="padding:1.25rem .5rem">
+                    <div style="width:3rem;height:3rem;background:rgba(139,92,246,.1);border-radius:.85rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;color:#7c3aed;font-size:1.3rem"><i class="fas fa-heart"></i></div>
+                    <p style="font-weight:700;font-size:.95rem;color:#111827" class="dark-title">Trabajo artesanal</p>
+                    <p style="font-size:.82rem;color:#6b7280;margin-top:.3rem">Cada foto tratada con amor y atención al detalle</p>
+                </div>
+                <div style="padding:1.25rem .5rem">
+                    <div style="width:3rem;height:3rem;background:rgba(16,185,129,.1);border-radius:.85rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;color:#059669;font-size:1.3rem"><i class="fas fa-clock"></i></div>
+                    <p style="font-weight:700;font-size:.95rem;color:#111827" class="dark-title">Entrega rápida</p>
+                    <p style="font-size:.82rem;color:#6b7280;margin-top:.3rem">Plazos cumplidos y comunicación constante</p>
+                </div>
+                <div style="padding:1.25rem .5rem">
+                    <div style="width:3rem;height:3rem;background:rgba(245,158,11,.1);border-radius:.85rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;color:#d97706;font-size:1.3rem"><i class="fas fa-shield-alt"></i></div>
+                    <p style="font-weight:700;font-size:.95rem;color:#111827" class="dark-title">Satisfacción garantizada</p>
+                    <p style="font-size:.82rem;color:#6b7280;margin-top:.3rem">Si no quedas satisfecho, lo corregimos sin costo</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CTA Cotizar ──────────────────────────────────── -->
+        <section style="background:linear-gradient(135deg,#fc25a2,#7c3aed);border-radius:1.25rem;padding:2.5rem 2rem;text-align:center;margin-top:1.25rem;color:#fff;box-shadow:0 8px 32px rgba(252,37,162,.35)">
+            <h2 style="font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;margin-bottom:.75rem">¿Listo para revivir tus recuerdos?</h2>
+            <p style="opacity:.88;font-size:.95rem;margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto">Calcula el precio de tu pedido al instante y envíanos una solicitud. Te respondemos en menos de 24 horas.</p>
+            <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+                <a href="pages/cotizar.html" style="background:#fff;color:#fc25a2;padding:.75rem 1.75rem;border-radius:.7rem;font-weight:700;text-decoration:none;font-size:.95rem;transition:transform .18s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                    <i class="fas fa-calculator"></i> Cotizar ahora
+                </a>
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:.75rem 1.75rem;border-radius:.7rem;font-weight:600;text-decoration:none;font-size:.95rem">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- ── Mapa de ubicación ────────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem;overflow:hidden">
+            <div style="display:grid;grid-template-columns:1fr 1.6fr;min-height:300px" class="index-map-grid">
+                <!-- Info -->
+                <div style="padding:2rem 1.5rem;display:flex;flex-direction:column;gap:1rem;justify-content:center;background:linear-gradient(135deg,#fce4f2 0%,#e0e7ff 100%)">
+                    <div>
+                        <span style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(252,37,162,.12);color:#fc25a2;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.25rem .7rem;border-radius:99px;margin-bottom:.6rem">
+                            <i class="fas fa-map-marker-alt"></i> Encuéntranos
+                        </span>
+                        <h2 style="font-size:1.25rem;font-weight:800;color:#111827;line-height:1.3;margin:0">Rosy Photo Studio</h2>
+                        <p style="font-size:.82rem;color:#6b7280;margin-top:.2rem">Tibú, Norte de Santander</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:.75rem">
+                        <div style="display:flex;align-items:flex-start;gap:.65rem">
+                            <div style="width:2rem;height:2rem;background:rgba(252,37,162,.1);border-radius:.5rem;display:flex;align-items:center;justify-content:center;color:#fc25a2;flex-shrink:0;font-size:.85rem"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <p style="font-size:.7rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em">Dirección</p>
+                                <p style="font-size:.875rem;color:#374151;font-weight:500">Barrio Divino Niño<br>Calle 10 #10-37<br>Tibú, Norte de Santander</p>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:.65rem">
+                            <div style="width:2rem;height:2rem;background:rgba(37,211,102,.1);border-radius:.5rem;display:flex;align-items:center;justify-content:center;color:#25d366;flex-shrink:0;font-size:.85rem"><i class="fab fa-whatsapp"></i></div>
+                            <div>
+                                <p style="font-size:.7rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em">WhatsApp</p>
+                                <a href="https://wa.me/573229135021" target="_blank" rel="noopener" style="font-size:.875rem;color:#25d366;font-weight:600;text-decoration:none">+57 322 913 5021</a>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:.65rem">
+                            <div style="width:2rem;height:2rem;background:rgba(139,92,246,.1);border-radius:.5rem;display:flex;align-items:center;justify-content:center;color:#7c3aed;flex-shrink:0;font-size:.85rem"><i class="fas fa-clock"></i></div>
+                            <div>
+                                <p style="font-size:.7rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em">Horario</p>
+                                <p style="font-size:.82rem;color:#374151">Lun – Vie: 8am – 6pm<br>Sáb: 9am – 2pm</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="pages/contactanos.html" class="btn-primary" style="align-self:flex-start;font-size:.82rem;padding:.5rem 1rem">
+                        <i class="fas fa-envelope"></i> Contáctanos
+                    </a>
+                </div>
+                <!-- Mapa -->
+                <div style="min-height:300px">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.0!2d-72.7286!3d8.6576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e68e8c8c8c8c8c9%3A0x1!2sTib%C3%BA%2C+Norte+de+Santander%2C+Colombia!5e0!3m2!1ses!2sco!4v1700000000001!5m2!1ses!2sco"
+                        width="100%" height="100%" style="border:0;display:block;min-height:300px"
+                        allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Ubicación Rosy Photo Studio — Tibú, Norte de Santander">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redes sociales -->
+        <div class="social-section" style="margin-top:1.25rem">
+            <p class="social-title" data-i18n="social.title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
             </div>
         </div>
 
-        <div class="p-6 md:p-10 space-y-8">
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p style="margin-bottom:.35rem"><span data-i18n="footer.rights">© 2025 Todos los derechos reservados — </span><strong>Jhorman Castellanos Morales</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-bottom:.5rem"><i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander</p>
+            <div style="display:flex;justify-content:center;gap:.75rem;margin-top:.6rem;flex-wrap:wrap">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" style="color:#25d366;font-size:.82rem;text-decoration:none"><i class="fab fa-whatsapp"></i> +57 322 913 5021</a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" style="color:#1877f2;font-size:.82rem;text-decoration:none"><i class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" style="color:#e4405f;font-size:.82rem;text-decoration:none"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" style="color:#111827;font-size:.82rem;text-decoration:none"><i class="fab fa-tiktok"></i> TikTok</a>
+            </div>
+        </footer>
 
-            <!-- Restoration -->
-            <section id="restauracion" class="group">
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-center">
-
-                    <!-- Info panel -->
-                    <div class="lg:col-span-2 space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-magic text-rose-600 dark:text-rose-400"></i>
-                            </div>
-                            <h2 class="section-title text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="restoration.title">Restauración</h2>
-                        </div>
-
-                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm" data-i18n="restoration.description">
-                            Nuestro proceso de restauración devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y otros daños mientras preservamos la esencia original de la imagen.
-                        </p>
-
-                        <!-- Feature pills -->
-                        <div class="flex flex-wrap gap-2 pt-1">
-                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Desgarros y rasgaduras
-                            </span>
-                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Manchas y deterioro
-                            </span>
-                            <span class="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 text-xs font-medium px-3 py-1 rounded-full border border-rose-100 dark:border-rose-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Fotos antiguas
-                            </span>
-                        </div>
-
-                        <!-- Before/After legend -->
-                        <div class="flex items-center gap-4 pt-2">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="restoration.before">Antes</span>
-                            </div>
-                            <div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#fc25a2]"></span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="restoration.after">Después</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Comparator -->
-                    <div class="lg:col-span-3">
-                        <div class="comparison-container rounded-2xl overflow-hidden shadow-xl cursor-col-resize ring-1 ring-gray-200 dark:ring-gray-700" id="comparator-restauracion">
-                            <div class="image-container relative w-full overflow-hidden" style="aspect-ratio: 4/3">
-                                <img class="image-after absolute inset-0 w-full h-full object-contain bg-black z-[1]"
-                                     src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873175/Rosy/riqnvhzae5niudf8zyue.png"
-                                     alt="Imagen después de restauración">
-                                <div class="image-before absolute inset-y-0 left-0 w-1/2 overflow-hidden z-[2]">
-                                    <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg"
-                                         alt="Imagen antes de restauración"
-                                         class="absolute inset-y-0 left-0 h-full bg-black" style="object-fit:contain;object-position:center;max-width:none;">
-                                </div>
-                                <!-- Before label -->
-                                <span class="absolute top-3 left-3 z-[3] bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="restoration.before">Antes</span>
-                                <!-- After label -->
-                                <span class="absolute top-3 right-3 z-[3] bg-[#fc25a2]/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="restoration.after">Después</span>
-                                <div class="slider-line absolute top-0 bottom-0 left-0 w-[3px] bg-white z-[5] will-change-transform shadow-[0_0_8px_rgba(0,0,0,0.5)]"></div>
-                                <div class="slider-handle absolute left-0 top-1/2 w-11 h-11 -translate-y-1/2 rounded-full bg-white shadow-[0_0_16px_rgba(0,0,0,0.5)] z-[6] touch-none will-change-transform flex items-center justify-center border-2 border-[#fc25a2]/30">
-                                    <div class="flex gap-0.5">
-                                        <i class="fas fa-chevron-left text-[#fc25a2] text-xs"></i>
-                                        <i class="fas fa-chevron-right text-[#fc25a2] text-xs"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Divider -->
-            <div class="border-t border-gray-100 dark:border-gray-700/50"></div>
-
-            <!-- Colorization -->
-            <section id="colorizacion" class="group">
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-center">
-
-                    <!-- Comparator (left on desktop) -->
-                    <div class="lg:col-span-3 lg:order-1 order-2">
-                        <div class="comparison-container rounded-2xl overflow-hidden shadow-xl cursor-col-resize ring-1 ring-gray-200 dark:ring-gray-700" id="comparator-colorizacion">
-                            <div class="image-container relative w-full overflow-hidden" style="aspect-ratio: 4/3">
-                                <img class="image-after absolute inset-0 w-full h-full object-contain bg-black z-[1]"
-                                     src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757806166/Rosy/xrcskkzenwojxwengwss.png"
-                                     alt="Imagen después de colorización">
-                                <div class="image-before absolute inset-y-0 left-0 w-1/2 overflow-hidden z-[2]">
-                                    <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg"
-                                         alt="Imagen antes de colorización"
-                                         class="absolute inset-y-0 left-0 h-full bg-black" style="object-fit:contain;object-position:center;max-width:none;">
-                                </div>
-                                <!-- Before label -->
-                                <span class="absolute top-3 left-3 z-[3] bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="colorization.before">B&N original</span>
-                                <!-- After label -->
-                                <span class="absolute top-3 right-3 z-[3] bg-[#fc25a2]/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none" data-i18n="colorization.after">Con color</span>
-                                <div class="slider-line absolute top-0 bottom-0 left-0 w-[3px] bg-white z-[5] will-change-transform shadow-[0_0_8px_rgba(0,0,0,0.5)]"></div>
-                                <div class="slider-handle absolute left-0 top-1/2 w-11 h-11 -translate-y-1/2 rounded-full bg-white shadow-[0_0_16px_rgba(0,0,0,0.5)] z-[6] touch-none will-change-transform flex items-center justify-center border-2 border-[#fc25a2]/30">
-                                    <div class="flex gap-0.5">
-                                        <i class="fas fa-chevron-left text-[#fc25a2] text-xs"></i>
-                                        <i class="fas fa-chevron-right text-[#fc25a2] text-xs"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Info panel (right on desktop) -->
-                    <div class="lg:col-span-2 lg:order-2 order-1 space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-palette text-fuchsia-600 dark:text-fuchsia-400"></i>
-                            </div>
-                            <h2 class="section-title text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="colorization.title">Colorización</h2>
-                        </div>
-
-                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm" data-i18n="colorization.description">
-                            Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original y los detalles históricos para un resultado natural y vibrante.
-                        </p>
-
-                        <!-- Feature pills -->
-                        <div class="flex flex-wrap gap-2 pt-1">
-                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Colores naturales
-                            </span>
-                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Respeta iluminación
-                            </span>
-                            <span class="bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-medium px-3 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-800/40">
-                                <i class="fas fa-check text-[10px] mr-1"></i>Resultado vibrante
-                            </span>
-                        </div>
-
-                        <!-- Before/After legend -->
-                        <div class="flex items-center gap-4 pt-2">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="colorization.before">B&N original</span>
-                            </div>
-                            <div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-fuchsia-500"></span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="colorization.after">Con colorización</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
     </div>
-
-    <!-- Social Section -->
-    <section class="max-w-6xl mx-auto mt-6 text-center">
-        <h3 class="text-lg font-semibold text-[#fc25a2] dark:text-[#ff4cb5] mb-4" data-i18n="social.title">Síguenos en nuestras redes</h3>
-        <div class="flex justify-center gap-5">
-            <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#25d366] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61585030661867" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#1877f2] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://www.instagram.com/rosyphotostudio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-               class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-[#e4405f] hover:scale-110 hover:shadow-lg transition-all duration-200 text-xl border border-gray-100 dark:border-gray-700">
-                <i class="fab fa-instagram"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="max-w-6xl mx-auto mt-6 bg-white dark:bg-gray-900 rounded-2xl shadow-md text-center py-6 px-4 text-sm text-gray-600 dark:text-gray-400">
-        <div class="flex items-center justify-center gap-2 mb-1">
-            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="h-6 w-auto opacity-70">
-            <span class="font-script text-[#fc25a2] text-xl">Rosy Photo Studio</span>
-        </div>
-        <p><span data-i18n="footer.rights">© 2025 Todos los derechos reservados – </span><strong class="text-gray-800 dark:text-gray-200">Jhorman Castellanos Morales</strong></p>
-        <p class="mt-1 text-xs text-gray-400 dark:text-gray-500" data-i18n="footer.caption">Rosy Photo Studio - Capturando momentos especiales</p>
-    </footer>
 
     <!-- Fullscreen Modal -->
-    <div id="fullScreenModal" class="fs-modal fixed inset-0 z-[2000] cursor-pointer" style="background: rgba(0,0,0,0.15); backdrop-filter: blur(20px) brightness(0.4); -webkit-backdrop-filter: blur(20px) brightness(0.4);">
-        <span class="fs-close absolute right-7 top-5 text-white text-5xl cursor-pointer hover:text-gray-300 transition-colors leading-none drop-shadow-lg">&times;</span>
-        <img class="fs-content max-w-[90%] max-h-[90%] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
-             id="fullScreenImage" src="" alt="Imagen ampliada">
-    </div>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm">
-        <div class="modal-content relative mt-[15vh] mx-auto w-full max-w-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-2xl p-7 shadow-2xl border border-gray-100 dark:border-gray-700 animate-fade-in">
-            <span class="close absolute right-5 top-4 text-2xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer leading-none transition-colors">&times;</span>
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 bg-[#fc25a2]/10 dark:bg-[#fc25a2]/20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-lock text-[#fc25a2] text-sm"></i>
-                </div>
-                <h2 class="text-xl font-bold text-[#fc25a2]" data-i18n="login.title">Acceso de Administrador</h2>
-            </div>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="login.description">Ingresa la contraseña para acceder al modo administrador:</p>
-            <input type="email"
-                   id="emailInput"
-                   placeholder="Correo administrador"
-                   data-i18n-placeholder="login.emailPlaceholder"
-                   class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all">
-            <input type="password"
-                   id="passwordInput"
-                   placeholder="Contraseña"
-                   data-i18n-placeholder="login.passwordPlaceholder"
-                   class="w-full mt-3 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm outline-none focus:border-[#fc25a2] focus:ring-2 focus:ring-[#fc25a2]/20 transition-all">
-            <button id="loginBtn"
-                    type="button"
-                    class="w-full mt-4 bg-[#fc25a2] hover:bg-[#d91d87] text-white rounded-lg py-2.5 font-semibold text-sm transition-colors duration-200 cursor-pointer"
-                    data-i18n="login.submit">Ingresar</button>
-            <p id="loginMessage" class="min-h-[20px] mt-3 text-sm text-red-500 text-center"></p>
-        </div>
+    <div id="fullScreenModal" class="fs-modal" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+        <button class="fs-close" id="fsClose" aria-label="Cerrar">&times;</button>
+        <img class="fs-img" id="fullScreenImage" src="" alt="Imagen ampliada">
     </div>
 
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>

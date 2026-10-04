@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
+</head>
+<body class="admin-body">
+
+<!-- ══════════════════════════════════════════════════════
+     PANTALLA DE LOGIN
+     ══════════════════════════════════════════════════════ -->
+<div id="adminLoginScreen">
+    <div class="login-card">
+        <div style="text-align:center;margin-bottom:2rem">
+            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png"
+                 alt="Logo" style="height:4.5rem;margin:0 auto .75rem;display:block;border-radius:.75rem">
+            <p style="font-family:'Great Vibes',cursive;font-size:2rem;color:#fc25a2;margin:0">Rosy Photo Studio</p>
+            <p style="font-size:.8rem;color:#64748b;margin-top:.3rem">Panel de Administración</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.85rem">
+            <div>
+                <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                    <i class="fas fa-envelope" style="margin-right:.3rem;color:#fc25a2"></i> Correo electrónico
+                </label>
+                <input type="email" id="loginEmail" class="admin-input"
+                       placeholder="admin@rosyphotostudio.com" autocomplete="email">
+            </div>
+            <div>
+                <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                    <i class="fas fa-lock" style="margin-right:.3rem;color:#fc25a2"></i> Contraseña
+                </label>
+                <input type="password" id="loginPassword" class="admin-input"
+                       placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button id="loginSubmitBtn" type="button" class="btn-admin btn-admin--primary"
+                    style="width:100%;justify-content:center;padding:.8rem;margin-top:.25rem;font-size:.9rem">
+                <i class="fas fa-lock-open"></i> Ingresar al panel
+            </button>
+            <p id="loginErr" style="min-height:1.1rem;text-align:center;font-size:.82rem;color:#f87171;margin:0"></p>
+        </div>
+        <p style="text-align:center;margin-top:1.75rem;font-size:.78rem">
+            <a href="index.html" style="color:#64748b;text-decoration:none;transition:color .15s"
+               onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#64748b'">
+                <i class="fas fa-arrow-left" style="margin-right:.3rem"></i> Volver al sitio
+            </a>
+        </p>
+    </div>
+</div>
+
+<!-- Backdrop sidebar móvil -->
+<div id="adminSidebarBackdrop" class="admin-sidebar-backdrop"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL ADMIN (oculto hasta autenticar)
+     ══════════════════════════════════════════════════════ -->
+<div id="adminPanel" class="hidden">
+<div class="admin-layout">
+
+    <!-- ────────────────────────────────────────────────
+         SIDEBAR
+         ──────────────────────────────────────────────── -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <!-- Logo -->
+        <div class="admin-sidebar-logo">
+            <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo">
+            <span>Rosy</span>
+        </div>
+
+        <!-- Nav principal -->
+        <span class="admin-nav-section">Principal</span>
+        <button class="admin-nav-item active" data-panel="dashboard">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </button>
+        <button class="admin-nav-item" data-panel="gallery">
+            <i class="fas fa-images"></i> Galería
+        </button>
+        <button class="admin-nav-item" data-panel="categories">
+            <i class="fas fa-folder-open"></i> Categorías
+        </button>
+
+        <span class="admin-nav-section">Clientes</span>
+        <button class="admin-nav-item" data-panel="quotes">
+            <i class="fas fa-calculator"></i> Cotizaciones
+            <span class="nav-badge hidden" id="quoteBadge">0</span>
+        </button>
+        <button class="admin-nav-item" data-panel="messages">
+            <i class="fas fa-envelope"></i> Mensajes
+            <span class="nav-badge hidden" id="msgBadge">0</span>
+        </button>
+
+        <span class="admin-nav-section">Configuración</span>
+        <button class="admin-nav-item" data-panel="pricing">
+            <i class="fas fa-tags"></i> Precios
+        </button>
+        <button class="admin-nav-item" data-panel="about">
+            <i class="fas fa-user-circle"></i> Sobre mí
+        </button>
+
+        <!-- Sidebar footer -->
+        <div class="admin-sidebar-footer">
+            <a href="index.html" class="admin-nav-item">
+                <i class="fas fa-external-link-alt"></i> Ver sitio
+            </a>
+            <button id="adminLogoutBtn" class="admin-nav-item" style="color:#f87171">
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </button>
+        </div>
+
+    </aside><!-- /sidebar -->
+
+    <!-- ────────────────────────────────────────────────
+         MAIN
+         ──────────────────────────────────────────────── -->
+    <div class="admin-main">
+
+        <!-- Topbar -->
+        <div class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button id="sidebarToggle" class="btn-admin btn-admin--secondary btn-admin--icon" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <p class="admin-topbar-title" id="panelTitle">Dashboard</p>
+            </div>
+            <div class="admin-topbar-right">
+                <div class="admin-user-chip">
+                    <div class="admin-user-avatar"><i class="fas fa-user"></i></div>
+                    <span id="adminUserEmail">Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="admin-content">
+
+            <!-- ══════════════════════════════════════
+                 PANEL: DASHBOARD
+                 ══════════════════════════════════════ -->
+            <div id="panel-dashboard" class="admin-tab-panel active">
+
+                <!-- Stats -->
+                <div class="admin-stats">
+                    <div class="admin-stat">
+                        <div class="admin-stat__icon"><i class="fas fa-images"></i></div>
+                        <div>
+                            <p class="admin-stat__value" id="statImgs">—</p>
+                            <p class="admin-stat__label">Imágenes en galería</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__icon"><i class="fas fa-calculator"></i></div>
+                        <div>
+                            <p class="admin-stat__value" id="statQuotes">—</p>
+                            <p class="admin-stat__label">Cotizaciones</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <p class="admin-stat__value" id="statMsgs">—</p>
+                            <p class="admin-stat__label">Mensajes</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__icon" style="background:rgba(234,179,8,.14);color:#fbbf24">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <p class="admin-stat__value" id="statUnread">—</p>
+                            <p class="admin-stat__label">Sin leer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accesos rápidos -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-bolt"></i> Accesos rápidos</p>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-quick-grid">
+                            <button class="admin-quick-btn" data-panel="gallery">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Subir imagen</span>
+                            </button>
+                            <button class="admin-quick-btn" data-panel="pricing">
+                                <i class="fas fa-tags"></i>
+                                <span>Editar precios</span>
+                            </button>
+                            <button class="admin-quick-btn" data-panel="quotes">
+                                <i class="fas fa-calculator"></i>
+                                <span>Cotizaciones</span>
+                            </button>
+                            <button class="admin-quick-btn" data-panel="messages">
+                                <i class="fas fa-envelope"></i>
+                                <span>Mensajes</span>
+                            </button>
+                            <button class="admin-quick-btn" data-panel="about">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Sobre mí</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /panel-dashboard -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: GALERÍA
+                 ══════════════════════════════════════ -->
+            <div id="panel-gallery" class="admin-tab-panel">
+
+                <!-- Subir imagen -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-cloud-upload-alt"></i> Subir nueva imagen</p>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-upload-grid">
+                            <div>
+                                <label class="form-label" style="color:#94a3b8;font-size:.78rem;margin-bottom:.35rem;display:block">Categoría</label>
+                                <select id="uploadCategory" class="admin-select">
+                                    <option value="todos">Sin categoría (Todos)</option>
+                                    <option value="restauracion">Restauración</option>
+                                    <option value="colorizacion">Colorización</option>
+                                    <option value="retratos">Retratos</option>
+                                    <option value="bebes">Bebés</option>
+                                    <option value="embarazo">Embarazo</option>
+                                    <option value="grados">Grados</option>
+                                    <option value="eventos">Eventos</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="color:#94a3b8;font-size:.78rem;margin-bottom:.35rem;display:block">Nombre (opcional)</label>
+                                <input type="text" id="uploadImageName" class="admin-input" placeholder="Descripción de la imagen">
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.25rem">
+                            <button id="adminCloudinaryBtn" type="button" class="btn-admin btn-admin--primary">
+                                <i class="fas fa-cloud-upload-alt"></i> Abrir Cloudinary
+                            </button>
+                            <button id="adminUrlToggle" type="button" class="btn-admin btn-admin--secondary">
+                                <i class="fas fa-link"></i> Usar URL
+                            </button>
+                        </div>
+                        <div id="adminUrlArea" class="hidden" style="margin-top:.85rem;display:flex;gap:.6rem;flex-wrap:wrap">
+                            <input type="text" id="adminUrlInput" class="admin-input"
+                                   placeholder="https://ejemplo.com/imagen.jpg" style="flex:1;min-width:200px">
+                            <button id="adminUrlSubmit" type="button" class="btn-admin btn-admin--primary" style="white-space:nowrap">
+                                <i class="fas fa-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de imágenes -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-th-large"></i> Imágenes en galería</p>
+                        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                            <select id="filterCategory" class="admin-select" style="width:auto;min-width:140px">
+                                <option value="todos">Todas</option>
+                                <option value="restauracion">Restauración</option>
+                                <option value="colorizacion">Colorización</option>
+                                <option value="retratos">Retratos</option>
+                                <option value="bebes">Bebés</option>
+                                <option value="embarazo">Embarazo</option>
+                                <option value="grados">Grados</option>
+                                <option value="eventos">Eventos</option>
+                            </select>
+                            <button id="refreshGallery" class="btn-admin btn-admin--secondary btn-admin--sm">
+                                <i class="fas fa-sync-alt"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <div id="adminGalleryLoading" style="text-align:center;padding:2.5rem;display:none">
+                            <i class="fas fa-spinner fa-spin" style="font-size:1.75rem;color:#fc25a2"></i>
+                            <p style="margin-top:.65rem;font-size:.85rem;color:#64748b">Cargando imágenes…</p>
+                        </div>
+                        <div class="admin-gallery-grid" id="adminGalleryGrid"></div>
+                    </div>
+                </div>
+
+            </div><!-- /panel-gallery -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: CATEGORÍAS
+                 ══════════════════════════════════════ -->
+            <div id="panel-categories" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-folder-open"></i> Categorías del catálogo</p>
+                        <button id="addCatBtn" class="btn-admin btn-admin--primary btn-admin--sm">
+                            <i class="fas fa-plus"></i> Nueva
+                        </button>
+                    </div>
+                    <div class="admin-card-body">
+                        <p style="font-size:.8rem;color:#64748b;margin-bottom:1rem">
+                            Las categorías se sincronizan con Firestore. Las predeterminadas se usan si no hay personalizadas.
+                        </p>
+                        <div id="categoriesList" style="display:flex;flex-direction:column;gap:.45rem"></div>
+                    </div>
+                </div>
+
+                <!-- Formulario nueva categoría -->
+                <div id="catFormCard" class="admin-card hidden" style="margin-top:0">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-plus-circle"></i> Nueva categoría</p>
+                    </div>
+                    <div class="admin-card-body" style="display:flex;flex-direction:column;gap:.85rem">
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                ID (slug, sin espacios)
+                            </label>
+                            <input type="text" id="catId" class="admin-input" placeholder="ej: familiar">
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                Nombre visible
+                            </label>
+                            <input type="text" id="catLabel" class="admin-input" placeholder="ej: Familiar">
+                        </div>
+
+                        <!-- Selector visual de ícono -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.5rem">
+                                Ícono
+                            </label>
+
+                            <!-- Vista previa del ícono seleccionado -->
+                            <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem">
+                                <div id="catIconPreview"
+                                     style="width:2.5rem;height:2.5rem;background:rgba(252,37,162,.12);
+                                            border-radius:.6rem;display:flex;align-items:center;justify-content:center;
+                                            color:#f472b6;font-size:1.1rem;flex-shrink:0">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <span id="catIconLabel"
+                                      style="font-size:.78rem;color:#64748b;font-family:monospace">fas fa-tag</span>
+                                <input type="hidden" id="catIcon" value="fas fa-tag">
+                            </div>
+
+                            <!-- Grid de íconos -->
+                            <div style="border:1px solid rgba(255,255,255,.08);border-radius:.65rem;padding:.65rem;
+                                        display:grid;grid-template-columns:repeat(auto-fill,minmax(2.5rem,1fr));gap:.35rem;
+                                        max-height:180px;overflow-y:auto;background:var(--adm-card-alt)"
+                                 id="iconPickerGrid"></div>
+
+                            <p style="font-size:.72rem;color:#64748b;margin-top:.4rem">
+                                Haz clic en el ícono que mejor represente la categoría.
+                            </p>
+                        </div>
+
+                        <div style="display:flex;gap:.65rem">
+                            <button id="saveCatBtn" class="btn-admin btn-admin--primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                            <button id="cancelCatBtn" class="btn-admin btn-admin--secondary">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /panel-categories -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: COTIZACIONES
+                 ══════════════════════════════════════ -->
+            <div id="panel-quotes" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-calculator"></i> Cotizaciones recibidas</p>
+                        <button id="refreshQuotes" class="btn-admin btn-admin--secondary btn-admin--sm">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
+                    </div>
+                    <div id="quotesLoading" style="text-align:center;padding:2.5rem;display:none">
+                        <i class="fas fa-spinner fa-spin" style="font-size:1.75rem;color:#fc25a2"></i>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Servicio</th>
+                                    <th>Tamaño</th>
+                                    <th>Material</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quotesTbody"></tbody>
+                        </table>
+                    </div>
+                    <p id="quotesEmpty" class="hidden"
+                       style="text-align:center;padding:3rem;color:#64748b;font-size:.875rem">
+                        <i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4"></i>
+                        No hay cotizaciones aún.
+                    </p>
+                </div>
+
+            </div><!-- /panel-quotes -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: MENSAJES
+                 ══════════════════════════════════════ -->
+            <div id="panel-messages" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-envelope"></i> Mensajes de contacto</p>
+                        <button id="refreshMessages" class="btn-admin btn-admin--secondary btn-admin--sm">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
+                    </div>
+                    <div id="msgsLoading" style="text-align:center;padding:2.5rem;display:none">
+                        <i class="fas fa-spinner fa-spin" style="font-size:1.75rem;color:#fc25a2"></i>
+                    </div>
+                    <div id="messagesList"></div>
+                    <p id="msgsEmpty" class="hidden"
+                       style="text-align:center;padding:3rem;color:#64748b;font-size:.875rem">
+                        <i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4"></i>
+                        No hay mensajes aún.
+                    </p>
+                </div>
+
+            </div><!-- /panel-messages -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: PRECIOS
+                 ══════════════════════════════════════ -->
+            <div id="panel-pricing" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-tags"></i> Precios del cotizador</p>
+                        <button id="savePricingBtn" class="btn-admin btn-admin--primary btn-admin--sm">
+                            <i class="fas fa-save"></i> Guardar cambios
+                        </button>
+                    </div>
+
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" data-ptab="sizes">Tamaños</button>
+                        <button class="admin-tab" data-ptab="materials">Materiales</button>
+                        <button class="admin-tab" data-ptab="services">Servicios</button>
+                    </div>
+
+                    <!-- Tamaños -->
+                    <div id="ptab-sizes" class="admin-tab-panel active" style="padding:1.25rem">
+                        <div style="display:grid;grid-template-columns:1fr 130px;gap:.5rem;
+                                    padding:.35rem 0 .6rem;font-size:.7rem;font-weight:700;
+                                    color:#64748b;text-transform:uppercase;letter-spacing:.06em;
+                                    border-bottom:1px solid rgba(255,255,255,.06)">
+                            <span>Tamaño</span>
+                            <span>Precio (COP)</span>
+                        </div>
+                        <div id="sizesEditor"></div>
+                        <p style="font-size:.75rem;color:#64748b;margin-top:.85rem">
+                            <i class="fas fa-info-circle" style="color:#fc25a2;margin-right:.3rem"></i>
+                            Precio base de la impresión en papel fotográfico. Los demás materiales suman su sobrecargo sobre este valor.
+                        </p>
+                    </div>
+
+                    <!-- Materiales -->
+                    <div id="ptab-materials" class="admin-tab-panel" style="padding:1.25rem">
+                        <div style="display:grid;grid-template-columns:1fr 130px;gap:.5rem;
+                                    padding:.35rem 0 .6rem;font-size:.7rem;font-weight:700;
+                                    color:#64748b;text-transform:uppercase;letter-spacing:.06em;
+                                    border-bottom:1px solid rgba(255,255,255,.06)">
+                            <span>Material</span>
+                            <span>Sobrecargo (COP)</span>
+                        </div>
+                        <div id="materialsEditor"></div>
+                        <p style="font-size:.75rem;color:#64748b;margin-top:.85rem">
+                            <i class="fas fa-info-circle" style="color:#fc25a2;margin-right:.3rem"></i>
+                            Costo adicional fijo según el material. <strong style="color:#94a3b8">Papel fotográfico = $0</strong> (precio base del tamaño).
+                            El precio final = Precio tamaño + Sobrecargo material + Precio servicio.
+                        </p>
+                    </div>
+
+                    <!-- Servicios -->
+                    <div id="ptab-services" class="admin-tab-panel" style="padding:1.25rem">
+                        <div style="display:grid;grid-template-columns:1fr 130px;gap:.5rem;
+                                    padding:.35rem 0 .6rem;font-size:.7rem;font-weight:700;
+                                    color:#64748b;text-transform:uppercase;letter-spacing:.06em;
+                                    border-bottom:1px solid rgba(255,255,255,.06)">
+                            <span>Servicio</span>
+                            <span>Precio adicional</span>
+                        </div>
+                        <div id="servicesEditor"></div>
+                        <p style="font-size:.75rem;color:#64748b;margin-top:.85rem">
+                            <i class="fas fa-info-circle" style="color:#fc25a2;margin-right:.3rem"></i>
+                            <strong style="color:#94a3b8">Impresión básica = $0</strong> — el cliente paga solo tamaño + material.
+                            Los demás servicios suman su valor al total.
+                        </p>
+                    </div>
+
+                    <!-- Preview en vivo -->
+                    <div style="padding:1.25rem;border-top:1px solid rgba(255,255,255,.06)">
+                        <p style="font-size:.78rem;font-weight:700;color:#94a3b8;margin-bottom:.5rem;
+                                  display:flex;align-items:center;gap:.4rem">
+                            <i class="fas fa-eye" style="color:#fc25a2"></i>
+                            Vista previa de precios — se actualiza al editar los campos
+                        </p>
+                        <div id="pricingPreview"
+                             style="background:rgba(0,0,0,.18);border-radius:.65rem;padding:.65rem;
+                                    font-size:.78rem;color:#64748b;min-height:3rem">
+                            <i class="fas fa-spinner fa-spin" style="color:#fc25a2"></i>
+                            Cargando precios…
+                        </div>
+                        <p style="font-size:.72rem;color:#475569;margin-top:.6rem">
+                            <i class="fas fa-exclamation-triangle" style="color:#fbbf24;margin-right:.3rem"></i>
+                            Estos son precios <em>estimados base</em>. El valor final puede variar según la complejidad del diseño e impresión.
+                            Recuerda guardar los cambios con el botón <strong style="color:#f472b6">Guardar cambios</strong>.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div><!-- /panel-pricing -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: SOBRE MÍ
+                 ══════════════════════════════════════ -->
+            <div id="panel-about" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-user-edit"></i> Página "Sobre mí"</p>
+                        <button id="saveAboutAdminBtn" class="btn-admin btn-admin--primary btn-admin--sm">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                    <div class="admin-card-body" style="display:flex;flex-direction:column;gap:1.1rem">
+
+                        <!-- Foto de perfil -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:700;color:#94a3b8;display:block;margin-bottom:.65rem">
+                                <i class="fas fa-camera" style="color:#fc25a2;margin-right:.3rem"></i> Foto de perfil
+                            </label>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+                                <img id="aboutPreviewImg"
+                                     src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png"
+                                     alt="Preview"
+                                     style="width:5.5rem;height:5.5rem;object-fit:cover;border-radius:50%;
+                                            border:2px solid rgba(252,37,162,.3);flex-shrink:0">
+                                <div style="display:flex;flex-direction:column;gap:.5rem;flex:1;min-width:200px">
+                                    <button id="changeAboutPhotoBtn" type="button" class="btn-admin btn-admin--secondary btn-admin--sm">
+                                        <i class="fas fa-camera"></i> Subir con Cloudinary
+                                    </button>
+                                    <input type="text" id="aboutPhotoUrl" class="admin-input"
+                                           placeholder="O pega una URL directa de imagen"
+                                           style="font-size:.8rem">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nombre y rol -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
+                            <div>
+                                <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                    Nombre completo
+                                </label>
+                                <input type="text" id="aboutAdminName" class="admin-input" placeholder="Tu nombre">
+                            </div>
+                            <div>
+                                <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                    Rol / Título
+                                </label>
+                                <input type="text" id="aboutAdminRole" class="admin-input" placeholder="Fotógrafo & Restaurador">
+                            </div>
+                        </div>
+
+                        <!-- Párrafo 1 -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                <i class="fas fa-align-left" style="margin-right:.3rem;color:#fc25a2"></i> Párrafo 1
+                            </label>
+                            <div class="editor-toolbar">
+                                <button class="editor-btn" onclick="document.execCommand('bold')" title="Negrita"><b>B</b></button>
+                                <button class="editor-btn" onclick="document.execCommand('italic')" title="Cursiva"><i>I</i></button>
+                                <button class="editor-btn" onclick="document.execCommand('underline')" title="Subrayado"><u>U</u></button>
+                                <button class="editor-btn" onclick="document.execCommand('removeFormat')" title="Quitar formato">
+                                    <i class="fas fa-eraser"></i>
+                                </button>
+                            </div>
+                            <div id="aboutAdminBio1" class="editor-area" contenteditable="true"
+                                 aria-label="Párrafo 1"></div>
+                        </div>
+
+                        <!-- Párrafo 2 -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                <i class="fas fa-align-left" style="margin-right:.3rem;color:#fc25a2"></i> Párrafo 2
+                            </label>
+                            <div class="editor-toolbar">
+                                <button class="editor-btn" onclick="document.execCommand('bold')" title="Negrita"><b>B</b></button>
+                                <button class="editor-btn" onclick="document.execCommand('italic')" title="Cursiva"><i>I</i></button>
+                                <button class="editor-btn" onclick="document.execCommand('removeFormat')" title="Quitar formato">
+                                    <i class="fas fa-eraser"></i>
+                                </button>
+                            </div>
+                            <div id="aboutAdminBio2" class="editor-area" contenteditable="true"
+                                 aria-label="Párrafo 2"></div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.55rem">
+                                <i class="fas fa-chart-bar" style="margin-right:.3rem;color:#fc25a2"></i> Estadísticas visibles
+                            </label>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem">
+                                <div>
+                                    <label style="font-size:.72rem;color:#64748b;display:block;margin-bottom:.25rem">Fotos</label>
+                                    <input type="text" id="aboutStatPhotos" class="admin-input" placeholder="+500">
+                                </div>
+                                <div>
+                                    <label style="font-size:.72rem;color:#64748b;display:block;margin-bottom:.25rem">Años</label>
+                                    <input type="text" id="aboutStatYears" class="admin-input" placeholder="10+">
+                                </div>
+                                <div>
+                                    <label style="font-size:.72rem;color:#64748b;display:block;margin-bottom:.25rem">Clientes</label>
+                                    <input type="text" id="aboutStatClients" class="admin-input" placeholder="+300">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- /panel-about -->
+
+        </div><!-- /admin-content -->
+    </div><!-- /admin-main -->
+</div><!-- /admin-layout -->
+</div><!-- /adminPanel -->
+
+<!-- Toast notification -->
+<div id="adminToast">
+    <div style="display:flex;align-items:flex-start;gap:.75rem;width:100%">
+        <div id="toastIconWrap"
+             style="width:2.1rem;height:2.1rem;border-radius:.5rem;display:flex;align-items:center;
+                    justify-content:center;flex-shrink:0;font-size:1rem;margin-top:.05rem">
+            <i id="toastIcon" class="fas fa-check-circle"></i>
+        </div>
+        <div style="flex:1;min-width:0">
+            <p id="toastTitle"  style="margin:0;font-size:.875rem;font-weight:700;line-height:1.2"></p>
+            <p id="toastMsg"    style="margin:.15rem 0 0;font-size:.78rem;opacity:.85;line-height:1.4"></p>
+        </div>
+        <button id="toastClose"
+                style="background:none;border:none;color:inherit;opacity:.6;cursor:pointer;
+                       padding:.1rem .25rem;font-size:.8rem;flex-shrink:0;margin-top:.1rem"
+                onclick="document.getElementById('adminToast').classList.remove('show')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <!-- Barra de progreso -->
+    <div id="toastProgress"
+         style="position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 .8rem .8rem;
+                width:100%;transform-origin:left;transition:transform 3.2s linear;
+                transform:scaleX(1)"></div>
+</div>
+
+<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+<script>
+// ── Icon Picker ────────────────────────────────────────────────────────────
+// Lista de íconos Font Awesome 6 útiles para un estudio fotográfico
+const ICON_LIST = [
+    // Fotografía / arte
+    { cls: "fas fa-camera",           label: "Cámara"         },
+    { cls: "fas fa-camera-retro",     label: "Cámara retro"   },
+    { cls: "fas fa-images",           label: "Imágenes"       },
+    { cls: "fas fa-image",            label: "Imagen"         },
+    { cls: "fas fa-photo-film",       label: "Foto / Film"    },
+    { cls: "fas fa-film",             label: "Película"       },
+    { cls: "fas fa-palette",          label: "Paleta"         },
+    { cls: "fas fa-magic",            label: "Magia/Retoque"  },
+    { cls: "fas fa-wand-magic-sparkles", label: "Varita"      },
+    { cls: "fas fa-paint-brush",      label: "Pincel"         },
+    { cls: "fas fa-crop-alt",         label: "Recorte"        },
+    { cls: "fas fa-sliders-h",        label: "Ajustes"        },
+    // Personas / familia
+    { cls: "fas fa-user",             label: "Persona"        },
+    { cls: "fas fa-users",            label: "Grupo"          },
+    { cls: "fas fa-user-friends",     label: "Amigos"         },
+    { cls: "fas fa-people-group",     label: "Familia/Grupo"  },
+    { cls: "fas fa-child",            label: "Niño"           },
+    { cls: "fas fa-baby",             label: "Bebé"           },
+    { cls: "fas fa-person-breastfeeding", label: "Maternidad" },
+    // Momentos / vida
+    { cls: "fas fa-heart",            label: "Corazón"        },
+    { cls: "fas fa-star",             label: "Estrella"       },
+    { cls: "fas fa-graduation-cap",   label: "Grados"         },
+    { cls: "fas fa-rings-wedding",    label: "Bodas"          },
+    { cls: "fas fa-champagne-glasses","label": "Celebración"  },
+    { cls: "fas fa-birthday-cake",    label: "Cumpleaños"     },
+    { cls: "fas fa-church",           label: "Iglesia"        },
+    { cls: "fas fa-cross",            label: "Primera comunión"},
+    // Naturaleza / exterior
+    { cls: "fas fa-tree",             label: "Árbol"          },
+    { cls: "fas fa-mountain",         label: "Montaña"        },
+    { cls: "fas fa-sun",              label: "Sol"            },
+    { cls: "fas fa-flower",           label: "Flor"           },
+    // Producto / impresión
+    { cls: "fas fa-print",            label: "Impresión"      },
+    { cls: "fas fa-scroll",           label: "Papel"          },
+    { cls: "fas fa-layer-group",      label: "Capas"          },
+    { cls: "fas fa-flag",             label: "Pendón"         },
+    // Restauración / historia
+    { cls: "fas fa-clock-rotate-left","label": "Historia"     },
+    { cls: "fas fa-hourglass-half",   label: "Tiempo"         },
+    { cls: "fas fa-book",             label: "Álbum"          },
+    { cls: "fas fa-folder-open",      label: "Carpeta"        },
+    // Misc
+    { cls: "fas fa-tag",              label: "Etiqueta"       },
+    { cls: "fas fa-th",               label: "Todos"          },
+    { cls: "fas fa-globe",            label: "Global"         },
+    { cls: "fas fa-map-marker-alt",   label: "Lugar"          },
+    { cls: "fas fa-building",         label: "Empresa"        },
+    { cls: "fas fa-store",            label: "Tienda"         },
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+    const grid    = document.getElementById("iconPickerGrid");
+    const hidden  = document.getElementById("catIcon");
+    const preview = document.getElementById("catIconPreview");
+    const label   = document.getElementById("catIconLabel");
+    if (!grid) return;
+
+    function selectIcon(cls) {
+        // Quitar selección anterior
+        grid.querySelectorAll(".icon-pick-btn").forEach(b => b.classList.remove("selected"));
+        // Marcar el nuevo
+        const btn = grid.querySelector(`[data-icon="${cls}"]`);
+        if (btn) btn.classList.add("selected");
+        // Actualizar hidden input, preview y label
+        if (hidden)  hidden.value     = cls;
+        if (preview) preview.innerHTML = `<i class="${cls}"></i>`;
+        if (label)   label.textContent = cls;
+    }
+
+    // Poblar grid
+    ICON_LIST.forEach(({ cls, label: lbl }) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "icon-pick-btn";
+        btn.dataset.icon = cls;
+        btn.title = lbl;
+        btn.innerHTML = `<i class="${cls}"></i>`;
+        btn.addEventListener("click", () => selectIcon(cls));
+        grid.appendChild(btn);
+    });
+
+    // Seleccionar el primero por defecto
+    selectIcon("fas fa-tag");
+
+    // Reset al abrir el formulario
+    document.getElementById("addCatBtn")?.addEventListener("click", () => {
+        selectIcon("fas fa-tag");
+    });
+});
+</script>
+<script type="module" src="js/app-admin.js"></script>
+</body>
+</html>

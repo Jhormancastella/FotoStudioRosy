@@ -1,4 +1,37 @@
 {
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "*.exe",
+      ".kilo/**"
+    ],
+    "rewrites": [
+      { "source": "/admin", "destination": "/admin.html" },
+      { "source": "/catalog", "destination": "/pages/catalogo.html" },
+      { "source": "/services", "destination": "/pages/servicios.html" },
+      { "source": "/about", "destination": "/pages/sobre-mi.html" },
+      { "source": "/contact", "destination": "/pages/contactanos.html" },
+      { "source": "/quote", "destination": "/pages/cotizar.html" }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css|html)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|png|gif|webp|svg|ico)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=604800" }
+        ]
+      }
+    ]
+  },
   "functions": {
     "source": "functions"
   }

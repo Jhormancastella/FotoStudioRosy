@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cotizador de Rosy Photo Studio — Calcula al instante el precio de tu impresión en pesos colombianos.">
+    <title>Cotizador — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={darkMode:['selector','[data-theme="dark"]'],theme:{extend:{fontFamily:{script:['"Great Vibes"','cursive'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
+
+    <style>
+        /* ════════════════════════════════════════════
+           COTIZADOR — Calculadora de imprenta
+           ════════════════════════════════════════════ */
+
+        .cq-wrap {
+            display: grid;
+            gap: 1.5rem;
+        }
+        @media (min-width: 760px) {
+            .cq-wrap { grid-template-columns: 1fr 360px; align-items: start; }
+        }
+
+        /* ── Tarjetas de producto ─────────────────── */
+        .cq-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: .65rem;
+        }
+
+        .cq-prod-card {
+            position: relative;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.1rem .9rem 1rem;
+            cursor: pointer;
+            text-align: center;
+            background: #fff;
+            transition: border-color .18s, box-shadow .18s, transform .15s;
+            user-select: none;
+        }
+        [data-theme="dark"] .cq-prod-card {
+            background: #1a1a2e;
+            border-color: rgba(255,255,255,.1);
+        }
+        .cq-prod-card:hover {
+            border-color: #fc25a2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(252,37,162,.14);
+        }
+        .cq-prod-card.selected {
+            border-color: #fc25a2;
+            background: rgba(252,37,162,.06);
+            box-shadow: 0 4px 20px rgba(252,37,162,.2);
+        }
+        [data-theme="dark"] .cq-prod-card.selected { background: rgba(252,37,162,.13); }
+
+        .cq-prod-check {
+            position: absolute;
+            top: .5rem; right: .6rem;
+            width: 1.2rem; height: 1.2rem;
+            border-radius: 50%;
+            background: #fc25a2;
+            color: #fff;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: .6rem;
+        }
+        .cq-prod-card.selected .cq-prod-check { display: flex; }
+
+        .cq-prod-icon {
+            width: 3rem; height: 3rem;
+            border-radius: .75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto .6rem;
+            transition: transform .18s;
+        }
+        .cq-prod-card:hover .cq-prod-icon,
+        .cq-prod-card.selected .cq-prod-icon { transform: scale(1.12); }
+
+        .cq-prod-name {
+            font-weight: 700;
+            font-size: .82rem;
+            color: #1f2937;
+            line-height: 1.25;
+        }
+        [data-theme="dark"] .cq-prod-name { color: #f3f4f6; }
+        .cq-prod-card.selected .cq-prod-name { color: #fc25a2; }
+
+        .cq-prod-hint {
+            font-size: .68rem;
+            color: #9ca3af;
+            margin-top: .25rem;
+            line-height: 1.3;
+        }
+
+        /* ── Panel de configuración ──────────────── */
+        .cq-config {
+            border: 2px solid rgba(252,37,162,.18);
+            border-radius: 1.1rem;
+            overflow: hidden;
+        }
+        .cq-config-header {
+            background: linear-gradient(135deg, #fc25a2 0%, #c01878 100%);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+        }
+        .cq-config-header-icon {
+            width: 2.2rem; height: 2.2rem;
+            background: rgba(255,255,255,.2);
+            border-radius: .55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .cq-config-header-text { color: #fff; }
+        .cq-config-header-title {
+            font-weight: 800;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+        .cq-config-header-sub {
+            font-size: .72rem;
+            opacity: .82;
+        }
+
+        .cq-config-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: #fff;
+        }
+        [data-theme="dark"] .cq-config-body { background: #1a1a2e; }
+
+        /* Dimensiones custom */
+        .cq-dim-row {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            flex-wrap: wrap;
+        }
+        .cq-dim-field {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+            flex: 1;
+            min-width: 80px;
+        }
+        .cq-dim-label {
+            font-size: .7rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        .cq-dim-input {
+            border: 2px solid #e5e7eb;
+            border-radius: .65rem;
+            padding: .55rem .75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+            width: 100%;
+            outline: none;
+            transition: border-color .15s;
+            background: #f9fafb;
+        }
+        [data-theme="dark"] .cq-dim-input {
+            background: #0f0f1a;
+            border-color: rgba(255,255,255,.12);
+            color: #f3f4f6;
+        }
+        .cq-dim-input:focus { border-color: #fc25a2; background: #fff; }
+        [data-theme="dark"] .cq-dim-input:focus { background: #1a1a2e; }
+        .cq-dim-sep {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #9ca3af;
+            padding-top: 1.3rem;
+        }
+        .cq-dim-unit {
+            font-size: .75rem;
+            color: #9ca3af;
+            padding-top: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Qty stepper */
+        .cq-qty {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .cq-qty-btn {
+            width: 2.2rem; height: 2.2rem;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+            color: #374151;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .15s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        [data-theme="dark"] .cq-qty-btn {
+            background: #0f0f1a;
+            border-color: rgba(255,255,255,.12);
+            color: #e5e7eb;
+        }
+        .cq-qty-btn:hover { border-color: #fc25a2; color: #fc25a2; }
+        .cq-qty-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1f2937;
+            min-width: 2.2rem;
+            text-align: center;
+        }
+        [data-theme="dark"] .cq-qty-val { color: #f3f4f6; }
+
+        /* ── Panel de precio ─────────────────────── */
+        .cq-price-panel {
+            border-radius: 1.1rem;
+            overflow: hidden;
+            border: 2px solid rgba(252,37,162,.18);
+        }
+
+        .cq-price-hero {
+            background: linear-gradient(135deg, rgba(252,37,162,.09) 0%, rgba(192,24,120,.04) 100%);
+            padding: 1.5rem 1.25rem 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(252,37,162,.12);
+        }
+        .cq-price-label {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: #9ca3af;
+            margin-bottom: .3rem;
+        }
+        .cq-price-amount {
+            font-size: clamp(2.4rem, 7vw, 3.8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fc25a2 0%, #c01878 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        .cq-price-variation {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            margin-top: .5rem;
+            padding: .3rem .75rem;
+            background: rgba(251,191,36,.1);
+            border: 1px solid rgba(251,191,36,.3);
+            border-radius: 2rem;
+            font-size: .72rem;
+            font-weight: 600;
+            color: #d97706;
+        }
+
+        .cq-price-body {
+            padding: 1rem 1.25rem;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: .85rem;
+        }
+        [data-theme="dark"] .cq-price-body { background: #1a1a2e; }
+
+        .cq-breakdown { display: flex; flex-direction: column; gap: .3rem; }
+        .cq-breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .28rem 0;
+        }
+        .cq-breakdown-row.total {
+            border-top: 1.5px solid rgba(252,37,162,.2);
+            padding-top: .55rem;
+            margin-top: .2rem;
+        }
+        .cq-breakdown-key {
+            font-size: .8rem;
+            color: #6b7280;
+        }
+        .cq-breakdown-val {
+            font-size: .8rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        [data-theme="dark"] .cq-breakdown-val { color: #e5e7eb; }
+        .cq-breakdown-row.total .cq-breakdown-key { font-weight: 700; color: #374151; font-size: .85rem; }
+        [data-theme="dark"] .cq-breakdown-row.total .cq-breakdown-key { color: #f3f4f6; }
+        .cq-breakdown-row.total .cq-breakdown-val { color: #fc25a2; font-weight: 800; font-size: .9rem; }
+
+        /* Special hint */
+        .cq-special {
+            display: none;
+            align-items: flex-start;
+            gap: .5rem;
+            background: rgba(252,37,162,.07);
+            border: 1px solid rgba(252,37,162,.25);
+            border-radius: .7rem;
+            padding: .7rem .9rem;
+            font-size: .78rem;
+            color: #374151;
+        }
+        [data-theme="dark"] .cq-special { color: #e5e7eb; }
+        .cq-special.show { display: flex; }
+        .cq-special i { color: #fc25a2; flex-shrink: 0; margin-top: .1rem; }
+
+        /* Section label */
+        .cq-label {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: #9ca3af;
+            margin-bottom: .5rem;
+        }
+
+        /* WhatsApp */
+        .btn-wa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            width: 100%;
+            padding: .75rem 1rem;
+            background: #25d366;
+            color: #fff;
+            border-radius: .75rem;
+            font-weight: 700;
+            font-size: .9rem;
+            text-decoration: none;
+            transition: background .18s, transform .14s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-wa:hover { background: #16a34a; color: #fff; transform: translateY(-1px); }
+
+        /* Contact form */
+        .cq-form { display: flex; flex-direction: column; gap: .6rem; }
+
+        /* Sizes preset chips */
+        .cq-size-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+        .cq-chip {
+            padding: .3rem .75rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 2rem;
+            font-size: .75rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all .15s;
+            background: transparent;
+        }
+        [data-theme="dark"] .cq-chip { border-color: rgba(255,255,255,.12); color: #94a3b8; }
+        .cq-chip:hover { border-color: #fc25a2; color: #fc25a2; }
+        .cq-chip.active { background: #fc25a2; border-color: #fc25a2; color: #fff; }
+
+        /* "Precio por tamaño" tag */
+        .cq-fixed-price-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: rgba(252,37,162,.08);
+            border: 1px solid rgba(252,37,162,.22);
+            border-radius: .6rem;
+            padding: .4rem .85rem;
+            font-size: .82rem;
+            font-weight: 700;
+            color: #fc25a2;
+        }
+
+        /* Placeholder estado sin producto */
+        .cq-placeholder {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #9ca3af;
+        }
+        .cq-placeholder i { font-size: 2.5rem; display: block; margin-bottom: .75rem; opacity: .35; }
+        .cq-placeholder p { font-size: .875rem; }
+    </style>
+</head>
+<body class="page-body">
+
+    <div id="nav-placeholder"></div>
+
+    <div class="page-wrapper">
+        <section class="page-card animate-fade-in" style="max-width:960px;margin-left:auto;margin-right:auto">
+
+            <!-- Header -->
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-calculator"></i> Precios en COP</span>
+                <h1 class="section-title">Cotizador</h1>
+                <p class="section-subtitle">Elige el producto, ingresa el tamaño y ve el precio al instante</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="cq-wrap">
+
+                <!-- ══ Columna izquierda ══════════════════════════ -->
+                <div style="display:flex;flex-direction:column;gap:1.5rem">
+
+                    <!-- Productos -->
+                    <div>
+                        <p class="cq-label"><i class="fas fa-th-large" style="color:#fc25a2;margin-right:.3rem"></i> ¿Qué producto necesitas?</p>
+                        <div class="cq-products" id="productCards">
+                            <!-- Poblado por JS -->
+                            <div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:#9ca3af;font-size:.85rem">
+                                <i class="fas fa-spinner fa-spin" style="color:#fc25a2;margin-right:.5rem"></i>
+                                Cargando productos…
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuración del producto seleccionado -->
+                    <div id="configSection" style="display:none">
+                        <div class="cq-config">
+                            <div class="cq-config-header" id="configHeader">
+                                <div class="cq-config-header-icon" id="configIcon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="cq-config-header-text">
+                                    <p class="cq-config-header-title" id="configTitle">Producto</p>
+                                    <p class="cq-config-header-sub" id="configSub">Configura tu pedido</p>
+                                </div>
+                            </div>
+
+                            <div class="cq-config-body">
+
+                                <!-- Hint especial 3×4 carné -->
+                                <div class="cq-special" id="specialHint">
+                                    <i class="fas fa-star"></i>
+                                    <div>
+                                        <strong style="color:#fc25a2">Foto carné 3×4 cm</strong> —
+                                        Incluye <strong>6 impresiones</strong>: 3 fondo azul + 3 fondo blanco
+                                        en papel fotográfico de alta calidad.
+                                    </div>
+                                </div>
+
+                                <!-- Dimensiones (se oculta si el producto tiene precio fijo) -->
+                                <div id="dimSection">
+                                    <p class="cq-label" style="margin-bottom:.55rem">
+                                        <i class="fas fa-ruler-combined" style="color:#fc25a2;margin-right:.3rem"></i>
+                                        Dimensiones
+                                    </p>
+
+                                    <!-- Chips de tamaños presets -->
+                                    <div class="cq-size-chips" id="sizeChips" style="margin-bottom:.75rem"></div>
+
+                                    <!-- Inputs de medidas -->
+                                    <div class="cq-dim-row" id="dimInputRow">
+                                        <div class="cq-dim-field">
+                                            <label class="cq-dim-label" for="dimAncho">Ancho</label>
+                                            <input type="number" id="dimAncho" class="cq-dim-input"
+                                                   value="20" min="1" max="500" step="1" placeholder="cm">
+                                        </div>
+                                        <span class="cq-dim-sep">×</span>
+                                        <div class="cq-dim-field">
+                                            <label class="cq-dim-label" for="dimAlto">Alto</label>
+                                            <input type="number" id="dimAlto" class="cq-dim-input"
+                                                   value="30" min="1" max="500" step="1" placeholder="cm">
+                                        </div>
+                                        <span class="cq-dim-unit">cm</span>
+                                    </div>
+                                </div>
+
+                                <!-- Precio fijo (para productos sin dimensiones libres) -->
+                                <div id="fixedPriceSection" style="display:none">
+                                    <p class="cq-label" style="margin-bottom:.5rem">
+                                        <i class="fas fa-tag" style="color:#fc25a2;margin-right:.3rem"></i>
+                                        Precio del producto
+                                    </p>
+                                    <div class="cq-fixed-price-tag" id="fixedPriceTag">
+                                        <i class="fas fa-tag"></i> <span id="fixedPriceVal">—</span>
+                                    </div>
+                                </div>
+
+                                <!-- Acabado / servicio adicional -->
+                                <div id="acabadoSection">
+                                    <p class="cq-label" style="margin-bottom:.5rem">
+                                        <i class="fas fa-magic" style="color:#fc25a2;margin-right:.3rem"></i>
+                                        Acabado / servicio adicional
+                                    </p>
+                                    <div style="display:flex;flex-wrap:wrap;gap:.4rem" id="acabadoChips">
+                                        <!-- Poblado por JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Cantidad -->
+                                <div>
+                                    <p class="cq-label" style="margin-bottom:.5rem">
+                                        <i class="fas fa-hashtag" style="color:#fc25a2;margin-right:.3rem"></i>
+                                        Cantidad
+                                    </p>
+                                    <div class="cq-qty">
+                                        <button type="button" class="cq-qty-btn" id="qtyMinus" aria-label="Restar">−</button>
+                                        <span class="cq-qty-val" id="qtyDisplay">1</span>
+                                        <button type="button" class="cq-qty-btn" id="qtyPlus" aria-label="Sumar">+</button>
+                                        <input type="hidden" id="quantityInput" value="1">
+                                    </div>
+                                </div>
+
+                            </div><!-- /config-body -->
+                        </div><!-- /cq-config -->
+                    </div>
+
+                    <!-- Estado vacío antes de seleccionar -->
+                    <div class="cq-placeholder" id="emptyState">
+                        <i class="fas fa-hand-pointer"></i>
+                        <p>Selecciona un producto arriba para ver las opciones y calcular el precio</p>
+                    </div>
+
+                </div><!-- /col izquierda -->
+
+                <!-- ══ Columna derecha — Precio ════════════════ -->
+                <div style="display:flex;flex-direction:column;gap:1rem">
+
+                    <div class="cq-price-panel">
+                        <div class="cq-price-hero">
+                            <p class="cq-price-label"><i class="fas fa-tag"></i> Precio estimado</p>
+                            <p class="cq-price-amount" id="quoteTotal">—</p>
+                            <div class="cq-price-variation">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                El valor puede variar según complejidad
+                            </div>
+                        </div>
+
+                        <div class="cq-price-body">
+
+                            <!-- Desglose -->
+                            <div>
+                                <p class="cq-label" style="margin-bottom:.4rem">
+                                    <i class="fas fa-list-ul" style="color:#fc25a2;margin-right:.3rem"></i>
+                                    Desglose
+                                </p>
+                                <div class="cq-breakdown" id="breakdownLines">
+                                    <p style="font-size:.8rem;color:#9ca3af;text-align:center;padding:.5rem 0">
+                                        Selecciona un producto para ver el desglose
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Datos de contacto -->
+                            <div style="border-top:1px solid rgba(252,37,162,.1);padding-top:.85rem">
+                                <p class="cq-label" style="margin-bottom:.5rem">
+                                    <i class="fas fa-user" style="color:#fc25a2;margin-right:.3rem"></i>
+                                    Tus datos <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">(para enviar la cotización)</span>
+                                </p>
+                                <div class="cq-form">
+                                    <input type="text"  id="quoteName"  class="form-input" placeholder="Tu nombre *">
+                                    <input type="email" id="quoteEmail" class="form-input" placeholder="Tu correo *">
+                                    <input type="tel"   id="quotePhone" class="form-input" placeholder="Tu teléfono">
+                                    <textarea id="quoteNotes" class="form-textarea" style="min-height:68px"
+                                              placeholder="Detalles, referencias o preguntas…"></textarea>
+                                </div>
+
+                                <button id="quoteSendBtn" type="button" class="btn-primary"
+                                        style="width:100%;margin-top:.75rem;justify-content:center">
+                                    <i class="fas fa-paper-plane"></i> Solicitar cotización
+                                </button>
+
+                                <div id="quoteMsg" class="form-msg form-msg--success" style="margin-top:.55rem">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>¡Cotización enviada! Te contactaremos pronto.</span>
+                                </div>
+                                <div id="quoteMsgError" class="form-msg form-msg--error" style="margin-top:.55rem">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>Por favor completa nombre y correo.</span>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp -->
+                            <a id="quoteWhatsapp" href="https://wa.me/573229135021" target="_blank" rel="noopener"
+                               class="btn-wa">
+                                <i class="fab fa-whatsapp fa-lg"></i> Enviar por WhatsApp
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- Nota -->
+                    <div style="padding:.75rem 1rem;background:rgba(252,37,162,.05);
+                                border:1px solid rgba(252,37,162,.14);border-radius:.75rem;
+                                font-size:.78rem;color:#6b7280;line-height:1.6">
+                        <i class="fas fa-info-circle" style="color:#fc25a2;margin-right:.35rem"></i>
+                        <strong style="color:#374151">Precios estimados.</strong>
+                        El costo final puede variar según complejidad del diseño e impresión.
+                        Te contactaremos para confirmar el presupuesto definitivo.
+                    </div>
+
+                </div><!-- /col derecha -->
+
+            </div><!-- /cq-wrap -->
+
+        </section>
+
+        <div class="social-section">
+            <p class="social-title" data-i18n="social.title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p><span data-i18n="footer.rights">© 2025 Todos los derechos reservados — </span><strong>Jhorman Castellanos Morales</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-top:.25rem">
+                <i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>
+                Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander
+            </p>
+        </footer>
+    </div>
+
+    <!-- Hidden selects para compatibilidad con app-cotizar.js -->
+    <select id="serviceSelect"  style="display:none"></select>
+    <select id="sizeSelect"     style="display:none"></select>
+    <select id="materialSelect" style="display:none"></select>
+
+    <script type="module" src="../js/app-cotizar.js"></script>
+
+    <script>
+    /* ════════════════════════════════════════════════════════
+       COTIZADOR UI — Controlador de la nueva calculadora
+       Todo el estado se gestiona aquí; app-cotizar.js
+       carga los precios desde Firebase y expone window.__pricing
+       ════════════════════════════════════════════════════════ */
+
+    /* ── Catálogo de productos ──────────────────────────────
+       Cada producto define:
+         id, name, hint
+         icon, iconBg, iconColor
+         pricingMode:
+           "per_cm2"    → precio por cm² (pendones, retratos, canvas…)
+           "fixed_size" → elige entre tamaños predefinidos del config
+           "fixed"      → precio fijo único (ej. carné 3×4)
+         materialId  → qué entrada de materials[] usa para surcharge
+         serviceFilter → qué servicios aplican (array de IDs, null = todos)
+         presetSizes → chips rápidos de dimensiones [{ w, h, label }]
+    ─────────────────────────────────────────────────────── */
+    const PRODUCTS = [
+        {
+            id: "carne",
+            name: "Foto carné",
+            hint: "3×4 cm · 6 fotos",
+            icon: "fas fa-id-card",
+            iconBg: "rgba(252,37,162,.12)",
+            iconColor: "#fc25a2",
+            pricingMode: "fixed",
+            fixedSizeId: "3x4",
+            materialId: "papel_fotografico",
+            serviceFilter: ["basico"],
+            special: "carne"
+        },
+        {
+            id: "foto_papel",
+            name: "Foto en papel",
+            hint: "Elige el tamaño",
+            icon: "fas fa-image",
+            iconBg: "rgba(217,119,6,.12)",
+            iconColor: "#d97706",
+            pricingMode: "fixed_size",
+            materialId: "papel_fotografico",
+            serviceFilter: ["basico","retoque","restauracion","colorizacion","combo"],
+            presetSizes: [
+                { w: 5,  h: 7,  label: "5×7" },
+                { w: 8,  h: 10, label: "8×10" },
+                { w: 10, h: 15, label: "10×15" },
+                { w: 13, h: 18, label: "13×18" },
+                { w: 20, h: 25, label: "20×25" },
+                { w: 25, h: 30, label: "25×30" },
+                { w: 30, h: 40, label: "30×40" },
+            ]
+        },
+        {
+            id: "foto_mate",
+            name: "Acabado mate",
+            hint: "Sin reflejos",
+            icon: "fas fa-scroll",
+            iconBg: "rgba(148,163,184,.13)",
+            iconColor: "#94a3b8",
+            pricingMode: "fixed_size",
+            materialId: "mate",
+            serviceFilter: ["basico","retoque","restauracion","colorizacion","combo"],
+            presetSizes: [
+                { w: 10, h: 15, label: "10×15" },
+                { w: 20, h: 25, label: "20×25" },
+                { w: 30, h: 40, label: "30×40" },
+            ]
+        },
+        {
+            id: "canvas",
+            name: "Canvas / Lienzo",
+            hint: "Textura artística",
+            icon: "fas fa-palette",
+            iconBg: "rgba(124,58,237,.12)",
+            iconColor: "#7c3aed",
+            pricingMode: "per_cm2",
+            materialId: "canvas",
+            serviceFilter: ["basico","retoque","restauracion","colorizacion","combo"],
+            presetSizes: [
+                { w: 30, h: 40, label: "30×40" },
+                { w: 40, h: 60, label: "40×60" },
+                { w: 60, h: 90, label: "60×90" },
+            ]
+        },
+        {
+            id: "acrilico",
+            name: "Acrílico",
+            hint: "Efecto galería",
+            icon: "fas fa-gem",
+            iconBg: "rgba(8,145,178,.12)",
+            iconColor: "#0891b2",
+            pricingMode: "per_cm2",
+            materialId: "acrilico",
+            serviceFilter: ["basico","retoque"],
+            presetSizes: [
+                { w: 30, h: 40, label: "30×40" },
+                { w: 40, h: 60, label: "40×60" },
+                { w: 60, h: 90, label: "60×90" },
+            ]
+        },
+        {
+            id: "madera",
+            name: "Tabla de madera",
+            hint: "Rústico y elegante",
+            icon: "fas fa-tree",
+            iconBg: "rgba(101,163,13,.12)",
+            iconColor: "#65a30d",
+            pricingMode: "per_cm2",
+            materialId: "madera",
+            serviceFilter: ["basico","retoque"],
+            presetSizes: [
+                { w: 30, h: 40, label: "30×40" },
+                { w: 40, h: 60, label: "40×60" },
+            ]
+        },
+        {
+            id: "aluminio",
+            name: "Aluminio Dibond",
+            hint: "Ultra resistente",
+            icon: "fas fa-layer-group",
+            iconBg: "rgba(100,116,139,.12)",
+            iconColor: "#64748b",
+            pricingMode: "per_cm2",
+            materialId: "aluminio",
+            serviceFilter: ["basico","retoque"],
+            presetSizes: [
+                { w: 40, h: 60, label: "40×60" },
+                { w: 60, h: 90, label: "60×90" },
+            ]
+        },
+        {
+            id: "pendon",
+            name: "Pendón",
+            hint: "Lona impresa",
+            icon: "fas fa-flag",
+            iconBg: "rgba(16,185,129,.12)",
+            iconColor: "#10b981",
+            pricingMode: "per_cm2",
+            materialId: "papel_fotografico",
+            serviceFilter: ["pendon"],
+            presetSizes: [
+                { w: 60,  h: 160, label: "60×160" },
+                { w: 80,  h: 200, label: "80×200" },
+                { w: 100, h: 200, label: "100×200" },
+                { w: 120, h: 240, label: "120×240" },
+            ]
+        },
+        {
+            id: "retablo",
+            name: "Retablo",
+            hint: "Marco decorativo",
+            icon: "fas fa-photo-film",
+            iconBg: "rgba(245,158,11,.12)",
+            iconColor: "#f59e0b",
+            pricingMode: "per_cm2",
+            materialId: "madera",
+            serviceFilter: ["retablo"],
+            presetSizes: [
+                { w: 20, h: 30, label: "20×30" },
+                { w: 30, h: 40, label: "30×40" },
+                { w: 40, h: 60, label: "40×60" },
+            ]
+        },
+    ];
+
+    /* ── Estado ─────────────────────────────────────────── */
+    let selectedProduct  = null;
+    let selectedAcabado  = "basico";
+    let quantity         = 1;
+    let pricingReady     = false;
+
+    /* ── Formatear COP ──────────────────────────────────── */
+    function fmt(n) {
+        return new Intl.NumberFormat("es-CO", {
+            style: "currency", currency: "COP", maximumFractionDigits: 0
+        }).format(n || 0);
+    }
+
+    /* ── Obtener pricing de window.__pricing (expuesto por app-cotizar.js) ── */
+    function getPricing() {
+        return window.__pricing || null;
+    }
+
+    /* ── Calcular precio ────────────────────────────────── */
+    function calcPrice() {
+        const pricing  = getPricing();
+        if (!pricing || !selectedProduct) return null;
+
+        const prod     = selectedProduct;
+        const w        = parseFloat(document.getElementById("dimAncho")?.value) || 0;
+        const h        = parseFloat(document.getElementById("dimAlto")?.value)  || 0;
+        const qty      = quantity;
+
+        // Material surcharge
+        const material = pricing.materials.find(m => m.id === prod.materialId)
+                      || pricing.materials[0];
+        const surcharge = material?.surcharge ?? 0;
+
+        // Servicio adicional
+        const service   = pricing.services.find(s => s.id === selectedAcabado)
+                       || pricing.services.find(s => s.id === "basico")
+                       || { price: 0, label: "Impresión básica" };
+
+        let basePrice = 0;
+        let sizeLabel = "";
+
+        if (prod.pricingMode === "fixed") {
+            // Precio fijo por tamaño predefinido
+            const sizeEntry = pricing.sizes.find(s => s.id === prod.fixedSizeId);
+            basePrice = (sizeEntry?.price ?? 0) + surcharge;
+            sizeLabel = sizeEntry?.label ?? prod.name;
+        } else if (prod.pricingMode === "fixed_size") {
+            // Buscar el tamaño que más se acerca a las dimensiones ingresadas
+            const area     = w * h;
+            // Encontrar el tamaño predefinido más cercano al área
+            const match    = findClosestSize(pricing.sizes, w, h);
+            basePrice      = (match?.price ?? 0) + surcharge;
+            sizeLabel      = match ? match.label : `${w}×${h} cm`;
+        } else {
+            // per_cm2: calcular precio por área
+            // Tomamos el precio del tamaño más cercano como referencia de precio/cm²
+            const refSize  = findClosestSize(pricing.sizes, w, h);
+            const refArea  = parseSizeArea(refSize);
+            const pricePerCm2 = refArea > 0
+                ? ((refSize?.price ?? 0) / refArea)
+                : 0;
+            basePrice      = (pricePerCm2 * w * h) + surcharge;
+            sizeLabel      = `${w}×${h} cm`;
+        }
+
+        const unitPrice  = basePrice + service.price;
+        const total      = unitPrice * qty;
+
+        return { basePrice, surcharge, servicePrice: service.price, service, unitPrice, total,
+                 sizeLabel, material, w, h, qty };
+    }
+
+    /** Encuentra el tamaño predefinido más cercano al área dada */
+    function findClosestSize(sizes, w, h) {
+        if (!sizes?.length) return null;
+        const area = w * h;
+        return sizes.reduce((best, s) => {
+            const sArea = parseSizeArea(s);
+            const bArea = parseSizeArea(best);
+            return Math.abs(sArea - area) < Math.abs(bArea - area) ? s : best;
+        });
+    }
+
+    /** Extrae el área en cm² del label de un tamaño ("10×15 cm" → 150) */
+    function parseSizeArea(s) {
+        if (!s) return Infinity;
+        const m = s.label?.match(/(\d+)[×x](\d+)/);
+        return m ? parseInt(m[1]) * parseInt(m[2]) : Infinity;
+    }
+
+    /* ── Renderizar total y desglose ────────────────────── */
+    function renderTotal() {
+        const result   = calcPrice();
+        const totalEl  = document.getElementById("quoteTotal");
+        const bdLines  = document.getElementById("breakdownLines");
+
+        if (!result) {
+            if (totalEl) totalEl.textContent = "—";
+            if (bdLines) bdLines.innerHTML = `<p style="font-size:.8rem;color:#9ca3af;text-align:center;padding:.5rem 0">
+                Selecciona un producto para ver el desglose</p>`;
+            updateWhatsApp(null);
+            return;
+        }
+
+        if (totalEl) totalEl.textContent = fmt(result.total);
+
+        // Desglose
+        const rows = [];
+        rows.push({ k: `Impresión ${result.sizeLabel}`, v: fmt(result.basePrice - result.surcharge) });
+        if (result.surcharge > 0) {
+            rows.push({ k: `Material: ${result.material?.label}`, v: `+ ${fmt(result.surcharge)}` });
+        } else {
+            rows.push({ k: `Material: ${result.material?.label ?? "—"}`, v: "Incluido" });
+        }
+        if (result.servicePrice > 0) {
+            rows.push({ k: `Servicio: ${result.service?.label}`, v: `+ ${fmt(result.servicePrice)}` });
+        }
+        if (result.qty > 1) {
+            rows.push({ k: `Cantidad: ${result.qty} uds.`, v: `×${result.qty}` });
+        }
+
+        if (bdLines) {
+            bdLines.innerHTML =
+                rows.map(r => `
+                    <div class="cq-breakdown-row">
+                        <span class="cq-breakdown-key">${r.k}</span>
+                        <span class="cq-breakdown-val">${r.v}</span>
+                    </div>`).join("") +
+                `<div class="cq-breakdown-row total">
+                    <span class="cq-breakdown-key">TOTAL estimado</span>
+                    <span class="cq-breakdown-val">${fmt(result.total)}</span>
+                </div>`;
+        }
+
+        updateWhatsApp(result);
+    }
+
+    function updateWhatsApp(result) {
+        const link = document.getElementById("quoteWhatsapp");
+        if (!link) return;
+        if (!result) { link.href = "https://wa.me/573229135021"; return; }
+
+        const waNum = (window.__contact?.whatsapp) || "573229135021";
+        const prod  = selectedProduct?.name ?? "Impresión";
+        const msg   = encodeURIComponent(
+            `¡Hola Rosy Photo Studio! 📸\n` +
+            `Quisiera cotizar lo siguiente:\n` +
+            `• Producto: ${prod}\n` +
+            `• Tamaño: ${result.sizeLabel}\n` +
+            `• Material: ${result.material?.label ?? "—"}\n` +
+            `• Acabado: ${result.service?.label ?? "Básico"}\n` +
+            `• Cantidad: ${result.qty}\n` +
+            `• Total estimado: ${fmt(result.total)}\n\n` +
+            `⚠️ Entiendo que el precio final puede variar según complejidad.\n` +
+            `Por favor contáctenme para confirmar. ¡Gracias!`
+        );
+        link.href = `https://wa.me/${waNum}?text=${msg}`;
+    }
+
+    /* ── Construir tarjetas de producto ─────────────────── */
+    function buildProductCards() {
+        const grid = document.getElementById("productCards");
+        if (!grid) return;
+        grid.innerHTML = PRODUCTS.map(p => `
+            <div class="cq-prod-card" data-pid="${p.id}" onclick="selectProduct('${p.id}')">
+                <span class="cq-prod-check"><i class="fas fa-check"></i></span>
+                <div class="cq-prod-icon" style="background:${p.iconBg};color:${p.iconColor}">
+                    <i class="${p.icon}"></i>
+                </div>
+                <p class="cq-prod-name">${p.name}</p>
+                <p class="cq-prod-hint">${p.hint}</p>
+            </div>`).join("");
+    }
+
+    /* ── Seleccionar producto ────────────────────────────── */
+    window.selectProduct = function(pid) {
+        selectedProduct = PRODUCTS.find(p => p.id === pid) ?? null;
+        if (!selectedProduct) return;
+
+        // Highlight card
+        document.querySelectorAll(".cq-prod-card").forEach(c => {
+            c.classList.toggle("selected", c.dataset.pid === pid);
+        });
+
+        // Mostrar / ocultar secciones
+        document.getElementById("configSection").style.display = "block";
+        document.getElementById("emptyState").style.display    = "none";
+
+        // Header
+        const p = selectedProduct;
+        document.getElementById("configTitle").textContent = p.name;
+        document.getElementById("configSub").textContent   = p.hint;
+        document.getElementById("configIcon").innerHTML    =
+            `<i class="${p.icon}" style="color:${p.iconColor}"></i>`;
+
+        // Hint carné
+        const hint = document.getElementById("specialHint");
+        hint.classList.toggle("show", p.special === "carne");
+
+        // Dimensiones vs fijo
+        const dimSection   = document.getElementById("dimSection");
+        const fixedSection = document.getElementById("fixedPriceSection");
+
+        if (p.pricingMode === "fixed") {
+            dimSection.style.display   = "none";
+            fixedSection.style.display = "block";
+            // Mostrar precio fijo
+            const pricing = getPricing();
+            const sizeEntry = pricing?.sizes.find(s => s.id === p.fixedSizeId);
+            document.getElementById("fixedPriceVal").textContent =
+                sizeEntry ? fmt(sizeEntry.price) : "Ver con Rosy";
+        } else {
+            dimSection.style.display   = "block";
+            fixedSection.style.display = "none";
+            // Chips de tamaños
+            buildSizeChips(p.presetSizes || []);
+            // Poner dimensiones por defecto al primer preset
+            if (p.presetSizes?.length) {
+                document.getElementById("dimAncho").value = p.presetSizes[0].w;
+                document.getElementById("dimAlto").value  = p.presetSizes[0].h;
+                // Marcar primer chip
+                setTimeout(() => {
+                    const first = document.querySelector(".cq-chip");
+                    if (first) first.classList.add("active");
+                }, 0);
+            }
+        }
+
+        // Acabados disponibles
+        buildAcabadoChips(p.serviceFilter);
+
+        // Recalcular
+        renderTotal();
+    };
+
+    /* ── Chips de tamaños ────────────────────────────────── */
+    function buildSizeChips(presets) {
+        const container = document.getElementById("sizeChips");
+        if (!container) return;
+        container.innerHTML = presets.map(s => `
+            <button type="button" class="cq-chip" data-w="${s.w}" data-h="${s.h}"
+                    onclick="applyPreset(${s.w},${s.h},this)">
+                ${s.label}
+            </button>`).join("");
+    }
+
+    window.applyPreset = function(w, h, el) {
+        document.getElementById("dimAncho").value = w;
+        document.getElementById("dimAlto").value  = h;
+        document.querySelectorAll(".cq-chip").forEach(c => c.classList.remove("active"));
+        el?.classList.add("active");
+        renderTotal();
+    };
+
+    /* ── Chips de acabado / servicio ─────────────────────── */
+    function buildAcabadoChips(filter) {
+        const container = document.getElementById("acabadoChips");
+        if (!container) return;
+        const pricing = getPricing();
+        if (!pricing?.services) { container.innerHTML = ""; return; }
+
+        const services = filter
+            ? pricing.services.filter(s => filter.includes(s.id))
+            : pricing.services;
+
+        // Default al primer servicio disponible
+        selectedAcabado = services[0]?.id ?? "basico";
+
+        container.innerHTML = services.map((s, i) => {
+            const priceText = s.price === 0 ? "Incluido" : `+ ${fmt(s.price)}`;
+            return `
+            <button type="button" class="cq-chip ${i === 0 ? "active" : ""}"
+                    data-sid="${s.id}"
+                    onclick="selectAcabado('${s.id}',this)">
+                ${s.label} <span style="opacity:.7;font-weight:400">${priceText}</span>
+            </button>`;
+        }).join("");
+    }
+
+    window.selectAcabado = function(sid, el) {
+        selectedAcabado = sid;
+        document.querySelectorAll("#acabadoChips .cq-chip").forEach(c => c.classList.remove("active"));
+        el?.classList.add("active");
+        renderTotal();
+    };
+
+    /* ── Qty ────────────────────────────────────────────── */
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("qtyMinus")?.addEventListener("click", () => {
+            quantity = Math.max(1, quantity - 1);
+            document.getElementById("qtyDisplay").textContent = quantity;
+            document.getElementById("quantityInput").value    = quantity;
+            renderTotal();
+        });
+        document.getElementById("qtyPlus")?.addEventListener("click", () => {
+            quantity = Math.min(999, quantity + 1);
+            document.getElementById("qtyDisplay").textContent = quantity;
+            document.getElementById("quantityInput").value    = quantity;
+            renderTotal();
+        });
+
+        // Dimensiones en tiempo real
+        ["dimAncho","dimAlto"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", () => {
+                // Limpiar chip activo si el usuario escribe manualmente
+                document.querySelectorAll(".cq-chip").forEach(c => c.classList.remove("active"));
+                renderTotal();
+            });
+        });
+
+        // Construir tarjetas
+        buildProductCards();
+
+        // Esperar a que app-cotizar.js exponga window.__pricing
+        let tries = 0;
+        const poll = setInterval(() => {
+            tries++;
+            if (window.__pricing || tries > 50) {
+                clearInterval(poll);
+                pricingReady = true;
+                // Actualizar precio si ya hay producto seleccionado
+                if (selectedProduct) renderTotal();
+                // Actualizar hint de precio fijo si hay producto carné seleccionado
+                if (selectedProduct?.pricingMode === "fixed") {
+                    const sizeEntry = window.__pricing?.sizes.find(s => s.id === selectedProduct.fixedSizeId);
+                    if (sizeEntry) document.getElementById("fixedPriceVal").textContent = fmt(sizeEntry.price);
+                }
+            }
+        }, 100);
+    });
+
+    /* ── Envío de cotización (llamado desde app-cotizar.js) ── */
+    // app-cotizar.js escucha quoteSendBtn directamente.
+    // Le dejamos el handler original pero le pasamos los datos del nuevo UI.
+    window.__getQuoteData = function() {
+        const result = calcPrice();
+        return {
+            product:  selectedProduct?.name ?? "—",
+            size:     result?.sizeLabel ?? "—",
+            material: result?.material?.label ?? "—",
+            service:  result?.service?.label ?? "—",
+            quantity,
+            total:    result?.total ?? 0
+        };
+    };
+
+    </script>
+</body>
+</html>

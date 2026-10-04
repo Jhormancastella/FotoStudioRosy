@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contáctanos — Rosy Photo Studio en Tibú, Norte de Santander. WhatsApp, email, redes sociales y ubicación.">
+    <title>Contáctanos — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={darkMode:['selector','[data-theme="dark"]'],theme:{extend:{fontFamily:{script:['"Great Vibes"','cursive'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
+    <style>
+        /* ── Contacto — estilos específicos ── */
+        .contact-hero {
+            background: linear-gradient(135deg, #2d0a1f 0%, #6b1045 40%, #fc25a2 100%);
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+        }
+        .contact-hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .contact-channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            padding: 2rem 1.5rem 1rem;
+        }
+        .contact-channel {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.1rem 1.2rem;
+            border-radius: .85rem;
+            border: 1.5px solid #f3f4f6;
+            background: #fff;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s, border-color .2s;
+            cursor: pointer;
+        }
+        [data-theme="dark"] .contact-channel {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+        .contact-channel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,.1);
+        }
+        .contact-channel__icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: .75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .contact-channel__label {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: #9ca3af;
+            margin-bottom: .15rem;
+        }
+        .contact-channel__value {
+            font-size: .9rem;
+            font-weight: 600;
+            color: #111827;
+            line-height: 1.3;
+        }
+        [data-theme="dark"] .contact-channel__value { color: #f1f5f9; }
+        .contact-channel__arrow {
+            margin-left: auto;
+            color: #d1d5db;
+            font-size: .8rem;
+            flex-shrink: 0;
+        }
+        /* Formulario lado a lado con info rápida */
+        .contact-body {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            align-items: start;
+        }
+        @media(max-width:720px){ .contact-body { grid-template-columns: 1fr; } }
+        .contact-aside {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .contact-aside-card {
+            background: linear-gradient(135deg, rgba(252,37,162,.06), rgba(124,58,237,.04));
+            border: 1px solid rgba(252,37,162,.15);
+            border-radius: .85rem;
+            padding: 1.25rem;
+        }
+        [data-theme="dark"] .contact-aside-card {
+            background: linear-gradient(135deg, rgba(252,37,162,.1), rgba(124,58,237,.08));
+            border-color: rgba(252,37,162,.22);
+        }
+        .contact-form-card {
+            background: #f9fafb;
+            border: 1px solid #f3f4f6;
+            border-radius: .85rem;
+            padding: 1.5rem;
+        }
+        [data-theme="dark"] .contact-form-card {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+    </style>
+</head>
+<body class="page-body">
+
+    <div id="nav-placeholder"></div>
+
+    <div class="page-wrapper">
+        <section class="page-card animate-fade-in" style="margin-top:1.5rem;overflow:hidden">
+
+            <!-- ── Hero de contacto ── -->
+            <div class="contact-hero">
+                <!-- Orbs decorativos -->
+                <div class="contact-hero-orb" style="top:-3rem;left:-3rem;width:12rem;height:12rem;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%)"></div>
+                <div class="contact-hero-orb" style="bottom:-2rem;right:-2rem;width:10rem;height:10rem;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)"></div>
+
+                <div style="position:relative;z-index:1">
+                    <span style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.3rem .85rem;border-radius:99px;margin-bottom:.85rem">
+                        <i class="fas fa-envelope"></i> Contáctanos
+                    </span>
+                    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:.6rem;line-height:1.2">
+                        ¿Tienes un proyecto en mente?
+                    </h1>
+                    <p style="font-size:.95rem;opacity:.88;max-width:480px;margin:0 auto 1.5rem;line-height:1.65">
+                        Estamos aquí para ayudarte a revivir esos recuerdos especiales. Escríbenos por cualquiera de nuestros canales y te respondemos rápido.
+                    </p>
+                    <!-- Acceso rápido WhatsApp -->
+                    <a href="https://wa.me/573229135021?text=Hola%20Rosy%20Photo%20Studio!%20Me%20gustar%C3%ADa%20cotizar%20un%20servicio."
+                       target="_blank" rel="noopener"
+                       style="display:inline-flex;align-items:center;gap:.55rem;background:#fff;color:#111827;padding:.75rem 1.6rem;border-radius:.75rem;font-weight:700;font-size:.95rem;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:transform .2s"
+                       onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                        <i class="fab fa-whatsapp" style="color:#25d366;font-size:1.2rem"></i>
+                        Escríbenos por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- ── Canales de contacto ── -->
+            <div class="contact-channel-grid">
+
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener" class="contact-channel" style="border-color:rgba(37,211,102,.25)">
+                    <div class="contact-channel__icon" style="background:rgba(37,211,102,.1);color:#25d366"><i class="fab fa-whatsapp"></i></div>
+                    <div>
+                        <p class="contact-channel__label">WhatsApp</p>
+                        <p class="contact-channel__value">+57 322 913 5021</p>
+                    </div>
+                    <i class="fas fa-arrow-right contact-channel__arrow"></i>
+                </a>
+
+                <a href="mailto:rosyphotostudio@gmail.com" class="contact-channel" style="border-color:rgba(234,67,53,.2)">
+                    <div class="contact-channel__icon" style="background:rgba(234,67,53,.1);color:#ea4335"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <p class="contact-channel__label">Correo electrónico</p>
+                        <p class="contact-channel__value">rosyphotostudio@gmail.com</p>
+                    </div>
+                    <i class="fas fa-arrow-right contact-channel__arrow"></i>
+                </a>
+
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener" class="contact-channel" style="border-color:rgba(228,64,95,.2)">
+                    <div class="contact-channel__icon" style="background:rgba(228,64,95,.1);color:#e4405f"><i class="fab fa-instagram"></i></div>
+                    <div>
+                        <p class="contact-channel__label">Instagram</p>
+                        <p class="contact-channel__value">@rosyphotostudio3</p>
+                    </div>
+                    <i class="fas fa-arrow-right contact-channel__arrow"></i>
+                </a>
+
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener" class="contact-channel" style="border-color:rgba(24,119,242,.2)">
+                    <div class="contact-channel__icon" style="background:rgba(24,119,242,.1);color:#1877f2"><i class="fab fa-facebook-f"></i></div>
+                    <div>
+                        <p class="contact-channel__label">Facebook</p>
+                        <p class="contact-channel__value">Rosy Photostudio Tibu</p>
+                    </div>
+                    <i class="fas fa-arrow-right contact-channel__arrow"></i>
+                </a>
+
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener" class="contact-channel">
+                    <div class="contact-channel__icon" style="background:rgba(0,0,0,.06);color:#111827"><i class="fab fa-tiktok"></i></div>
+                    <div>
+                        <p class="contact-channel__label">TikTok</p>
+                        <p class="contact-channel__value">@rosyphotostudio</p>
+                    </div>
+                    <i class="fas fa-arrow-right contact-channel__arrow"></i>
+                </a>
+
+                <div class="contact-channel" style="cursor:default">
+                    <div class="contact-channel__icon" style="background:rgba(234,179,8,.1);color:#ca8a04"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <p class="contact-channel__label">Dirección</p>
+                        <p class="contact-channel__value" style="font-size:.82rem">Barrio Divino Niño, Calle 10 #10-37<br>Tibú, Norte de Santander</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ── Formulario + Info ── -->
+            <div class="contact-body">
+
+                <!-- Aside: info y horario -->
+                <div class="contact-aside">
+                    <div class="contact-aside-card">
+                        <p style="font-weight:700;font-size:.95rem;color:#111827;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem">
+                            <i class="fas fa-clock" style="color:#fc25a2"></i> Horario de atención
+                        </p>
+                        <div style="display:flex;flex-direction:column;gap:.5rem;font-size:.875rem">
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <span style="color:#6b7280">Lunes – Viernes</span>
+                                <span style="font-weight:600;color:#111827">8:00am – 6:00pm</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <span style="color:#6b7280">Sábado</span>
+                                <span style="font-weight:600;color:#111827">9:00am – 2:00pm</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <span style="color:#6b7280">Domingo</span>
+                                <span style="font-weight:600;color:#9ca3af">Cerrado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-aside-card">
+                        <p style="font-weight:700;font-size:.95rem;color:#111827;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem">
+                            <i class="fas fa-bolt" style="color:#fc25a2"></i> Respuesta rápida
+                        </p>
+                        <p style="font-size:.875rem;color:#6b7280;line-height:1.65">
+                            Respondemos todos los mensajes en menos de <strong style="color:#fc25a2">24 horas</strong>. Para consultas urgentes, WhatsApp es la forma más rápida.
+                        </p>
+                        <a href="https://wa.me/573229135021" target="_blank" rel="noopener"
+                           class="btn-primary" style="display:flex;justify-content:center;margin-top:1rem;font-size:.85rem">
+                            <i class="fab fa-whatsapp"></i> Abrir WhatsApp
+                        </a>
+                    </div>
+
+                    <div class="contact-aside-card">
+                        <p style="font-weight:700;font-size:.95rem;color:#111827;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem">
+                            <i class="fas fa-map-pin" style="color:#fc25a2"></i> Ubicación
+                        </p>
+                        <p style="font-size:.875rem;color:#6b7280;line-height:1.65">
+                            Barrio Divino Niño<br>
+                            <strong style="color:#374151">Calle 10 #10-37</strong><br>
+                            Tibú, Norte de Santander<br>
+                            Colombia
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <div class="contact-form-card">
+                    <p style="font-weight:700;font-size:1.05rem;color:#111827;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem">
+                        <i class="fas fa-paper-plane" style="color:#fc25a2"></i> Envíanos un mensaje
+                    </p>
+                    <div style="display:flex;flex-direction:column;gap:.85rem">
+                        <div class="form-group">
+                            <label class="form-label" for="contactName">Nombre completo <span style="color:#fc25a2">*</span></label>
+                            <input type="text" id="contactName" class="form-input" placeholder="¿Cómo te llamas?">
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
+                            <div class="form-group">
+                                <label class="form-label" for="contactEmail">Correo <span style="color:#fc25a2">*</span></label>
+                                <input type="email" id="contactEmail" class="form-input" placeholder="correo@ejemplo.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="contactPhone">Teléfono</label>
+                                <input type="tel" id="contactPhone" class="form-input" placeholder="+57 300 000 0000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contactSubject">¿En qué te podemos ayudar?</label>
+                            <select id="contactSubject" class="form-select">
+                                <option value="cotizacion">💰 Solicitar cotización</option>
+                                <option value="restauracion">🖼️ Restauración de fotos</option>
+                                <option value="colorizacion">🎨 Colorización</option>
+                                <option value="impresion">🖨️ Impresión profesional</option>
+                                <option value="informacion">ℹ️ Información general</option>
+                                <option value="pedido">📦 Estado de mi pedido</option>
+                                <option value="otro">💬 Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contactMessage">Mensaje <span style="color:#fc25a2">*</span></label>
+                            <textarea id="contactMessage" class="form-textarea" style="min-height:120px" placeholder="Cuéntanos sobre tu foto, qué necesitas o cualquier duda que tengas…"></textarea>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center">
+                        <button id="contactSendBtn" type="button" class="btn-primary" style="flex:1;min-width:160px;justify-content:center">
+                            <i class="fas fa-paper-plane"></i> Enviar mensaje
+                        </button>
+                        <a href="https://wa.me/573229135021" target="_blank" rel="noopener"
+                           style="flex:1;min-width:160px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.72rem 1rem;background:#25d366;color:#fff;border-radius:.65rem;font-weight:600;font-size:.875rem;text-decoration:none">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                    <div id="contactMsg" class="form-msg form-msg--success" style="margin-top:.85rem">
+                        <i class="fas fa-check-circle"></i>
+                        <span>¡Mensaje enviado! Te contactaremos pronto.</span>
+                    </div>
+                    <div id="contactMsgError" class="form-msg form-msg--error" style="margin-top:.85rem">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Por favor completa los campos requeridos.</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Mapa -->
+        <section class="page-card" style="margin-top:1.25rem;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:.65rem;padding:1.25rem 1.5rem .75rem">
+                <span class="section-badge" style="margin:0"><i class="fas fa-map-marker-alt"></i> Encuéntranos</span>
+                <div>
+                    <p style="font-weight:700;font-size:.95rem;color:#111827">Tibú, Norte de Santander</p>
+                    <p style="font-size:.8rem;color:#9ca3af">Barrio Divino Niño, Calle 10 #10-37</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15820.24!2d-72.7286!3d8.6576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e68c0dae2ab6b35%3A0x6cc52bea3b4c7e4a!2sTib%C3%BA%2C%20Norte%20de%20Santander!5e0!3m2!1ses!2sco!4v1700000000002!5m2!1ses!2sco"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Rosy Photo Studio — Tibú, Norte de Santander">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- Redes sociales -->
+        <div class="social-section">
+            <p class="social-title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p>© 2025 Todos los derechos reservados — <strong>Rosy Photo Studio</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-top:.25rem">
+                <i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander
+            </p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <script type="module" src="../js/app-contacto.js"></script>
+</body>
+</html>

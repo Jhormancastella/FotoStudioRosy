@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sobre Rosy Photo Studio — Conoce la historia y la pasión detrás del lente.">
+    <title>Sobre mí — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={darkMode:['selector','[data-theme="dark"]'],theme:{extend:{fontFamily:{script:['"Great Vibes"','cursive'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
+    <style>
+        /* ── Sobre mí — estilos específicos ── */
+        .about-hero {
+            background: linear-gradient(135deg,#fce4f2 0%,#e0e7ff 100%);
+            padding: 3rem 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        [data-theme="dark"] .about-hero {
+            background: linear-gradient(135deg,#1e1040 0%,#2d0a1f 60%,#1a1535 100%);
+        }
+        .about-hero-dots {
+            position:absolute;inset:0;
+            background-image:radial-gradient(circle,rgba(252,37,162,.08) 1px,transparent 1px);
+            background-size:28px 28px;pointer-events:none;
+        }
+        .about-profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 8px 32px rgba(252,37,162,.35), 0 0 0 8px rgba(252,37,162,.12);
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .about-photo-ring {
+            width: 216px;
+            height: 216px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#fc25a2,#7c3aed);
+            padding: 3px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .about-photo-ring img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            display: block;
+        }
+        [data-theme="dark"] .about-photo-ring img {
+            border-color: #1e293b;
+        }
+        .about-name-block {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 2rem;
+        }
+        .about-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            padding: 2rem 1.5rem;
+        }
+        @media(max-width:640px){ .about-detail-grid { grid-template-columns:1fr; } }
+        .about-bio-card {
+            background: #f9fafb;
+            border: 1px solid #f3f4f6;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        [data-theme="dark"] .about-bio-card {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+        .about-quote {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(252,37,162,.07), rgba(124,58,237,.07));
+            border-left: 3px solid #fc25a2;
+            border-radius: 0 .85rem .85rem 0;
+            padding: 1.25rem 1.5rem;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #374151;
+            line-height: 1.7;
+        }
+        [data-theme="dark"] .about-quote {
+            background: linear-gradient(135deg, rgba(252,37,162,.1), rgba(124,58,237,.1));
+            color: #e2e8f0;
+        }
+        .specialty-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: rgba(252,37,162,.08);
+            color: #be185d;
+            border: 1px solid rgba(252,37,162,.2);
+            border-radius: 99px;
+            padding: .3rem .85rem;
+            font-size: .8rem;
+            font-weight: 600;
+        }
+        [data-theme="dark"] .specialty-tag {
+            background: rgba(252,37,162,.14);
+            color: #f9a8d4;
+            border-color: rgba(252,37,162,.3);
+        }
+        /* Admin controls */
+        .about-admin-bar {
+            display: flex;
+            gap: .65rem;
+            justify-content: flex-end;
+            padding: .75rem 1.5rem .25rem;
+            border-top: 1px solid rgba(252,37,162,.1);
+        }
+    </style>
+</head>
+<body class="page-body">
+
+    <div id="nav-placeholder"></div>
+
+    <div class="page-wrapper">
+
+        <!-- ── Card principal ── -->
+        <section class="page-card animate-fade-in" style="margin-top:1.5rem;overflow:hidden">
+
+            <!-- Hero con foto centrada -->
+            <div class="about-hero">
+                <div class="about-hero-dots" aria-hidden="true"></div>
+
+                <!-- Badge -->
+                <div style="text-align:center;position:relative;z-index:1;padding-top:.5rem">
+                    <span class="section-badge"><i class="fas fa-user-circle"></i> Sobre mí</span>
+                </div>
+
+                <!-- Foto con anillo de gradiente -->
+                <div style="position:relative;z-index:1;margin-top:1.5rem">
+                    <div class="about-photo-ring">
+                        <img id="aboutPhoto"
+                             src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757879378/Rosy/mea9yccx3mwf78mwqocs.png"
+                             alt="Foto de Rosy Photo Studio">
+                    </div>
+                </div>
+
+                <!-- Nombre y rol -->
+                <div class="about-name-block">
+                    <h1 id="aboutName" style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#111827;line-height:1.2;margin-bottom:.35rem">
+                        Rosy Photo Studio
+                    </h1>
+                    <p id="aboutRole" style="color:#fc25a2;font-weight:600;font-size:1rem;margin-bottom:.75rem">
+                        Fotografía &amp; Restauración de Imágenes · Tibú, Norte de Santander
+                    </p>
+                    <!-- Redes en el hero -->
+                    <div style="display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+                        <a href="https://wa.me/573229135021" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;gap:.4rem;background:#25d366;color:#fff;padding:.4rem .9rem;border-radius:99px;font-size:.8rem;font-weight:600;text-decoration:none">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366);color:#fff;padding:.4rem .9rem;border-radius:99px;font-size:.8rem;font-weight:600;text-decoration:none">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;gap:.4rem;background:#111827;color:#fff;padding:.4rem .9rem;border-radius:99px;font-size:.8rem;font-weight:600;text-decoration:none">
+                            <i class="fab fa-tiktok"></i> TikTok
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin controls (ocultos hasta login) -->
+            <div id="adminAboutControls" class="about-admin-bar hidden">
+                <button id="editAboutBtn" type="button" class="btn-secondary" style="font-size:.82rem">
+                    <i class="fas fa-edit"></i> Editar contenido
+                </button>
+                <button id="saveAboutBtn" type="button" class="btn-primary hidden" style="font-size:.82rem">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+            </div>
+
+            <!-- Contenido biográfico -->
+            <div class="about-detail-grid" id="aboutContent">
+
+                <!-- Cita destacada -->
+                <blockquote class="about-quote">
+                    <i class="fas fa-quote-left" style="color:#fc25a2;margin-right:.5rem;opacity:.6"></i>
+                    <span id="aboutQuote">Cada fotografía que llega a mis manos es una historia única que merece ser contada con la mayor fidelidad y cuidado posible.</span>
+                </blockquote>
+
+                <!-- Nuestra historia -->
+                <div class="about-bio-card">
+                    <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1rem">
+                        <div style="width:2.2rem;height:2.2rem;background:rgba(252,37,162,.1);border-radius:.6rem;display:flex;align-items:center;justify-content:center;color:#fc25a2;flex-shrink:0">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h2 style="font-size:1rem;font-weight:700;color:#111827">Nuestra historia</h2>
+                    </div>
+                    <p id="aboutBio1" style="font-size:.9rem;line-height:1.8;color:#4b5563">
+                        Somos un estudio fotográfico especializado en la restauración y colorización digital de imágenes. Nacimos con una misión clara: preservar los recuerdos más valiosos de las familias colombianas, devolviéndoles la vida a fotografías que el tiempo intentó borrar.
+                    </p>
+                </div>
+
+                <!-- Nuestra pasión -->
+                <div class="about-bio-card">
+                    <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1rem">
+                        <div style="width:2.2rem;height:2.2rem;background:rgba(124,58,237,.1);border-radius:.6rem;display:flex;align-items:center;justify-content:center;color:#7c3aed;flex-shrink:0">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h2 style="font-size:1rem;font-weight:700;color:#111827">Lo que nos apasiona</h2>
+                    </div>
+                    <p id="aboutBio2" style="font-size:.9rem;line-height:1.8;color:#4b5563">
+                        Creemos que una fotografía no es solo una imagen — es un puente entre generaciones. Trabajamos con dedicación en cada proyecto para que el resultado final supere tus expectativas, con atención al detalle en cada píxel.
+                    </p>
+                </div>
+
+                <!-- Especialidades -->
+                <div class="about-bio-card">
+                    <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1rem">
+                        <div style="width:2.2rem;height:2.2rem;background:rgba(16,185,129,.1);border-radius:.6rem;display:flex;align-items:center;justify-content:center;color:#059669;flex-shrink:0">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h2 style="font-size:1rem;font-weight:700;color:#111827">Especialidades</h2>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+                        <span class="specialty-tag"><i class="fas fa-magic"></i> Restauración digital</span>
+                        <span class="specialty-tag"><i class="fas fa-palette"></i> Colorización</span>
+                        <span class="specialty-tag"><i class="fas fa-baby"></i> Bebés y embarazo</span>
+                        <span class="specialty-tag"><i class="fas fa-graduation-cap"></i> Grados</span>
+                        <span class="specialty-tag"><i class="fas fa-sliders-h"></i> Retoque profesional</span>
+                        <span class="specialty-tag"><i class="fas fa-print"></i> Impresión artística</span>
+                        <span class="specialty-tag"><i class="fas fa-camera"></i> Fotografía de retratos</span>
+                    </div>
+                </div>
+
+                <!-- Ubicación y contacto rápido -->
+                <div class="about-bio-card">
+                    <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1rem">
+                        <div style="width:2.2rem;height:2.2rem;background:rgba(245,158,11,.1);border-radius:.6rem;display:flex;align-items:center;justify-content:center;color:#d97706;flex-shrink:0">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h2 style="font-size:1rem;font-weight:700;color:#111827">Dónde estamos</h2>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:.65rem">
+                        <div style="display:flex;align-items:center;gap:.6rem;font-size:.875rem;color:#4b5563">
+                            <i class="fas fa-map-pin" style="color:#fc25a2;width:1rem;text-align:center"></i>
+                            <span>Barrio Divino Niño, Calle 10 #10-37<br>Tibú, Norte de Santander</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:.6rem;font-size:.875rem">
+                            <i class="fab fa-whatsapp" style="color:#25d366;width:1rem;text-align:center"></i>
+                            <a href="https://wa.me/573229135021" target="_blank" rel="noopener" style="color:#25d366;font-weight:600;text-decoration:none">+57 322 913 5021</a>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:.6rem;font-size:.875rem;color:#4b5563">
+                            <i class="fas fa-clock" style="color:#7c3aed;width:1rem;text-align:center"></i>
+                            <span>Lun – Vie: 8am – 6pm · Sáb: 9am – 2pm</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CTA -->
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;padding:1rem 1.5rem 2rem">
+                <a href="../pages/cotizar.html" class="btn-primary">
+                    <i class="fas fa-calculator"></i> Solicitar cotización
+                </a>
+                <a href="../pages/contactanos.html" class="btn-secondary">
+                    <i class="fas fa-envelope"></i> Escríbenos
+                </a>
+                <a href="../pages/catalogo.html" class="btn-secondary">
+                    <i class="fas fa-images"></i> Ver trabajos
+                </a>
+            </div>
+
+            <div id="aboutSaveMsg" class="form-msg form-msg--success hidden" style="margin:0 1.5rem 1.5rem">
+                <i class="fas fa-check-circle"></i>
+                <span>Cambios guardados correctamente</span>
+            </div>
+        </section>
+
+        <!-- Redes sociales -->
+        <div class="social-section">
+            <p class="social-title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p><span>© 2025 Todos los derechos reservados — </span><strong>Rosy Photo Studio</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-top:.25rem">
+                <i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander
+            </p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <script type="module" src="../js/app-sobre-mi.js"></script>
+</body>
+</html>

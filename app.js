@@ -1,572 +1,164 @@
-import "./js/firebase-provider.js";
-import { APP_CONFIG } from "./js/config.js";
-import { createAuthClient } from "./js/auth.js";
-import { initComparators } from "./js/comparator.js";
-import { createGalleryService } from "./js/gallery-service.js";
-import { applyTranslations, getInitialLanguage, setLanguage, t } from "./js/i18n.js";
-import { getTheme, initTheme, toggleTheme } from "./js/theme.js";
+/**
+ * app.js — Página de Inicio (index.html)
+ * Carga la navbar, muestra una preview de la galería (primeras 8 fotos)
+ * e inicializa los dos comparadores.
+ */
 
-const state = {
-    isAdmin: false,
-    allImages: [],
-    currentPage: 1,
-    itemsPerPage: APP_CONFIG.defaults.itemsPerPage,
-    galleryError: "",
-    cloudinaryWidget: null
-};
+import "./js/firebase-provider.js";
+import { APP_CONFIG }           from "./js/config.js";
+import { createAuthClient }     from "./js/auth.js";
+import { createGalleryService } from "./js/gallery-service.js";
+import { initComparators }      from "./js/comparator.js";
+import { initNav }              from "./js/nav.js";
+import { applyTranslations }    from "./js/i18n.js";
+import { seedFirebaseIfEmpty }  from "./js/seed-firebase.js";
+
+const authClient    = createAuthClient(APP_CONFIG.auth);
+const galleryService = createGalleryService(APP_CONFIG);
 
 const dom = {};
-const authClient = createAuthClient(APP_CONFIG.auth);
-const galleryService = createGalleryService(APP_CONFIG);
 
 document.addEventListener("DOMContentLoaded", initApp);
 
 async function initApp() {
     cacheDom();
-    initLanguage();
-    initThemeControl();
-    initComparators(["comparator-restauracion", "comparator-colorizacion"]);
-    bindEvents();
-    initCloudinaryWidget();
-    await initializeSession();
-    await refreshGallery();
-    updateUI();
+
+    // Inyectar navbar
+    initNav("home", {
+        onLoginClick:  openLoginModal,
+        onLogoutClick: handleLogout,
+        onAdminReady:  (isAdmin) => { /* nada especial en inicio */ }
+    });
+
+    // Comparadores - initialize with delay to ensure DOM is ready
+    setTimeout(() => {
+        initComparators(["comparator-restauracion", "comparator-colorizacion"]);
+    }, 100);
+
+    // Galería preview (max 8)
+    await loadPreviewGallery();
+
+    // Sesión admin
+    const isAdmin = await authClient.checkSession();
+    window._navSetAdmin?.(isAdmin);
+
+    // Fullscreen modal
+    bindFullscreen();
 }
 
 function cacheDom() {
-    dom.loginModal = document.getElementById("loginModal");
-    dom.adminLoginBtn = document.getElementById("adminLoginBtn");
-    dom.logoutBtn = document.getElementById("logoutBtn");
-    dom.adminStatus = document.getElementById("adminStatus");
-    dom.uploadSection = document.getElementById("uploadSection");
-    dom.emailInput = document.getElementById("emailInput");
-    dom.passwordInput = document.getElementById("passwordInput");
-    dom.loginBtn = document.getElementById("loginBtn");
-    dom.loginMessage = document.getElementById("loginMessage");
-    dom.closeModal = document.querySelector(".modal .close");
-    dom.urlInput = document.getElementById("urlInput");
-    dom.urlSubmit = document.getElementById("urlSubmit");
-    dom.imageGallery = document.getElementById("imageGallery");
-    dom.emptyMessage = document.getElementById("emptyMessage");
-    dom.galleryLoading = document.getElementById("galleryLoading");
-    dom.cloudinaryBtn = document.getElementById("cloudinaryBtn");
-    dom.useUrlBtn = document.getElementById("useUrlBtn");
-    dom.urlUploadArea = document.getElementById("urlUploadArea");
-    dom.cantidadSelector = document.getElementById("cantidadSelector");
-    dom.paginationContainer = document.getElementById("pagination");
-    dom.paginationInfo = document.getElementById("paginationInfo");
+    dom.imageGallery    = document.getElementById("imageGallery");
+    dom.galleryLoading  = document.getElementById("galleryLoading");
     dom.fullScreenModal = document.getElementById("fullScreenModal");
     dom.fullScreenImage = document.getElementById("fullScreenImage");
-    dom.fsClose = document.querySelector(".fs-close");
-    dom.languageSelect = document.getElementById("languageSelect");
-    dom.themeToggle = document.getElementById("themeToggle");
+    dom.fsClose         = document.getElementById("fsClose");
+    dom.loginModal      = document.getElementById("loginModal");
+    dom.closeLoginModal = document.getElementById("closeLoginModal");
+    dom.emailInput      = document.getElementById("emailInput");
+    dom.passwordInput   = document.getElementById("passwordInput");
+    dom.loginBtn        = document.getElementById("loginBtn");
+    dom.loginMessage    = document.getElementById("loginMessage");
 }
 
-function initLanguage() {
-    const language = getInitialLanguage(APP_CONFIG.defaults.language);
-    setLanguage(language);
-    applyTranslations(document);
-    dom.languageSelect.value = language;
-}
-
-function initThemeControl() {
-    initTheme(APP_CONFIG.defaults.theme);
-    updateThemeButtonLabel();
-}
-
-function updateThemeButtonLabel() {
-    const isDark = getTheme() === "dark";
-    const key = isDark ? "controls.themeToLight" : "controls.themeToDark";
-    const icon = isDark ? "fas fa-sun" : "fas fa-moon";
-    dom.themeToggle.innerHTML = `<i class="${icon} text-[10px]"></i><span>${t(key)}</span>`;
-}
-
-function bindEvents() {
-    dom.adminLoginBtn.addEventListener("click", openLoginModal);
-    dom.logoutBtn.addEventListener("click", handleLogout);
-    dom.loginBtn.addEventListener("click", attemptLogin);
-    dom.closeModal.addEventListener("click", closeLoginModal);
-    dom.urlSubmit.addEventListener("click", handleUrlUpload);
-    dom.cloudinaryBtn.addEventListener("click", openCloudinaryWidget);
-    dom.useUrlBtn.addEventListener("click", () => dom.urlUploadArea.classList.toggle("hidden"));
-    dom.cantidadSelector.addEventListener("change", handleCantidadChange);
-    dom.languageSelect.addEventListener("change", handleLanguageChange);
-    dom.themeToggle.addEventListener("click", handleThemeToggle);
-    dom.imageGallery.addEventListener("click", handleGalleryClick);
-    dom.fsClose.addEventListener("click", closeFullScreen);
-    dom.fullScreenModal.addEventListener("click", (event) => {
-        if (event.target === dom.fullScreenModal) closeFullScreen();
-    });
-
-    // Inicializar observer de lazy-loading si es compatible
-    if ('IntersectionObserver' in window) {
-        initLazyObserver();
-    }
-
-    window.addEventListener("click", (event) => {
-        if (event.target === dom.loginModal) closeLoginModal();
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closeLoginModal();
-            closeFullScreen();
-        }
-    });
-}
-
-function handleLanguageChange() {
-    const selectedLanguage = dom.languageSelect.value;
-    setLanguage(selectedLanguage);
-    applyTranslations(document);
-    updateThemeButtonLabel();
-    updateUI();
-    renderGalleryBasedOnSelection();
-}
-
-function handleThemeToggle() {
-    toggleTheme();
-    updateThemeButtonLabel();
-}
-
-async function initializeSession() {
-    state.isAdmin = await authClient.checkSession();
-}
-
-function initCloudinaryWidget() {
-    if (!window.cloudinary) {
-        dom.cloudinaryBtn.disabled = true;
-        return;
-    }
-
-    const widgetOptions = {
-        cloudName: APP_CONFIG.cloudinary.cloudName,
-        uploadPreset: APP_CONFIG.cloudinary.uploadPreset,
-        tags: [APP_CONFIG.cloudinary.listTag],
-        sources: APP_CONFIG.cloudinary.sources
-    };
-
-    if (APP_CONFIG.cloudinary.assetFolder) {
-        widgetOptions.folder = APP_CONFIG.cloudinary.assetFolder;
-        widgetOptions.asset_folder = APP_CONFIG.cloudinary.assetFolder;
-    }
-
-    state.cloudinaryWidget = window.cloudinary.createUploadWidget(widgetOptions, async (error, result) => {
-        if (error) {
-            alert(t("cloudinary.openError"));
-            return;
-        }
-
-        if (!result || result.event !== "success") return;
-
-        try {
-            const newImage = await galleryService.saveUploadedImage(result.info);
-            state.allImages.unshift(newImage);
-            state.currentPage = 1;
-            renderGalleryBasedOnSelection();
-        } catch (uploadError) {
-            console.error(uploadError);
-            alert(t("firebase.notConfigured"));
-        }
-    });
-}
-
-async function refreshGallery() {
-    state.galleryError = "";
-    setGalleryLoading(true);
+async function loadPreviewGallery() {
+    if (!dom.imageGallery) return;
+    dom.galleryLoading?.classList.add("is-visible");
 
     try {
+        // Initialize Firebase with seed data if empty
+        await seedFirebaseIfEmpty();
+        
         const images = await galleryService.listImages();
-        state.allImages = images;
-    } catch (error) {
-        console.error(error);
-        state.allImages = [];
-        state.galleryError = String(error.message || "UNKNOWN_ERROR");
+        const preview = images.slice(0, 8);
+        renderGallery(preview);
+    } catch {
+        dom.imageGallery.innerHTML = '<p class="empty-message">No se pudieron cargar las imágenes.</p>';
     } finally {
-        renderGalleryBasedOnSelection();
-        setGalleryLoading(false);
+        dom.galleryLoading?.classList.remove("is-visible");
     }
-}
-
-function setGalleryLoading(isLoading) {
-    if (!dom.galleryLoading) return;
-    dom.galleryLoading.classList.toggle("hidden", !isLoading);
-    dom.imageGallery.classList.toggle("gallery-dimmed", isLoading);
-    if (isLoading) {
-        dom.emptyMessage.style.display = "none";
-    }
-}
-
-function resolveEmptyStateMessage() {
-    if (!state.galleryError) return t("gallery.empty");
-
-    const errorText = state.galleryError.toLowerCase();
-    if (errorText.includes("restricted")) return t("gallery.loadRestricted");
-    if (errorText.includes("no resources found")) return t("gallery.empty");
-    if (errorText.includes("firebase_provider_missing")) return t("firebase.notConfigured");
-    return t("gallery.loadError");
-}
-
-function handleCantidadChange() {
-    state.itemsPerPage = Number.parseInt(dom.cantidadSelector.value, 10);
-    state.currentPage = 1;
-    renderGalleryBasedOnSelection();
-}
-
-function renderGalleryBasedOnSelection() {
-    if (state.itemsPerPage === 9999) {
-        dom.paginationContainer.classList.add("hidden");
-        dom.paginationInfo.classList.add("hidden");
-        renderGallery(state.allImages);
-        return;
-    }
-
-    updatePagination();
-    renderCurrentPage();
-}
-
-function renderCurrentPage() {
-    const startIndex = (state.currentPage - 1) * state.itemsPerPage;
-    const endIndex = startIndex + state.itemsPerPage;
-    const imagesToShow = state.allImages.slice(startIndex, endIndex);
-    renderGallery(imagesToShow);
-
-    const totalPages = Math.max(1, Math.ceil(state.allImages.length / state.itemsPerPage));
-    dom.paginationInfo.textContent = t("pagination.info", {
-        page: String(state.currentPage),
-        totalPages: String(totalPages),
-        totalImages: String(state.allImages.length)
-    });
-    dom.paginationInfo.classList.toggle("hidden", state.allImages.length === 0);
-}
-
-function updatePagination() {
-    const totalPages = Math.ceil(state.allImages.length / state.itemsPerPage);
-    dom.paginationContainer.innerHTML = "";
-
-    if (totalPages <= 1) {
-        dom.paginationContainer.classList.add("hidden");
-        dom.paginationInfo.classList.add("hidden");
-        return;
-    }
-
-    dom.paginationContainer.classList.remove("hidden");
-
-    const prevButton = createPageButton("«", state.currentPage === 1, () => {
-        if (state.currentPage > 1) {
-            state.currentPage -= 1;
-            renderCurrentPage();
-            updatePagination();
-        }
-    });
-    dom.paginationContainer.appendChild(prevButton);
-
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, state.currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    if (startPage > 1) {
-        dom.paginationContainer.appendChild(createPageButton("1", false, () => jumpToPage(1)));
-        if (startPage > 2) dom.paginationContainer.appendChild(createEllipsis());
-    }
-
-    for (let page = startPage; page <= endPage; page += 1) {
-        dom.paginationContainer.appendChild(
-            createPageButton(String(page), false, () => jumpToPage(page), page === state.currentPage)
-        );
-    }
-
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) dom.paginationContainer.appendChild(createEllipsis());
-        dom.paginationContainer.appendChild(createPageButton(String(totalPages), false, () => jumpToPage(totalPages)));
-    }
-
-    const nextButton = createPageButton("»", state.currentPage === totalPages, () => {
-        if (state.currentPage < totalPages) {
-            state.currentPage += 1;
-            renderCurrentPage();
-            updatePagination();
-        }
-    });
-    dom.paginationContainer.appendChild(nextButton);
-}
-
-function jumpToPage(page) {
-    state.currentPage = page;
-    renderCurrentPage();
-    updatePagination();
-}
-
-function createPageButton(label, disabled, onClick, active = false) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `pagination-button ${disabled ? "disabled" : ""} ${active ? "active" : ""}`.trim();
-    button.textContent = label;
-    button.disabled = disabled;
-    button.addEventListener("click", onClick);
-    return button;
-}
-
-function createEllipsis() {
-    const ellipsis = document.createElement("span");
-    ellipsis.className = "pagination-ellipsis";
-    ellipsis.textContent = "...";
-    return ellipsis;
-}
-
-let lazyObserver = null;
-function initLazyObserver() {
-    // Observa los items para asignar src cuando entren en viewport
-    lazyObserver = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            const item = entry.target;
-            const img = item.querySelector('img.gallery-image');
-            if (!img) continue;
-            const pendingSrc = img.dataset.src;
-            if (pendingSrc && img.src !== pendingSrc) {
-                img.src = pendingSrc;
-            }
-            lazyObserver.unobserve(item);
-        }
-    }, {
-        root: null,
-        rootMargin: '200px 0px',
-        threshold: 0.01
-    });
 }
 
 function renderGallery(images) {
+    if (!dom.imageGallery) return;
     dom.imageGallery.innerHTML = "";
-
     if (!images.length) {
-        dom.emptyMessage.textContent = resolveEmptyStateMessage();
-        dom.emptyMessage.style.display = "block";
-        dom.imageGallery.appendChild(dom.emptyMessage);
+        dom.imageGallery.innerHTML = '<p class="empty-message">No hay imágenes en la galería.</p>';
         return;
     }
-
-    images.forEach((image, index) => {
-        if (!image.src) return;
-
+    images.forEach(image => {
         const item = document.createElement("article");
         item.className = "gallery-item is-loading";
-        item.dataset.src = image.src;
-
         const img = document.createElement("img");
         img.className = "gallery-image";
         img.alt = image.name || "Imagen";
-        img.decoding = "async";
-        // Priorizar las primeras imágenes de la página para mejorar LCP
-        if (index < 4 && !('IntersectionObserver' in window)) {
-            img.fetchPriority = "high";
-        } else {
-            img.loading = "lazy";
-        }
-
-        img.addEventListener("load", () => {
-            item.classList.remove("is-loading");
-            img.classList.add("loaded");
-            if (lazyObserver) lazyObserver.unobserve(item);
-        });
-        img.addEventListener("error", async () => {
-            try { item.remove(); } catch {}
-            state.allImages = state.allImages.filter((it) => (image.id ? it.id !== image.id : it.src !== image.src));
-            renderGalleryBasedOnSelection();
-            if (state.isAdmin) {
-                try { await galleryService.deleteImage(image); } catch (cleanupError) { console.error(cleanupError); }
-            }
-            if (lazyObserver) lazyObserver.unobserve(item);
-        });
-
-        // Deferir la asignación del src hasta que entre en viewport
-        if ('IntersectionObserver' in window) {
-            img.dataset.src = image.src;
-        } else {
-            img.src = image.src;
-        }
-
+        img.loading = "lazy";
+        img.addEventListener("load", () => { item.classList.remove("is-loading"); img.classList.add("loaded"); });
+        img.src = image.src;
         item.appendChild(img);
-
-        if (state.isAdmin) {
-            const deleteButton = document.createElement("button");
-            deleteButton.type = "button";
-            deleteButton.className = "delete-btn";
-            deleteButton.title = t("gallery.delete");
-            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-            deleteButton.addEventListener("click", async (event) => {
-                event.stopPropagation();
-                await handleDeleteRequest(image);
-            });
-            item.appendChild(deleteButton);
-        }
-
+        item.addEventListener("click", () => openFullscreen(image.src));
         dom.imageGallery.appendChild(item);
-        if (lazyObserver) lazyObserver.observe(item);
     });
 }
 
-async function handleDeleteRequest(image) {
-    try {
-        const deleted = await galleryService.deleteImage(image);
-
-        if (deleted) {
-            state.allImages = state.allImages.filter((item) => item.id !== image.id);
-            state.currentPage = 1;
-            renderGalleryBasedOnSelection();
-            return;
-        }
-    } catch (error) {
-        console.error(error);
-        alert(t("gallery.deleteError"));
-        return;
-    }
-
-    alert(t("gallery.deleteUnavailable"));
-    const folder = encodeURIComponent(APP_CONFIG.cloudinary.assetFolder || "");
-    window.open(`https://cloudinary.com/console/media_library/folder/${folder}`, "_blank", "noopener,noreferrer");
+function bindFullscreen() {
+    dom.imageGallery?.addEventListener("click", e => {
+        const img = e.target.closest("img");
+        if (img) openFullscreen(img.src);
+    });
+    dom.fsClose?.addEventListener("click", closeFullscreen);
+    dom.fullScreenModal?.addEventListener("click", e => { if (e.target === dom.fullScreenModal) closeFullscreen(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closeFullscreen(); closeLoginModal(); } });
 }
 
-function handleGalleryClick(event) {
-    if (event.target.tagName !== "IMG") return;
-    dom.fullScreenImage.src = event.target.src;
-    dom.fullScreenModal.style.display = "block";
+function openFullscreen(src) {
+    if (!dom.fullScreenModal) return;
+    dom.fullScreenImage.src = src;
+    dom.fullScreenModal.classList.add("is-open");
     document.body.style.overflow = "hidden";
 }
-
-function closeFullScreen() {
-    dom.fullScreenModal.style.display = "none";
-    dom.fullScreenImage.src = "";
+function closeFullscreen() {
+    dom.fullScreenModal?.classList.remove("is-open");
+    if (dom.fullScreenImage) dom.fullScreenImage.src = "";
     document.body.style.overflow = "";
 }
 
 function openLoginModal() {
-    dom.loginMessage.textContent = "";
-    if (dom.emailInput) dom.emailInput.value = APP_CONFIG.auth.firebaseAdminEmail || "";
-    dom.passwordInput.value = "";
-    dom.loginModal.style.display = "block";
-    if (dom.emailInput && !dom.emailInput.value) {
-        dom.emailInput.focus();
-    } else {
-        dom.passwordInput.focus();
-    }
+    if (dom.loginMessage) dom.loginMessage.textContent = "";
+    if (dom.emailInput)   dom.emailInput.value = "";
+    if (dom.passwordInput) dom.passwordInput.value = "";
+    dom.loginModal?.classList.add("is-open");
+    dom.closeLoginModal?.addEventListener("click", closeLoginModal, { once: true });
+    window.addEventListener("click", outsideLoginClose);
+    dom.loginBtn?.addEventListener("click", attemptLogin, { once: true });
+    dom.passwordInput?.addEventListener("keydown", e => { if (e.key === "Enter") attemptLogin(); });
 }
-
 function closeLoginModal() {
-    dom.loginModal.style.display = "none";
+    dom.loginModal?.classList.remove("is-open");
+    window.removeEventListener("click", outsideLoginClose);
+}
+function outsideLoginClose(e) {
+    if (e.target === dom.loginModal) closeLoginModal();
 }
 
 async function attemptLogin() {
-    const email = (dom.emailInput?.value || APP_CONFIG.auth.firebaseAdminEmail || "").trim();
-    const password = dom.passwordInput.value.trim();
+    const email    = dom.emailInput?.value.trim() || "";
+    const password = dom.passwordInput?.value.trim() || "";
+    if (!email || !password) { if (dom.loginMessage) dom.loginMessage.textContent = "Completa los campos."; return; }
 
-    if (!password) {
-        dom.loginMessage.textContent = t("auth.badCredentials");
-        return;
-    }
-
-    if (APP_CONFIG.auth.mode === "firebase" && !email) {
-        dom.loginMessage.textContent = t("auth.emailRequired");
-        return;
-    }
+    const btn = dom.loginBtn;
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando…'; }
 
     try {
-        const isAuthenticated = await authClient.login({ email, password });
-        if (!isAuthenticated) {
-            dom.loginMessage.textContent = t("auth.badCredentials");
-            return;
-        }
-
-        state.isAdmin = true;
-        closeLoginModal();
-        updateUI();
-    } catch (error) {
-        const knownInvalid = error.message === "INVALID_CREDENTIALS";
-        dom.loginMessage.textContent = knownInvalid ? t("auth.badCredentials") : t("auth.unavailable");
+        await authClient.login({ email, password });
+        // Redirigir al panel de administración
+        window.location.href = "admin.html";
+    } catch {
+        if (dom.loginMessage) dom.loginMessage.textContent = "Credenciales inválidas.";
+        if (btn) { btn.disabled = false; btn.innerHTML = 'Ingresar'; }
     }
 }
 
 async function handleLogout() {
-    try {
-        await authClient.logout();
-    } catch (error) {
-        console.error(error);
-        alert(t("auth.logoutError"));
-    }
-
-    state.isAdmin = false;
-    updateUI();
-}
-
-function openCloudinaryWidget() {
-    if (!state.isAdmin) {
-        alert(t("auth.required"));
-        openLoginModal();
-        return;
-    }
-
-    if (!state.cloudinaryWidget) {
-        alert(t("cloudinary.unavailable"));
-        return;
-    }
-
-    state.cloudinaryWidget.open();
-}
-
-async function handleUrlUpload() {
-    if (!state.isAdmin) {
-        alert(t("auth.required"));
-        openLoginModal();
-        return;
-    }
-
-    const url = dom.urlInput.value.trim();
-    if (!url) {
-        alert(t("upload.urlEmpty"));
-        return;
-    }
-
-    try {
-        new URL(url);
-    } catch {
-        alert(t("upload.urlInvalid"));
-        return;
-    }
-
-    const image = new Image();
-    image.onload = async () => {
-        try {
-            const newImage = await galleryService.saveExternalImage(url);
-            state.allImages.unshift(newImage);
-            state.currentPage = 1;
-            renderGalleryBasedOnSelection();
-            dom.urlInput.value = "";
-            dom.urlUploadArea.classList.add("hidden");
-        } catch (error) {
-            console.error(error);
-            alert(t("firebase.notConfigured"));
-        }
-    };
-    image.onerror = () => alert(t("upload.urlLoadError"));
-    image.src = url;
-}
-
-function updateUI() {
-    dom.adminStatus.textContent = t("admin.status");
-
-    if (state.isAdmin) {
-        dom.adminStatus.classList.remove("hidden");
-        dom.uploadSection.classList.remove("hidden");
-        dom.adminLoginBtn.classList.add("hidden");
-        dom.logoutBtn.classList.remove("hidden");
-    } else {
-        dom.adminStatus.classList.add("hidden");
-        dom.uploadSection.classList.add("hidden");
-        dom.adminLoginBtn.classList.remove("hidden");
-        dom.logoutBtn.classList.add("hidden");
-    }
+    await authClient.logout();
+    window._navSetAdmin?.(false);
 }

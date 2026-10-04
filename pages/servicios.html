@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Servicios de Rosy Photo Studio — Restauración, colorización, retratos, bebés, embarazo, grados e impresión profesional.">
+    <title>Servicios — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={darkMode:['selector','[data-theme="dark"]'],theme:{extend:{fontFamily:{script:['"Great Vibes"','cursive'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script></head>
+<body class="page-body">
+
+    <div id="nav-placeholder"></div>
+
+    <div class="page-wrapper">
+
+        <!-- Header de sección -->
+        <section class="page-card animate-fade-in">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-magic"></i> Lo que hacemos</span>
+                <h1 class="section-title" data-i18n="services.title">Nuestros Servicios</h1>
+                <p class="section-subtitle" data-i18n="services.subtitle">Transformamos tus recuerdos con amor y precisión</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- Grid de servicios -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;padding:0 1.5rem 2rem">
+
+                <!-- Restauración -->
+                <div class="service-card" id="restauracion">
+                    <div class="service-card__icon"><i class="fas fa-magic"></i></div>
+                    <div>
+                        <p class="service-card__title">Restauración de Fotos</p>
+                        <p class="service-card__desc">Devolvemos vida a fotografías antiguas y dañadas. Reparamos desgarros, manchas, deterioro por humedad y pérdida de detalles, preservando la esencia original.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Desgarros y rasgaduras</span>
+                        <span class="pill"><i class="fas fa-check"></i> Manchas y deterioro</span>
+                        <span class="pill"><i class="fas fa-check"></i> Fotos históricas</span>
+                        <span class="pill"><i class="fas fa-check"></i> Pérdida de detalles</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Colorización -->
+                <div class="service-card" id="colorizacion">
+                    <div class="service-card__icon" style="background:rgba(139,92,246,.1);color:#7c3aed"><i class="fas fa-palette"></i></div>
+                    <div>
+                        <p class="service-card__title">Colorización</p>
+                        <p class="service-card__desc">Añadimos color natural a fotos en blanco y negro, respetando la iluminación original y los detalles históricos para un resultado vibrante y auténtico.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Colores naturales</span>
+                        <span class="pill"><i class="fas fa-check"></i> Respeta iluminación</span>
+                        <span class="pill"><i class="fas fa-check"></i> Alta fidelidad</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Retoque -->
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(16,185,129,.1);color:#059669"><i class="fas fa-sliders-h"></i></div>
+                    <div>
+                        <p class="service-card__title">Retoque Profesional</p>
+                        <p class="service-card__desc">Ajuste de exposición, contraste, nitidez, eliminación de imperfecciones y mejora general de la imagen para un resultado impecable.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Exposición y color</span>
+                        <span class="pill"><i class="fas fa-check"></i> Eliminación de fondos</span>
+                        <span class="pill"><i class="fas fa-check"></i> Nitidez mejorada</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Impresión -->
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(245,158,11,.1);color:#d97706"><i class="fas fa-print"></i></div>
+                    <div>
+                        <p class="service-card__title">Impresión Profesional</p>
+                        <p class="service-card__desc">Impresión en papel fotográfico, canvas, acrílico, madera o aluminio Dibond. Múltiples tamaños desde 3×4 cm hasta 60×90 cm.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Papel fotográfico</span>
+                        <span class="pill"><i class="fas fa-check"></i> Canvas / Lienzo</span>
+                        <span class="pill"><i class="fas fa-check"></i> Acrílico</span>
+                        <span class="pill"><i class="fas fa-check"></i> Aluminio Dibond</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Combo -->
+                <div class="service-card" style="border:1.5px solid rgba(252,37,162,.3);position:relative;overflow:hidden">
+                    <div style="position:absolute;top:.75rem;right:.75rem;background:#fc25a2;color:#fff;font-size:.68rem;font-weight:700;padding:.15rem .55rem;border-radius:99px">OFERTA</div>
+                    <div class="service-card__icon" style="background:rgba(252,37,162,.12);color:#fc25a2"><i class="fas fa-star"></i></div>
+                    <div>
+                        <p class="service-card__title">Combo: Restauración + Color</p>
+                        <p class="service-card__desc">El paquete completo: restauramos la foto dañada y la colorizamos. El resultado más impresionante a precio especial.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Restauración completa</span>
+                        <span class="pill"><i class="fas fa-check"></i> Colorización incluida</span>
+                        <span class="pill"><i class="fas fa-check"></i> Precio especial</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Pendones -->
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(6,182,212,.1);color:#0891b2"><i class="fas fa-flag"></i></div>
+                    <div>
+                        <p class="service-card__title">Pendones</p>
+                        <p class="service-card__desc">Pendones verticales de alta resolución para eventos, negocios y publicidad. Impresión en lona brillante o mate con acabado profesional.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Lona brillante</span>
+                        <span class="pill"><i class="fas fa-check"></i> Lona mate</span>
+                        <span class="pill"><i class="fas fa-check"></i> Varios tamaños</span>
+                        <span class="pill"><i class="fas fa-check"></i> Alta resolución</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+                <!-- Retablos -->
+                <div class="service-card">
+                    <div class="service-card__icon" style="background:rgba(234,179,8,.1);color:#ca8a04"><i class="fas fa-image"></i></div>
+                    <div>
+                        <p class="service-card__title">Retablos</p>
+                        <p class="service-card__desc">Retablos fotográficos montados sobre madera o PVC de alta densidad, ideales para decoración del hogar y recuerdos especiales.</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                        <span class="pill"><i class="fas fa-check"></i> Montaje en madera</span>
+                        <span class="pill"><i class="fas fa-check"></i> PVC rígido</span>
+                        <span class="pill"><i class="fas fa-check"></i> Decoración</span>
+                        <span class="pill"><i class="fas fa-check"></i> Varios tamaños</span>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:.25rem">
+                        <a href="../pages/cotizar.html" class="btn-primary" style="padding:.4rem .9rem;font-size:.8rem">Cotizar</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ── Comparadores ──────────────────────────────────── -->
+        <section class="page-card" style="margin-top:1.25rem">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-exchange-alt"></i> Antes / Después</span>
+                <h2 class="section-title" data-i18n="comparator.title">Comparador de Imágenes</h2>
+                <p class="section-subtitle">Desliza el divisor para ver la transformación en tiempo real</p>
+                <div class="section-divider"></div>
+                <!-- Instrucciones -->
+                <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1rem">
+                    <span style="display:inline-flex;align-items:center;gap:.4rem;background:#f9fafb;border:1px solid #f3f4f6;border-radius:99px;padding:.3rem .75rem;font-size:.75rem;color:#6b7280">↔ <span data-i18n="comparator.instructions.slide">Desliza para comparar</span></span>
+                    <span style="display:inline-flex;align-items:center;gap:.4rem;background:#f9fafb;border:1px solid #f3f4f6;border-radius:99px;padding:.3rem .75rem;font-size:.75rem;color:#6b7280">📱 <span data-i18n="comparator.instructions.mobile">Compatible táctil</span></span>
+                </div>
+            </div>
+
+            <div style="padding:1.5rem;display:flex;flex-direction:column;gap:3rem">
+
+                <!-- Restauración -->
+                <div class="comparator-row">
+                    <div class="comparator-row__text">
+                        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem">
+                            <div style="width:2.5rem;height:2.5rem;background:rgba(252,37,162,.1);border-radius:.65rem;display:flex;align-items:center;justify-content:center;color:#fc25a2"><i class="fas fa-magic"></i></div>
+                            <h2 style="font-size:1.2rem;font-weight:700" data-i18n="restoration.title">Restauración de Fotos</h2>
+                        </div>
+                        <p style="font-size:.875rem;color:#6b7280;line-height:1.65;margin-bottom:1rem" data-i18n="restoration.description">Nuestro proceso devuelve a la vida fotografías antiguas y dañadas, reparando desgarros, manchas y deterioro mientras preservamos la esencia original.</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+                            <span class="pill"><i class="fas fa-check"></i> Desgarros y rasgaduras</span>
+                            <span class="pill"><i class="fas fa-check"></i> Manchas</span>
+                            <span class="pill"><i class="fas fa-check"></i> Fotos antiguas</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:1.25rem;padding-top:.5rem;border-top:1px solid #f3f4f6">
+                            <div style="display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;border-radius:50%;background:#9ca3af;display:inline-block"></span><span style="font-size:.78rem;color:#6b7280" data-i18n="restoration.before">Foto dañada</span></div>
+                            <div style="width:1.5rem;height:1px;background:#d1d5db"></div>
+                            <div style="display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;border-radius:50%;background:#fc25a2;display:inline-block"></span><span style="font-size:.78rem;color:#6b7280" data-i18n="restoration.after">Restaurada</span></div>
+                        </div>
+                    </div>
+                    <div class="comparison-container comparator-row__img" id="comparator-restauracion">
+                        <div class="image-container">
+                            <!-- image-after = fondo (derecha) = RESTAURADA -->
+                            <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873204/Rosy/atqg41isqwlhf3jcnxpd.jpg" alt="Foto restaurada">
+                            <!-- image-before = recorte izquierda = ORIGINAL DAÑADA -->
+                            <div class="image-before">
+                                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873175/Rosy/riqnvhzae5niudf8zyue.png" alt="Foto dañada original">
+                            </div>
+                            <span style="position:absolute;top:.65rem;left:.65rem;z-index:3;background:rgba(0,0,0,.65);color:#fff;font-size:.7rem;font-weight:600;padding:.22rem .6rem;border-radius:99px">Original</span>
+                            <span style="position:absolute;top:.65rem;right:.65rem;z-index:3;background:rgba(252,37,162,.9);color:#fff;font-size:.7rem;font-weight:600;padding:.22rem .6rem;border-radius:99px">✨ Restaurada</span>
+                            <div class="slider-line"></div>
+                            <div class="slider-handle"><div style="display:flex;gap:2px"><i class="fas fa-chevron-left" style="color:#fc25a2;font-size:.65rem"></i><i class="fas fa-chevron-right" style="color:#fc25a2;font-size:.65rem"></i></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border:none;border-top:1px solid #f3f4f6">
+
+                <!-- Colorización -->
+                <div class="comparator-row comparator-row--reverse">
+                    <div class="comparison-container comparator-row__img" id="comparator-colorizacion">
+                        <div class="image-container">
+                            <img class="image-after" src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757806166/Rosy/xrcskkzenwojxwengwss.png" alt="Después de colorización" loading="lazy">
+                            <div class="image-before">
+                                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/f_auto,q_auto/v1757873246/Rosy/ajtrh1rirk5dnp4kgnu3.jpg" alt="Antes de colorización">
+                            </div>
+                            <span style="position:absolute;top:.65rem;left:.65rem;z-index:3;background:rgba(0,0,0,.6);color:#fff;font-size:.7rem;font-weight:600;padding:.22rem .6rem;border-radius:99px" data-i18n="colorization.before">B&amp;N original</span>
+                            <span style="position:absolute;top:.65rem;right:.65rem;z-index:3;background:rgba(252,37,162,.88);color:#fff;font-size:.7rem;font-weight:600;padding:.22rem .6rem;border-radius:99px" data-i18n="colorization.after">Con color</span>
+                            <div class="slider-line"></div>
+                            <div class="slider-handle"><div style="display:flex;gap:2px"><i class="fas fa-chevron-left" style="color:#fc25a2;font-size:.65rem"></i><i class="fas fa-chevron-right" style="color:#fc25a2;font-size:.65rem"></i></div></div>
+                        </div>
+                    </div>
+                    <div class="comparator-row__text">
+                        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem">
+                            <div style="width:2.5rem;height:2.5rem;background:rgba(139,92,246,.1);border-radius:.65rem;display:flex;align-items:center;justify-content:center;color:#7c3aed"><i class="fas fa-palette"></i></div>
+                            <h2 style="font-size:1.2rem;font-weight:700" data-i18n="colorization.title">Colorización</h2>
+                        </div>
+                        <p style="font-size:.875rem;color:#6b7280;line-height:1.65;margin-bottom:1rem" data-i18n="colorization.description">Añadimos color a tus fotografías en blanco y negro utilizando técnicas avanzadas que respetan la iluminación original.</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+                            <span class="pill"><i class="fas fa-check"></i> Colores naturales</span>
+                            <span class="pill"><i class="fas fa-check"></i> Alta fidelidad</span>
+                            <span class="pill"><i class="fas fa-check"></i> Resultado vibrante</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:1.25rem;padding-top:.5rem;border-top:1px solid #f3f4f6">
+                            <div style="display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;border-radius:50%;background:#9ca3af;display:inline-block"></span><span style="font-size:.78rem;color:#6b7280" data-i18n="colorization.before">B&amp;N original</span></div>
+                            <div style="width:1.5rem;height:1px;background:#d1d5db"></div>
+                            <div style="display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;border-radius:50%;background:#a855f7;display:inline-block"></span><span style="font-size:.78rem;color:#6b7280" data-i18n="colorization.after">Con colorización</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align:center;padding:1.5rem">
+                <a href="../pages/cotizar.html" class="btn-primary"><i class="fas fa-calculator"></i> Cotizar un servicio</a>
+            </div>
+        </section>
+
+        <div class="social-section">
+            <p class="social-title" data-i18n="social.title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p><span data-i18n="footer.rights">© 2025 Todos los derechos reservados — </span><strong>Jhorman Castellanos Morales</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-top:.25rem"><i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander</p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <script type="module" src="../js/app-servicios.js"></script>
+</body>
+</html>

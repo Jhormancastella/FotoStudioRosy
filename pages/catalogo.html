@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo fotográfico de Rosy Photo Studio — Explora restauraciones, colorizaciones y retratos profesionales.">
+    <title>Catálogo — Rosy Photo Studio</title>
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={darkMode:['selector','[data-theme="dark"]'],theme:{extend:{fontFamily:{script:['"Great Vibes"','cursive'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script></head>
+<body class="page-body">
+
+    <div id="nav-placeholder"></div>
+
+    <div class="page-wrapper">
+        <section class="page-card animate-fade-in">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-th-large"></i> Portafolio</span>
+                <h1 class="section-title" data-i18n="catalog.title">Catálogo</h1>
+                <p class="section-subtitle" data-i18n="catalog.subtitle">Explora nuestros trabajos por categoría</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- Filtros de categoría — poblados dinámicamente desde Firestore por app-catalogo.js -->
+            <div class="cat-filters" id="catFilters">
+                <!-- Los botones se generan en populateCatFilters() -->
+            </div>
+
+            <!-- Controles de vista y cantidad -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;flex-wrap:wrap;gap:.5rem">
+                <div style="display:flex;align-items:center;gap:.5rem">
+                    <label for="cantidadSelector" style="font-size:.82rem;font-weight:600;color:#6b7280">Mostrar:</label>
+                    <select id="cantidadSelector" class="form-select" style="width:auto">
+                        <option value="8">8</option>
+                        <option value="12" selected>12</option>
+                        <option value="24">24</option>
+                        <option value="9999">Todas</option>
+                    </select>
+                </div>
+                <div id="resultCount" style="font-size:.82rem;color:#9ca3af"></div>
+            </div>
+
+            <!-- Galería -->
+            <div style="padding:0 1.5rem">
+                <div class="gallery-loading" id="galleryLoading">
+                    <span class="loading-spinner"></span>
+                    <span data-i18n="gallery.loading">Cargando imágenes…</span>
+                </div>
+                <div class="gallery-grid" id="imageGallery"></div>
+            </div>
+
+            <!-- Paginación -->
+            <div style="padding:1rem 1.5rem 2rem">
+                <div class="pagination" id="pagination"></div>
+                <p class="pagination-info" id="paginationInfo"></p>
+            </div>
+        </section>
+
+        <!-- Admin: subir imágenes -->
+        <section id="uploadSection" class="page-card hidden" style="margin-top:1.25rem;padding:1.5rem">
+            <h2 style="font-size:1rem;font-weight:700;color:#111827;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
+                <i class="fas fa-cloud-upload-alt" style="color:#fc25a2"></i>
+                <span data-i18n="upload.title">Subir Nueva Imagen</span>
+            </h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                <div class="service-card" style="cursor:pointer" id="cloudinaryCard">
+                    <div class="service-card__icon"><i class="fas fa-upload"></i></div>
+                    <p class="service-card__title" data-i18n="upload.deviceTitle">Subir desde dispositivo</p>
+                    <button id="cloudinaryBtn" type="button" class="btn-primary" style="align-self:flex-start" data-i18n="upload.deviceButton">Abrir Cloudinary</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon"><i class="fas fa-link"></i></div>
+                    <p class="service-card__title" data-i18n="upload.urlTitle">Usar enlace de imagen</p>
+                    <button id="useUrlBtn" type="button" class="btn-secondary" style="align-self:flex-start" data-i18n="upload.urlButton">Usar URL</button>
+                </div>
+            </div>
+            <!-- Selector de categoría para la imagen -->
+            <div class="form-group" style="max-width:280px;margin-bottom:1rem">
+                <label class="form-label" for="imageCategorySelect" data-i18n="upload.category">Categoría</label>
+                <select id="imageCategorySelect" class="form-select">
+                    <option value="todos">Sin categoría (Todos)</option>
+                    <option value="restauracion">Restauración</option>
+                    <option value="colorizacion">Colorización</option>
+                    <option value="retratos">Retratos</option>
+                    <option value="bebes">Bebés</option>
+                    <option value="embarazo">Embarazo</option>
+                    <option value="grados">Grados</option>
+                    <option value="eventos">Eventos</option>
+                </select>
+            </div>
+            <!-- URL upload area -->
+            <div id="urlUploadArea" class="hidden" style="border:2px dashed rgba(252,37,162,.35);border-radius:.85rem;background:rgba(252,37,162,.03);padding:1.25rem;text-align:center">
+                <i class="fas fa-link" style="color:#fc25a2;font-size:1.75rem;margin-bottom:.65rem;display:block"></i>
+                <p style="font-size:.85rem;color:#6b7280;margin-bottom:.75rem" data-i18n="upload.urlDescription">Ingresa la URL de una imagen en internet</p>
+                <input type="text" id="urlInput" class="form-input" style="max-width:420px;margin:0 auto .65rem" data-i18n-placeholder="upload.urlPlaceholder" placeholder="https://ejemplo.com/imagen.jpg">
+                <button id="urlSubmit" type="button" class="btn-primary" data-i18n="upload.addImage">Agregar Imagen</button>
+            </div>
+        </section>
+
+        <!-- Redes sociales -->
+        <div class="social-section">
+            <p class="social-title" data-i18n="social.title">Síguenos en redes</p>
+            <div class="social-links">
+                <a href="https://wa.me/573229135021" target="_blank" rel="noopener noreferrer" class="social-link social-link--wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/" target="_blank" rel="noopener noreferrer" class="social-link social-link--fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/rosyphotostudio3/" target="_blank" rel="noopener noreferrer" class="social-link social-link--ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@rosyphotostudio" target="_blank" rel="noopener noreferrer" class="social-link social-link--tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <img src="https://res.cloudinary.com/dipv76dpn/image/upload/v1757801787/fjtfrshjkyxdtuscpkk5.png" alt="Logo" class="footer-logo">
+                <span class="footer-name">Rosy Photo Studio</span>
+            </div>
+            <p><span data-i18n="footer.rights">© 2025 Todos los derechos reservados — </span><strong>Jhorman Castellanos Morales</strong></p>
+            <p style="font-size:.75rem;color:#9ca3af;margin-top:.25rem"><i class="fas fa-map-marker-alt" style="color:#fc25a2;margin-right:.3rem"></i>Barrio Divino Niño, Calle 10 #10-37, Tibú, Norte de Santander</p>
+        </footer>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullScreenModal" class="fs-modal" role="dialog" aria-modal="true">
+        <button class="fs-close" id="fsClose" aria-label="Cerrar">&times;</button>
+        <img class="fs-img" id="fullScreenImage" src="" alt="Imagen ampliada">
+    </div>
+
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <script type="module" src="../js/app-catalogo.js"></script>
+</body>
+</html>
