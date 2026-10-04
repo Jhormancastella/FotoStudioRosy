@@ -1149,6 +1149,20 @@
                 }
             }
         }, 100);
+
+        // También reaccionar inmediatamente al evento `pricingReady` si se dispara
+        const onPricingReady = () => {
+            clearInterval(poll);
+            pricingReady = true;
+            if (selectedProduct) renderTotal();
+            if (selectedProduct?.pricingMode === "fixed") {
+                const sizeEntry = window.__pricing?.sizes.find(s => s.id === selectedProduct.fixedSizeId);
+                if (sizeEntry) document.getElementById("fixedPriceVal").textContent = fmt(sizeEntry.price);
+            }
+        };
+        window.addEventListener("pricingReady", onPricingReady);
+        // Limpiar listener si la página se descarga
+        window.addEventListener("beforeunload", () => window.removeEventListener("pricingReady", onPricingReady));
     });
 
     /* ── Envío de cotización (llamado desde app-cotizar.js) ── */

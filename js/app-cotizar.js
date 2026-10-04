@@ -36,6 +36,17 @@ async function initCotizar() {
     // Cargar precios desde Firebase; si falla usa los de config.js
     await loadPricingFromFirebase();
 
+    // Exponer el pricing y contacto globalmente para la UI de `pages/cotizar.html`
+    // (la UI principal espera `window.__pricing` y `window.__contact`).
+    try {
+        window.__pricing = pricing;
+        window.__contact = contact;
+        // Emitir evento por si hay listeners además del polling en el HTML
+        window.dispatchEvent(new Event("pricingReady"));
+    } catch (e) {
+        // Silencioso en entornos restringidos
+    }
+
     // Poblar los <select> con los datos cargados
     populateSelects();
 
