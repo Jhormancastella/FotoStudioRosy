@@ -65,6 +65,8 @@ function cacheDom() {
     dom.loading        = document.getElementById("galleryLoading");
     dom.pagination     = document.getElementById("pagination");
     dom.paginationInfo = document.getElementById("paginationInfo");
+    dom.paginationWrap = document.getElementById("paginationWrap");
+    dom.viewControls   = document.getElementById("viewControls");
     dom.catFilters     = document.getElementById("catFilters");
     dom.cantidad       = document.getElementById("cantidadSelector");
     dom.resultCount    = document.getElementById("resultCount");
@@ -169,10 +171,10 @@ function applyFilter() {
 }
 
 function reRenderGallery() {
-    const total = state.filtered.length;
+    const total   = state.filtered.length;
     const perPage = state.itemsPerPage === 9999 ? total : state.itemsPerPage;
-    const start = (state.currentPage - 1) * perPage;
-    const slice = state.filtered.slice(start, start + perPage);
+    const start   = (state.currentPage - 1) * perPage;
+    const slice   = state.filtered.slice(start, start + perPage);
 
     renderGallery(slice);
 
@@ -180,12 +182,23 @@ function reRenderGallery() {
         dom.resultCount.textContent = `${total} imagen${total !== 1 ? "es" : ""}`;
     }
 
-    if (state.itemsPerPage === 9999) {
-        if (dom.pagination) dom.pagination.innerHTML = "";
+    // ── Ocultar controles y paginación si no hay suficientes imágenes ──────
+    // Si el total cabe en una sola página (o la categoría tiene pocas fotos),
+    // no tiene sentido mostrar el selector "Mostrar" ni la paginación.
+    const needsPagination = total > perPage && state.itemsPerPage !== 9999;
+
+    if (dom.viewControls) {
+        dom.viewControls.style.display = needsPagination ? "" : "none";
+    }
+
+    if (state.itemsPerPage === 9999 || !needsPagination) {
+        if (dom.pagination)     dom.pagination.innerHTML = "";
         if (dom.paginationInfo) dom.paginationInfo.textContent = "";
+        if (dom.paginationWrap) dom.paginationWrap.style.display = "none";
         return;
     }
 
+    if (dom.paginationWrap) dom.paginationWrap.style.display = "";
     renderPagination(total, perPage);
 }
 

@@ -30,18 +30,20 @@
                 <!-- Los botones se generan en populateCatFilters() -->
             </div>
 
-            <!-- Controles de vista y cantidad -->
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;flex-wrap:wrap;gap:.5rem">
-                <div style="display:flex;align-items:center;gap:.5rem">
-                    <label for="cantidadSelector" style="font-size:.82rem;font-weight:600;color:#6b7280">Mostrar:</label>
-                    <select id="cantidadSelector" class="form-select" style="width:auto">
-                        <option value="8">8</option>
-                        <option value="12" selected>12</option>
-                        <option value="24">24</option>
-                        <option value="9999">Todas</option>
-                    </select>
-                </div>
+            <!-- Contador de imágenes (siempre visible) -->
+            <div style="display:flex;align-items:center;justify-content:flex-end;padding:.5rem 1.5rem 0">
                 <div id="resultCount" style="font-size:.82rem;color:#9ca3af"></div>
+            </div>
+
+            <!-- Controles de paginación (se ocultan si no son necesarios) -->
+            <div id="viewControls" style="display:flex;align-items:center;padding:.5rem 1.5rem;gap:.5rem">
+                <label for="cantidadSelector" style="font-size:.82rem;font-weight:600;color:#6b7280">Mostrar:</label>
+                <select id="cantidadSelector" class="form-select" style="width:auto">
+                    <option value="8">8</option>
+                    <option value="12" selected>12</option>
+                    <option value="24">24</option>
+                    <option value="9999">Todas</option>
+                </select>
             </div>
 
             <!-- Galería -->
@@ -54,7 +56,7 @@
             </div>
 
             <!-- Paginación -->
-            <div style="padding:1rem 1.5rem 2rem">
+            <div id="paginationWrap" style="padding:1rem 1.5rem 2rem">
                 <div class="pagination" id="pagination"></div>
                 <p class="pagination-info" id="paginationInfo"></p>
             </div>
