@@ -15,6 +15,7 @@ import "../js/firebase-provider.js";
 import { APP_CONFIG }       from "./config.js";
 import { createAuthClient } from "./auth.js";
 import { initNav }          from "./nav.js";
+import { applyContactLinks } from "./social-links.js";
 
 const authClient       = createAuthClient(APP_CONFIG.auth);
 const { contact }      = APP_CONFIG;
@@ -32,6 +33,9 @@ document.addEventListener("DOMContentLoaded", initCotizar);
 
 async function initCotizar() {
     initNav("quote", { onLogoutClick: handleLogout });
+
+    // Redes sociales dinámicas (aplica antes de que el cotizador calcule el href de WA)
+    applyContactLinks();
 
     // Cargar precios desde Firebase; si falla usa los de config.js
     await loadPricingFromFirebase();

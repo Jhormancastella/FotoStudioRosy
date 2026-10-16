@@ -6,6 +6,7 @@ import "../js/firebase-provider.js";
 import { APP_CONFIG }       from "./config.js";
 import { createAuthClient } from "./auth.js";
 import { initNav }          from "./nav.js";
+import { applyContactLinks } from "./social-links.js";
 
 const authClient = createAuthClient(APP_CONFIG.auth);
 
@@ -15,6 +16,9 @@ async function initContacto() {
     initNav("contact", {
         onLogoutClick: handleLogout
     });
+
+    // Redes sociales dinámicas
+    applyContactLinks();
 
     bindForm();
 

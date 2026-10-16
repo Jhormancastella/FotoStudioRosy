@@ -10,6 +10,7 @@ import { initNav }              from "./nav.js";
 import { applyTranslations, t } from "./i18n.js";
 import { seedFirebaseIfEmpty }  from "./seed-firebase.js";
 import { getCategorias }        from "./categories-service.js";
+import { applyContactLinks }    from "./social-links.js";
 
 const authClient     = createAuthClient(APP_CONFIG.auth);
 const galleryService = createGalleryService(APP_CONFIG);
@@ -43,6 +44,9 @@ async function initCatalog() {
 
     initCloudinaryWidget();
     bindEvents();
+
+    // Redes sociales dinámicas
+    applyContactLinks();
 
     // Poblar filtros de categoría desde Firestore antes de cargar imágenes
     await populateCatFilters();

@@ -100,6 +100,7 @@ async function initPanel() {
             loadMessages();
             loadPricing();
             loadAboutData();
+            loadContactLinksAdmin();
         });
     } else {
         setTimeout(() => {
@@ -107,6 +108,7 @@ async function initPanel() {
             loadMessages();
             loadPricing();
             loadAboutData();
+            loadContactLinksAdmin();
         }, 800);
     }
 }
@@ -160,7 +162,8 @@ function switchPanel(panelId) {
         quotes:     "Cotizaciones",
         messages:   "Mensajes",
         pricing:    "Precios",
-        about:      "Sobre mí"
+        about:      "Sobre mí",
+        contact:    "Redes sociales"
     };
     const titleEl = document.getElementById("panelTitle");
     if (titleEl) titleEl.textContent = titleMap[panelId] || "Panel";
@@ -875,29 +878,47 @@ async function savePricing() {
 
 // ── Sobre mí ──────────────────────────────────────────────────────────────────
 
+// Defaults del contenido de la página sobre-mi (se usan cuando Firestore está vacío)
+const ABOUT_DEFAULTS = {
+    name:        "Rosy Photo Studio",
+    role:        "Fotografía & Restauración de Imágenes · Tibú, Norte de Santander",
+    quote:       "Cada fotografía que llega a mis manos es una historia única que merece ser contada con la mayor fidelidad y cuidado posible.",
+    bio1:        "Somos un estudio fotográfico especializado en la restauración y colorización digital de imágenes. Nacimos con una misión clara: preservar los recuerdos más valiosos de las familias colombianas, devolviéndoles la vida a fotografías que el tiempo intentó borrar.",
+    bio2:        "Creemos que una fotografía no es solo una imagen — es un puente entre generaciones. Trabajamos con dedicación en cada proyecto para que el resultado final supere tus expectativas, con atención al detalle en cada píxel.",
+    statPhotos:  "+500",
+    statYears:   "10+",
+    statClients: "+300",
+    photoUrl:    "https://res.cloudinary.com/dipv76dpn/image/upload/v1757879378/Rosy/mea9yccx3mwf78mwqocs.png"
+};
+
 async function loadAboutData() {
     const provider = window.FirebaseGalleryProvider;
     if (!provider?.getSobreMi) return;
-    try {
-        const data = await provider.getSobreMi();
-        if (data) {
-            const set     = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
-            const setHTML = (id, val) => { const el = document.getElementById(id); if (el && val) el.innerHTML = val; };
-            set("aboutAdminName", data.name);
-            set("aboutAdminRole", data.role);
-            setHTML("aboutAdminBio1", data.bio1);
-            setHTML("aboutAdminBio2", data.bio2);
-            set("aboutStatPhotos",  data.statPhotos);
-            set("aboutStatYears",   data.statYears);
-            set("aboutStatClients", data.statClients);
-            if (data.photoUrl) {
-                const img    = document.getElementById("aboutPreviewImg");
-                const urlInp = document.getElementById("aboutPhotoUrl");
-                if (img)    img.src      = data.photoUrl;
-                if (urlInp) urlInp.value = data.photoUrl;
-            }
-        }
-    } catch {}
+
+    let data = null;
+    try { data = await provider.getSobreMi(); } catch {}
+
+    // Si Firestore no tiene documento, usar los defaults del HTML de la página
+    const d = data || {};
+
+    const set     = (id, val) => { const el = document.getElementById(id); if (el) el.value   = val; };
+    const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+    const setTA   = (id, val) => { const el = document.getElementById(id); if (el) el.value   = val; };
+
+    set("aboutAdminName",  d.name       || ABOUT_DEFAULTS.name);
+    set("aboutAdminRole",  d.role       || ABOUT_DEFAULTS.role);
+    setTA("aboutAdminQuote", d.quote    || ABOUT_DEFAULTS.quote);
+    setHTML("aboutAdminBio1", d.bio1    || ABOUT_DEFAULTS.bio1);
+    setHTML("aboutAdminBio2", d.bio2    || ABOUT_DEFAULTS.bio2);
+    set("aboutStatPhotos",  d.statPhotos  || ABOUT_DEFAULTS.statPhotos);
+    set("aboutStatYears",   d.statYears   || ABOUT_DEFAULTS.statYears);
+    set("aboutStatClients", d.statClients || ABOUT_DEFAULTS.statClients);
+
+    const photoUrl = d.photoUrl || ABOUT_DEFAULTS.photoUrl;
+    const img    = document.getElementById("aboutPreviewImg");
+    const urlInp = document.getElementById("aboutPhotoUrl");
+    if (img)    img.src      = photoUrl;
+    if (urlInp) urlInp.value = photoUrl;
 
     const saveBtn = document.getElementById("saveAboutAdminBtn");
     if (saveBtn && !saveBtn._bound) {
@@ -905,12 +926,12 @@ async function loadAboutData() {
         saveBtn.addEventListener("click", saveAboutAdmin);
     }
 
-    const urlInp = document.getElementById("aboutPhotoUrl");
-    if (urlInp && !urlInp._bound) {
-        urlInp._bound = true;
-        urlInp.addEventListener("input", e => {
-            const img = document.getElementById("aboutPreviewImg");
-            if (img && e.target.value) img.src = e.target.value;
+    const urlInp2 = document.getElementById("aboutPhotoUrl");
+    if (urlInp2 && !urlInp2._bound) {
+        urlInp2._bound = true;
+        urlInp2.addEventListener("input", e => {
+            const imgEl = document.getElementById("aboutPreviewImg");
+            if (imgEl && e.target.value) imgEl.src = e.target.value;
         });
     }
 }
@@ -942,6 +963,7 @@ async function saveAboutAdmin() {
     const data = {
         name:        document.getElementById("aboutAdminName")?.value       || "",
         role:        document.getElementById("aboutAdminRole")?.value       || "",
+        quote:       document.getElementById("aboutAdminQuote")?.value      || "",
         bio1:        document.getElementById("aboutAdminBio1")?.innerHTML   || "",
         bio2:        document.getElementById("aboutAdminBio2")?.innerHTML   || "",
         statPhotos:  document.getElementById("aboutStatPhotos")?.value      || "",
@@ -959,6 +981,116 @@ async function saveAboutAdmin() {
         showToast("Página guardada", "success", "Los cambios se ven en «Sobre mí»");
     } catch {
         showToast("Error al guardar", "error");
+    } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Guardar'; }
+    }
+}
+
+// ── Redes sociales / Contacto ─────────────────────────────────────────────────
+
+const _contactDefaults = {
+    whatsapp:  "https://wa.me/573229135021",
+    facebook:  "https://www.facebook.com/people/Rosy-photostudio-Tibu/61593262499731/",
+    instagram: "https://www.instagram.com/rosyphotostudio3/",
+    tiktok:    "https://www.tiktok.com/@rosyphotostudio"
+};
+
+async function loadContactLinksAdmin() {
+    const provider = window.FirebaseGalleryProvider;
+    let data = null;
+
+    if (provider?.getContactLinks) {
+        try { data = await provider.getContactLinks(); } catch {}
+    }
+
+    // Rellenar inputs con valores de Firestore o los defaults del config
+    const links = { ..._contactDefaults, ...(data || {}) };
+    _setContactInput("contactWhatsapp", links.whatsapp);
+    _setContactInput("contactFacebook",  links.facebook);
+    _setContactInput("contactInstagram", links.instagram);
+    _setContactInput("contactTiktok",    links.tiktok);
+
+    // Actualizar vista previa
+    _updateContactPreview(links);
+
+    // Bind inputs → preview en vivo (solo la primera vez)
+    const inputs = ["contactWhatsapp", "contactFacebook", "contactInstagram", "contactTiktok"];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el._contactBound) {
+            el._contactBound = true;
+            el.addEventListener("input", () => {
+                _updateContactPreview({
+                    whatsapp:  document.getElementById("contactWhatsapp")?.value  || "",
+                    facebook:  document.getElementById("contactFacebook")?.value  || "",
+                    instagram: document.getElementById("contactInstagram")?.value || "",
+                    tiktok:    document.getElementById("contactTiktok")?.value    || ""
+                });
+            });
+        }
+    });
+
+    // Bind botón guardar (solo la primera vez)
+    const saveBtn = document.getElementById("saveContactBtn");
+    if (saveBtn && !saveBtn._bound) {
+        saveBtn._bound = true;
+        saveBtn.addEventListener("click", saveContactLinksAdmin);
+    }
+}
+
+function _setContactInput(id, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.value = value;
+}
+
+function _updateContactPreview(links) {
+    const map = {
+        prevWa: links.whatsapp,
+        prevFb: links.facebook,
+        prevIg: links.instagram,
+        prevTt: links.tiktok
+    };
+    Object.entries(map).forEach(([id, href]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (href && href.startsWith("http")) {
+            el.href            = href;
+            el.style.opacity   = "1";
+            el.style.pointerEvents = "auto";
+        } else {
+            el.href            = "#";
+            el.style.opacity   = "0.35";
+            el.style.pointerEvents = "none";
+        }
+    });
+}
+
+async function saveContactLinksAdmin() {
+    const provider = window.FirebaseGalleryProvider;
+    if (!provider?.saveContactLinks) { showToast("Firebase no disponible", "error"); return; }
+
+    const data = {
+        whatsapp:  document.getElementById("contactWhatsapp")?.value.trim()  || "",
+        facebook:  document.getElementById("contactFacebook")?.value.trim()  || "",
+        instagram: document.getElementById("contactInstagram")?.value.trim() || "",
+        tiktok:    document.getElementById("contactTiktok")?.value.trim()    || ""
+    };
+
+    // Validación básica de URLs
+    const invalid = Object.entries(data).find(([, v]) => v && !v.startsWith("http"));
+    if (invalid) {
+        showToast("URL inválida", "error", `El campo «${invalid[0]}» debe empezar con https://`);
+        return;
+    }
+
+    const btn = document.getElementById("saveContactBtn");
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando…'; }
+
+    try {
+        await provider.saveContactLinks(data);
+        showToast("Redes actualizadas", "success", "Los links se aplican en todo el sitio");
+    } catch {
+        showToast("Error al guardar", "error", "Intenta de nuevo");
     } finally {
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Guardar'; }
     }

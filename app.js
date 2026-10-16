@@ -12,6 +12,7 @@ import { initComparators }      from "./js/comparator.js";
 import { initNav }              from "./js/nav.js";
 import { applyTranslations }    from "./js/i18n.js";
 import { seedFirebaseIfEmpty }  from "./js/seed-firebase.js";
+import { applyContactLinks }    from "./js/social-links.js";
 
 const authClient    = createAuthClient(APP_CONFIG.auth);
 const galleryService = createGalleryService(APP_CONFIG);
@@ -29,6 +30,9 @@ async function initApp() {
         onLogoutClick: handleLogout,
         onAdminReady:  (isAdmin) => { /* nada especial en inicio */ }
     });
+
+    // Redes sociales dinámicas
+    applyContactLinks();
 
     // Comparadores - initialize with delay to ensure DOM is ready
     setTimeout(() => {

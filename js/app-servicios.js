@@ -7,6 +7,7 @@ import { APP_CONFIG }       from "./config.js";
 import { createAuthClient } from "./auth.js";
 import { initComparators }  from "./comparator.js";
 import { initNav }          from "./nav.js";
+import { applyContactLinks } from "./social-links.js";
 
 const authClient = createAuthClient(APP_CONFIG.auth);
 
@@ -17,6 +18,9 @@ async function initServicios() {
     initNav("services", {
         onLogoutClick: handleLogout
     });
+
+    // Redes sociales dinámicas
+    applyContactLinks();
 
     // Comparadores
     initComparators(["comparator-restauracion", "comparator-colorizacion"]);

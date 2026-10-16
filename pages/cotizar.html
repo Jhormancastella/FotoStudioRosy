@@ -408,6 +408,192 @@
         }
         .cq-placeholder i { font-size: 2.5rem; display: block; margin-bottom: .75rem; opacity: .35; }
         .cq-placeholder p { font-size: .875rem; }
+
+        /* ── Hero del cotizador ──────────────────────────── */
+        .cq-hero {
+            background: linear-gradient(135deg, #2d0a1f 0%, #6b1045 45%, #7c3aed 100%);
+            border-radius: 1.25rem 1.25rem 0 0;
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+        }
+        .cq-hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(60px);
+        }
+        .cq-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 99px;
+            padding: .3rem .9rem;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            margin-bottom: .85rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ── Trust strip ─────────────────────────────────── */
+        .cq-trust {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: .85rem 1.5rem;
+            background: rgba(252,37,162,.04);
+            border-bottom: 1px solid rgba(252,37,162,.1);
+        }
+        .cq-trust-item {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            font-size: .78rem;
+            font-weight: 600;
+            color: #4b5563;
+        }
+        [data-theme="dark"] .cq-trust-item { color: #94a3b8; }
+        .cq-trust-item i { color: #fc25a2; font-size: .9rem; }
+
+        /* ── Indicador de pasos ──────────────────────────── */
+        .cq-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 1.25rem;
+        }
+        .cq-step {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .cq-step-num {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #9ca3af;
+            font-size: .78rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .25s;
+        }
+        [data-theme="dark"] .cq-step-num { background: #1e293b; color: #475569; }
+        .cq-step-num.active {
+            background: linear-gradient(135deg,#fc25a2,#c01878);
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(252,37,162,.4);
+        }
+        .cq-step-num.done {
+            background: rgba(252,37,162,.15);
+            color: #fc25a2;
+        }
+        .cq-step-label {
+            font-size: .72rem;
+            font-weight: 600;
+            color: #9ca3af;
+            transition: color .25s;
+        }
+        [data-theme="dark"] .cq-step-label { color: #475569; }
+        .cq-step.active .cq-step-label { color: #fc25a2; }
+        .cq-step.done  .cq-step-label  { color: #6b7280; }
+        .cq-step-line {
+            width: 2.5rem;
+            height: 2px;
+            background: #e5e7eb;
+            margin: 0 .25rem;
+            flex-shrink: 0;
+            transition: background .25s;
+        }
+        [data-theme="dark"] .cq-step-line { background: #1e293b; }
+        .cq-step-line.done { background: rgba(252,37,162,.35); }
+
+        /* ── Estado vacío mejorado ───────────────────────── */
+        .cq-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            gap: .75rem;
+        }
+        .cq-empty-icon {
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg,rgba(252,37,162,.1),rgba(124,58,237,.1));
+            border: 2px dashed rgba(252,37,162,.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            color: #fc25a2;
+            animation: pulse-ring 2.5s ease-in-out infinite;
+        }
+        @keyframes pulse-ring {
+            0%,100% { box-shadow: 0 0 0 0 rgba(252,37,162,.2); }
+            50%      { box-shadow: 0 0 0 10px rgba(252,37,162,0); }
+        }
+
+        /* ── Panel de precio mejorado ────────────────────── */
+        .cq-wa-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            width: 100%;
+            padding: .9rem 1rem;
+            background: linear-gradient(135deg,#25d366,#128c3e);
+            color: #fff;
+            border-radius: .85rem;
+            font-weight: 800;
+            font-size: .95rem;
+            text-decoration: none;
+            transition: transform .15s, box-shadow .15s;
+            box-shadow: 0 4px 16px rgba(37,211,102,.35);
+        }
+        .cq-wa-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37,211,102,.45);
+            color: #fff;
+        }
+        .cq-response-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            font-size: .72rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-top: .4rem;
+        }
+        [data-theme="dark"] .cq-response-badge { color: #475569; }
+        .cq-response-badge i { color: #25d366; }
+
+        /* Dark mode ajustes trust badges */
+        [data-theme="dark"] .cq-trust { background: rgba(252,37,162,.06); }
+        [data-theme="dark"] .cq-empty-state p { color: #94a3b8; }
+
+        /* Banner pruebas — dark mode */
+        [data-theme="dark"] .cq-beta-banner {
+            background: linear-gradient(135deg,rgba(251,191,36,.08),rgba(245,158,11,.05)) !important;
+            border-color: rgba(251,191,36,.25) !important;
+        }
+        [data-theme="dark"] .cq-beta-banner .cq-beta-title { color: #fbbf24 !important; }
+        [data-theme="dark"] .cq-beta-banner .cq-beta-text  { color: #fcd34d !important; }
+        [data-theme="dark"] .cq-beta-banner .cq-beta-link  { color: #fbbf24 !important; }
     </style>
 </head>
 <body class="page-body">
@@ -415,14 +601,103 @@
     <div id="nav-placeholder"></div>
 
     <div class="page-wrapper">
-        <section class="page-card animate-fade-in" style="max-width:960px;margin-left:auto;margin-right:auto">
+        <section class="page-card animate-fade-in" style="max-width:960px;margin-left:auto;margin-right:auto;overflow:hidden">
 
-            <!-- Header -->
-            <div class="section-header">
-                <span class="section-badge"><i class="fas fa-calculator"></i> Precios en COP</span>
-                <h1 class="section-title">Cotizador</h1>
-                <p class="section-subtitle">Elige el producto, ingresa el tamaño y ve el precio al instante</p>
-                <div class="section-divider"></div>
+            <!-- ── Hero ── -->
+            <div class="cq-hero">
+                <div class="cq-hero-orb" style="width:280px;height:280px;background:rgba(252,37,162,.25);top:-80px;right:-60px"></div>
+                <div class="cq-hero-orb" style="width:200px;height:200px;background:rgba(124,58,237,.2);bottom:-60px;left:-40px"></div>
+                <div style="position:relative;z-index:1">
+                    <div class="cq-hero-badge">
+                        <i class="fas fa-calculator"></i> Precios en COP
+                    </div>
+                    <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;line-height:1.2;margin-bottom:.5rem">
+                        Cotiza tu pedido al instante
+                    </h1>
+                    <p style="opacity:.85;font-size:.95rem;max-width:440px;margin:0 auto 1.25rem;line-height:1.6">
+                        Elige el producto, configura el tamaño y obtén un precio estimado en segundos.
+                        Te respondemos en menos de <strong>24 horas</strong>.
+                    </p>
+                    <!-- Mini galería de productos como píldoras -->
+                    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:.5rem">
+                        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .75rem;font-size:.72rem;font-weight:600;backdrop-filter:blur(4px)"><i class="fas fa-id-card" style="margin-right:.3rem"></i>Foto carné</span>
+                        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .75rem;font-size:.72rem;font-weight:600;backdrop-filter:blur(4px)"><i class="fas fa-palette" style="margin-right:.3rem"></i>Canvas</span>
+                        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .75rem;font-size:.72rem;font-weight:600;backdrop-filter:blur(4px)"><i class="fas fa-magic" style="margin-right:.3rem"></i>Restauración</span>
+                        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .75rem;font-size:.72rem;font-weight:600;backdrop-filter:blur(4px)"><i class="fas fa-flag" style="margin-right:.3rem"></i>Pendones</span>
+                        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .75rem;font-size:.72rem;font-weight:600;backdrop-filter:blur(4px)"><i class="fas fa-gem" style="margin-right:.3rem"></i>Acrílico</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Trust strip ── -->
+            <div class="cq-trust">
+                <div class="cq-trust-item"><i class="fas fa-bolt"></i> Precio instantáneo</div>
+                <div class="cq-trust-item"><i class="fas fa-clock"></i> Respuesta en &lt;24 h</div>
+                <div class="cq-trust-item"><i class="fab fa-whatsapp"></i> Confirmamos por WhatsApp</div>
+                <div class="cq-trust-item"><i class="fas fa-shield-alt"></i> Sin compromiso</div>
+            </div>
+
+            <!-- ── Banner de aviso — cotizador en pruebas ── -->
+            <div class="cq-beta-banner" style="display:flex;align-items:flex-start;gap:.85rem;
+                        background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(245,158,11,.08));
+                        border:1.5px solid rgba(251,191,36,.4);
+                        border-radius:0;
+                        padding:1rem 1.5rem">
+                <div style="width:2.4rem;height:2.4rem;border-radius:.6rem;
+                            background:rgba(251,191,36,.18);color:#d97706;
+                            display:flex;align-items:center;justify-content:center;
+                            font-size:1.1rem;flex-shrink:0;margin-top:.05rem">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div style="flex:1">
+                    <p class="cq-beta-title" style="font-size:.875rem;font-weight:800;color:#92400e;margin:0 0 .25rem;line-height:1.3">
+                        🧪 Cotizador en fase de pruebas
+                    </p>
+                    <p class="cq-beta-text" style="font-size:.82rem;color:#78350f;line-height:1.6;margin:0">
+                        Los precios mostrados son <strong>estimados orientativos</strong> y pueden no ser exactos todavía.
+                        Para una cotización real y personalizada,
+                        <a class="cq-beta-link"
+                           href="https://wa.me/573229135021?text=Hola%20Rosy%20Photo%20Studio!%20Quisiera%20una%20cotizaci%C3%B3n%20real%20para%20mi%20pedido."
+                           target="_blank" rel="noopener"
+                           style="color:#d97706;font-weight:700;text-decoration:underline;text-underline-offset:2px">
+                            escríbenos directamente por WhatsApp
+                        </a>
+                        y te hacemos la cotización adecuada. ✅
+                    </p>
+                </div>
+                <a href="https://wa.me/573229135021?text=Hola%20Rosy%20Photo%20Studio!%20Quisiera%20una%20cotizaci%C3%B3n%20real%20para%20mi%20pedido."
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;gap:.4rem;
+                          background:#25d366;color:#fff;padding:.5rem 1rem;
+                          border-radius:.65rem;font-size:.8rem;font-weight:700;
+                          text-decoration:none;white-space:nowrap;flex-shrink:0;
+                          box-shadow:0 3px 10px rgba(37,211,102,.3);
+                          transition:transform .15s,box-shadow .15s;align-self:center"
+                   onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(37,211,102,.4)'"
+                   onmouseout="this.style.transform='';this.style.boxShadow='0 3px 10px rgba(37,211,102,.3)'">
+                    <i class="fab fa-whatsapp"></i> Cotizar real
+                </a>
+            </div>
+
+            <!-- ── Contenido principal ── -->
+            <div style="padding:1.5rem">
+
+            <!-- Indicador de pasos -->
+            <div class="cq-steps" id="stepsIndicator" style="margin-bottom:1.5rem">
+                <div class="cq-step active" id="step1">
+                    <div class="cq-step-num active" id="stepNum1">1</div>
+                    <span class="cq-step-label">Producto</span>
+                </div>
+                <div class="cq-step-line" id="stepLine1"></div>
+                <div class="cq-step" id="step2">
+                    <div class="cq-step-num" id="stepNum2">2</div>
+                    <span class="cq-step-label">Configura</span>
+                </div>
+                <div class="cq-step-line" id="stepLine2"></div>
+                <div class="cq-step" id="step3">
+                    <div class="cq-step-num" id="stepNum3">3</div>
+                    <span class="cq-step-label">Solicita</span>
+                </div>
             </div>
 
             <div class="cq-wrap">
@@ -509,7 +784,7 @@
                                 <div id="acabadoSection">
                                     <p class="cq-label" style="margin-bottom:.5rem">
                                         <i class="fas fa-magic" style="color:#fc25a2;margin-right:.3rem"></i>
-                                        Acabado / servicio adicional
+                                        Servicio / acabado
                                     </p>
                                     <div style="display:flex;flex-wrap:wrap;gap:.4rem" id="acabadoChips">
                                         <!-- Poblado por JS -->
@@ -535,9 +810,14 @@
                     </div>
 
                     <!-- Estado vacío antes de seleccionar -->
-                    <div class="cq-placeholder" id="emptyState">
-                        <i class="fas fa-hand-pointer"></i>
-                        <p>Selecciona un producto arriba para ver las opciones y calcular el precio</p>
+                    <div class="cq-empty-state" id="emptyState">
+                        <div class="cq-empty-icon">
+                            <i class="fas fa-hand-pointer"></i>
+                        </div>
+                        <p style="font-size:.95rem;font-weight:700;color:#374151;margin:0">Elige un producto</p>
+                        <p style="font-size:.82rem;color:#9ca3af;max-width:220px;line-height:1.5;margin:0">
+                            Selecciona una de las opciones de arriba para ver la configuración y el precio
+                        </p>
                     </div>
 
                 </div><!-- /col izquierda -->
@@ -557,11 +837,21 @@
 
                         <div class="cq-price-body">
 
+                            <!-- WhatsApp CTA — prominente y arriba -->
+                            <a id="quoteWhatsapp" href="https://wa.me/573229135021" target="_blank" rel="noopener"
+                               class="cq-wa-primary">
+                                <i class="fab fa-whatsapp fa-lg"></i> Enviar cotización por WhatsApp
+                            </a>
+                            <div class="cq-response-badge">
+                                <i class="fas fa-circle" style="font-size:.45rem"></i>
+                                Respondemos en menos de 24 horas
+                            </div>
+
                             <!-- Desglose -->
-                            <div>
+                            <div style="border-top:1px solid rgba(252,37,162,.1);padding-top:.85rem">
                                 <p class="cq-label" style="margin-bottom:.4rem">
                                     <i class="fas fa-list-ul" style="color:#fc25a2;margin-right:.3rem"></i>
-                                    Desglose
+                                    Desglose del precio
                                 </p>
                                 <div class="cq-breakdown" id="breakdownLines">
                                     <p style="font-size:.8rem;color:#9ca3af;text-align:center;padding:.5rem 0">
@@ -570,23 +860,24 @@
                                 </div>
                             </div>
 
-                            <!-- Datos de contacto -->
+                            <!-- Separador -->
                             <div style="border-top:1px solid rgba(252,37,162,.1);padding-top:.85rem">
                                 <p class="cq-label" style="margin-bottom:.5rem">
-                                    <i class="fas fa-user" style="color:#fc25a2;margin-right:.3rem"></i>
-                                    Tus datos <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">(para enviar la cotización)</span>
+                                    <i class="fas fa-paper-plane" style="color:#fc25a2;margin-right:.3rem"></i>
+                                    También puedes enviar una solicitud formal
+                                    <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem;display:block;margin-top:.15rem;color:#9ca3af">Te contactaremos para confirmar el presupuesto</span>
                                 </p>
                                 <div class="cq-form">
                                     <input type="text"  id="quoteName"  class="form-input" placeholder="Tu nombre *">
                                     <input type="email" id="quoteEmail" class="form-input" placeholder="Tu correo *">
-                                    <input type="tel"   id="quotePhone" class="form-input" placeholder="Tu teléfono">
+                                    <input type="tel"   id="quotePhone" class="form-input" placeholder="Tu teléfono (opcional)">
                                     <textarea id="quoteNotes" class="form-textarea" style="min-height:68px"
                                               placeholder="Detalles, referencias o preguntas…"></textarea>
                                 </div>
 
                                 <button id="quoteSendBtn" type="button" class="btn-primary"
                                         style="width:100%;margin-top:.75rem;justify-content:center">
-                                    <i class="fas fa-paper-plane"></i> Solicitar cotización
+                                    <i class="fas fa-paper-plane"></i> Solicitar cotización formal
                                 </button>
 
                                 <div id="quoteMsg" class="form-msg form-msg--success" style="margin-top:.55rem">
@@ -599,16 +890,34 @@
                                 </div>
                             </div>
 
-                            <!-- WhatsApp -->
-                            <a id="quoteWhatsapp" href="https://wa.me/573229135021" target="_blank" rel="noopener"
-                               class="btn-wa">
-                                <i class="fab fa-whatsapp fa-lg"></i> Enviar por WhatsApp
-                            </a>
-
                         </div>
                     </div>
 
-                    <!-- Nota -->
+                    <!-- Trust badges -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+                        <div style="padding:.75rem;background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.18);border-radius:.75rem;text-align:center">
+                            <i class="fab fa-whatsapp" style="color:#25d366;font-size:1.1rem;display:block;margin-bottom:.3rem"></i>
+                            <p style="font-size:.72rem;font-weight:700;color:#374151;margin:0">WhatsApp directo</p>
+                            <p style="font-size:.68rem;color:#9ca3af;margin:0">Atención personalizada</p>
+                        </div>
+                        <div style="padding:.75rem;background:rgba(252,37,162,.06);border:1px solid rgba(252,37,162,.18);border-radius:.75rem;text-align:center">
+                            <i class="fas fa-star" style="color:#fc25a2;font-size:1.1rem;display:block;margin-bottom:.3rem"></i>
+                            <p style="font-size:.72rem;font-weight:700;color:#374151;margin:0">+500 trabajos</p>
+                            <p style="font-size:.68rem;color:#9ca3af;margin:0">Clientes satisfechos</p>
+                        </div>
+                        <div style="padding:.75rem;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.18);border-radius:.75rem;text-align:center">
+                            <i class="fas fa-medal" style="color:#7c3aed;font-size:1.1rem;display:block;margin-bottom:.3rem"></i>
+                            <p style="font-size:.72rem;font-weight:700;color:#374151;margin:0">10+ años</p>
+                            <p style="font-size:.68rem;color:#9ca3af;margin:0">de experiencia</p>
+                        </div>
+                        <div style="padding:.75rem;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.18);border-radius:.75rem;text-align:center">
+                            <i class="fas fa-shipping-fast" style="color:#d97706;font-size:1.1rem;display:block;margin-bottom:.3rem"></i>
+                            <p style="font-size:.72rem;font-weight:700;color:#374151;margin:0">Entrega rápida</p>
+                            <p style="font-size:.68rem;color:#9ca3af;margin:0">Tibú y alrededores</p>
+                        </div>
+                    </div>
+
+                    <!-- Nota estimados -->
                     <div style="padding:.75rem 1rem;background:rgba(252,37,162,.05);
                                 border:1px solid rgba(252,37,162,.14);border-radius:.75rem;
                                 font-size:.78rem;color:#6b7280;line-height:1.6">
@@ -621,6 +930,8 @@
                 </div><!-- /col derecha -->
 
             </div><!-- /cq-wrap -->
+
+            </div><!-- /padding wrapper -->
 
         </section>
 
@@ -924,6 +1235,9 @@
             return;
         }
 
+        // Avanzar al paso 3 cuando hay precio calculado
+        if (selectedProduct) updateSteps(3);
+
         if (totalEl) totalEl.textContent = fmt(result.total);
 
         // Desglose
@@ -994,10 +1308,32 @@
             </div>`).join("");
     }
 
+    /* ── Actualizar indicador de pasos ─────────────────── */
+    function updateSteps(step) {
+        // step: 1 = seleccionando producto, 2 = configurando, 3 = precio listo
+        [1,2,3].forEach(n => {
+            const stepEl  = document.getElementById(`step${n}`);
+            const numEl   = document.getElementById(`stepNum${n}`);
+            if (!stepEl || !numEl) return;
+            stepEl.classList.remove("active","done");
+            numEl.classList.remove("active","done");
+            if (n < step)       { stepEl.classList.add("done"); numEl.classList.add("done"); numEl.innerHTML = '<i class="fas fa-check" style="font-size:.6rem"></i>'; }
+            else if (n === step){ stepEl.classList.add("active"); numEl.classList.add("active"); numEl.textContent = n; }
+            else                { numEl.textContent = n; }
+        });
+        [1,2].forEach(n => {
+            const line = document.getElementById(`stepLine${n}`);
+            if (line) line.classList.toggle("done", n < step);
+        });
+    }
+
     /* ── Seleccionar producto ────────────────────────────── */
     window.selectProduct = function(pid) {
         selectedProduct = PRODUCTS.find(p => p.id === pid) ?? null;
         if (!selectedProduct) return;
+
+        // Avanzar al paso 2
+        updateSteps(2);
 
         // Highlight card
         document.querySelectorAll(".cq-prod-card").forEach(c => {

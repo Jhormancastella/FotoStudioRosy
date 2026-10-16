@@ -195,6 +195,17 @@ async function savePricing(data) {
     await setDoc(doc(db, "pages", "pricing"), { ...data, updatedAt: new Date().toISOString() }, { merge: true });
 }
 
+// ── Links de contacto y redes sociales (editables desde admin) ────────────
+
+async function getContactLinks() {
+    const snap = await getDoc(doc(db, "pages", "contact"));
+    return snap.exists() ? snap.data() : null;
+}
+
+async function saveContactLinks(data) {
+    await setDoc(doc(db, "pages", "contact"), { ...data, updatedAt: new Date().toISOString() }, { merge: true });
+}
+
 // ── Auth ───────────────────────────────────────────────────────────────────
 
 async function checkSession() {
@@ -240,6 +251,9 @@ window.FirebaseGalleryProvider = {
     // Precios
     getPricing,
     savePricing,
+    // Links de contacto y redes sociales
+    getContactLinks,
+    saveContactLinks,
     // Auth
     checkSession,
     waitForAuthUser,

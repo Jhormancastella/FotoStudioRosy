@@ -6,6 +6,7 @@ import "../js/firebase-provider.js";
 import { APP_CONFIG }       from "./config.js";
 import { createAuthClient } from "./auth.js";
 import { initNav }          from "./nav.js";
+import { applyContactLinks } from "./social-links.js";
 
 const authClient = createAuthClient(APP_CONFIG.auth);
 
@@ -18,6 +19,9 @@ async function initSobreMi() {
     initNav("about", {
         onLogoutClick: handleLogout
     });
+
+    // Redes sociales dinámicas
+    applyContactLinks();
 
     // Cargar contenido desde Firebase
     await loadContent();
@@ -41,10 +45,11 @@ async function loadContent() {
 }
 
 function applyContent(data) {
-    if (data.name)    setEl("aboutName",     data.name);
-    if (data.role)    setEl("aboutRole",     data.role);
-    if (data.bio1)    setEl("aboutBio1",     data.bio1);
-    if (data.bio2)    setEl("aboutBio2",     data.bio2);
+    if (data.name)    setEl("aboutName",  data.name);
+    if (data.role)    setEl("aboutRole",  data.role);
+    if (data.quote)   setEl("aboutQuote", data.quote);
+    if (data.bio1)    setEl("aboutBio1",  data.bio1);
+    if (data.bio2)    setEl("aboutBio2",  data.bio2);
     if (data.statPhotos)  setEl("statPhotos",  data.statPhotos);
     if (data.statYears)   setEl("statYears",   data.statYears);
     if (data.statClients) setEl("statClients", data.statClients);
@@ -74,7 +79,7 @@ function showAdminControls() {
 
 function startEditing() {
     isEditing = true;
-    const editableIds = ["aboutName", "aboutRole", "aboutBio1", "aboutBio2", "statPhotos", "statYears", "statClients"];
+    const editableIds = ["aboutName", "aboutRole", "aboutQuote", "aboutBio1", "aboutBio2", "statPhotos", "statYears", "statClients"];
     editableIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.setAttribute("contenteditable", "true");
@@ -89,12 +94,13 @@ async function saveContent() {
     if (!provider?.saveSobreMi) { alert("Firebase no configurado."); return; }
 
     const data = {
-        name:        document.getElementById("aboutName")?.textContent || "",
-        role:        document.getElementById("aboutRole")?.textContent || "",
-        bio1:        document.getElementById("aboutBio1")?.innerHTML   || "",
-        bio2:        document.getElementById("aboutBio2")?.innerHTML   || "",
-        statPhotos:  document.getElementById("statPhotos")?.textContent || "",
-        statYears:   document.getElementById("statYears")?.textContent  || "",
+        name:        document.getElementById("aboutName")?.textContent  || "",
+        role:        document.getElementById("aboutRole")?.textContent  || "",
+        quote:       document.getElementById("aboutQuote")?.textContent || "",
+        bio1:        document.getElementById("aboutBio1")?.innerHTML    || "",
+        bio2:        document.getElementById("aboutBio2")?.innerHTML    || "",
+        statPhotos:  document.getElementById("statPhotos")?.textContent  || "",
+        statYears:   document.getElementById("statYears")?.textContent   || "",
         statClients: document.getElementById("statClients")?.textContent || "",
         photoUrl:    document.getElementById("aboutPhoto")?.src || ""
     };
@@ -107,7 +113,7 @@ async function saveContent() {
 
         // Salir del modo edición
         isEditing = false;
-        ["aboutName","aboutRole","aboutBio1","aboutBio2","statPhotos","statYears","statClients"].forEach(id => {
+        ["aboutName","aboutRole","aboutQuote","aboutBio1","aboutBio2","statPhotos","statYears","statClients"].forEach(id => {
             document.getElementById(id)?.removeAttribute("contenteditable");
         });
         document.getElementById("editAboutBtn")?.classList.remove("hidden");

@@ -103,6 +103,9 @@
         <button class="admin-nav-item" data-panel="about">
             <i class="fas fa-user-circle"></i> Sobre mí
         </button>
+        <button class="admin-nav-item" data-panel="contact">
+            <i class="fas fa-share-alt"></i> Redes sociales
+        </button>
 
         <!-- Sidebar footer -->
         <div class="admin-sidebar-footer">
@@ -205,6 +208,10 @@
                             <button class="admin-quick-btn" data-panel="about">
                                 <i class="fas fa-user-edit"></i>
                                 <span>Sobre mí</span>
+                            </button>
+                            <button class="admin-quick-btn" data-panel="contact">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Redes sociales</span>
                             </button>
                         </div>
                     </div>
@@ -574,20 +581,33 @@
                                 <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
                                     Nombre completo
                                 </label>
-                                <input type="text" id="aboutAdminName" class="admin-input" placeholder="Tu nombre">
+                                <input type="text" id="aboutAdminName" class="admin-input" placeholder="Rosy Photo Studio">
                             </div>
                             <div>
                                 <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
                                     Rol / Título
                                 </label>
-                                <input type="text" id="aboutAdminRole" class="admin-input" placeholder="Fotógrafo & Restaurador">
+                                <input type="text" id="aboutAdminRole" class="admin-input" placeholder="Fotografía & Restauración de Imágenes · Tibú, Norte de Santander">
                             </div>
                         </div>
 
-                        <!-- Párrafo 1 -->
+                        <!-- Cita destacada -->
                         <div>
                             <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
-                                <i class="fas fa-align-left" style="margin-right:.3rem;color:#fc25a2"></i> Párrafo 1
+                                <i class="fas fa-quote-left" style="margin-right:.3rem;color:#fc25a2"></i> Cita destacada
+                                <span style="font-weight:400;color:#475569;font-size:.72rem;margin-left:.4rem">— aparece en la sección hero de la página</span>
+                            </label>
+                            <textarea id="aboutAdminQuote" class="admin-input"
+                                      rows="3"
+                                      placeholder="Cada fotografía que llega a mis manos es una historia única…"
+                                      style="resize:vertical;font-size:.85rem;line-height:1.6"></textarea>
+                        </div>
+
+                        <!-- Párrafo 1 — "Nuestra historia" -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
+                                <i class="fas fa-heart" style="margin-right:.3rem;color:#fc25a2"></i> Nuestra historia
+                                <span style="font-weight:400;color:#475569;font-size:.72rem;margin-left:.4rem">— card izquierda</span>
                             </label>
                             <div class="editor-toolbar">
                                 <button class="editor-btn" onclick="document.execCommand('bold')" title="Negrita"><b>B</b></button>
@@ -598,13 +618,14 @@
                                 </button>
                             </div>
                             <div id="aboutAdminBio1" class="editor-area" contenteditable="true"
-                                 aria-label="Párrafo 1"></div>
+                                 aria-label="Nuestra historia"></div>
                         </div>
 
-                        <!-- Párrafo 2 -->
+                        <!-- Párrafo 2 — "Lo que nos apasiona" -->
                         <div>
                             <label style="font-size:.78rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:.35rem">
-                                <i class="fas fa-align-left" style="margin-right:.3rem;color:#fc25a2"></i> Párrafo 2
+                                <i class="fas fa-star" style="margin-right:.3rem;color:#fc25a2"></i> Lo que nos apasiona
+                                <span style="font-weight:400;color:#475569;font-size:.72rem;margin-left:.4rem">— card derecha</span>
                             </label>
                             <div class="editor-toolbar">
                                 <button class="editor-btn" onclick="document.execCommand('bold')" title="Negrita"><b>B</b></button>
@@ -614,7 +635,7 @@
                                 </button>
                             </div>
                             <div id="aboutAdminBio2" class="editor-area" contenteditable="true"
-                                 aria-label="Párrafo 2"></div>
+                                 aria-label="Lo que nos apasiona"></div>
                         </div>
 
                         <!-- Stats -->
@@ -642,6 +663,132 @@
                 </div>
 
             </div><!-- /panel-about -->
+
+            <!-- ══════════════════════════════════════
+                 PANEL: REDES SOCIALES / CONTACTO
+                 ══════════════════════════════════════ -->
+            <div id="panel-contact" class="admin-tab-panel">
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <p class="admin-card-title"><i class="fas fa-share-alt"></i> Redes sociales y contacto</p>
+                        <button id="saveContactBtn" class="btn-admin btn-admin--primary btn-admin--sm">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                    <div class="admin-card-body" style="display:flex;flex-direction:column;gap:1.25rem">
+
+                        <p style="font-size:.8rem;color:#64748b;line-height:1.55;margin:0">
+                            <i class="fas fa-info-circle" style="color:#fc25a2;margin-right:.3rem"></i>
+                            Actualiza aquí los enlaces de tus redes sociales y WhatsApp. Los cambios se reflejan
+                            automáticamente en todas las páginas del sitio sin necesidad de tocar el código.
+                        </p>
+
+                        <!-- WhatsApp -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:700;color:#94a3b8;display:flex;align-items:center;gap:.4rem;margin-bottom:.45rem">
+                                <i class="fab fa-whatsapp" style="color:#25d366;font-size:1rem"></i> WhatsApp
+                            </label>
+                            <div style="display:flex;flex-direction:column;gap:.5rem">
+                                <input type="url" id="contactWhatsapp" class="admin-input"
+                                       placeholder="https://wa.me/573229135021"
+                                       style="font-size:.85rem">
+                                <p style="font-size:.72rem;color:#475569;margin:0">
+                                    Formato: <code style="color:#f472b6">https://wa.me/</code> seguido del número con código de país (sin +, guiones ni espacios).
+                                    Ej: <code style="color:#f472b6">https://wa.me/573229135021</code>
+                                </p>
+                                <div>
+                                    <label style="font-size:.74rem;font-weight:600;color:#64748b;display:block;margin-bottom:.3rem">
+                                        <i class="fas fa-hashtag" style="margin-right:.25rem;color:#fc25a2"></i>
+                                        Número visible en el sitio (texto que ven los visitantes)
+                                    </label>
+                                    <input type="text" id="contactPhone" class="admin-input"
+                                           placeholder="+57 322 913 5021"
+                                           style="font-size:.85rem">
+                                    <p style="font-size:.71rem;color:#475569;margin:.25rem 0 0">
+                                        Se actualiza automáticamente al guardar la URL. Puedes editarlo manualmente si quieres un formato diferente.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facebook -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:700;color:#94a3b8;display:flex;align-items:center;gap:.4rem;margin-bottom:.45rem">
+                                <i class="fab fa-facebook-f" style="color:#1877f2;font-size:.9rem"></i> Facebook
+                            </label>
+                            <input type="url" id="contactFacebook" class="admin-input"
+                                   placeholder="https://www.facebook.com/tu-pagina/"
+                                   style="font-size:.85rem">
+                        </div>
+
+                        <!-- Instagram -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:700;color:#94a3b8;display:flex;align-items:center;gap:.4rem;margin-bottom:.45rem">
+                                <i class="fab fa-instagram" style="color:#e4405f;font-size:.9rem"></i> Instagram
+                            </label>
+                            <input type="url" id="contactInstagram" class="admin-input"
+                                   placeholder="https://www.instagram.com/tu-usuario/"
+                                   style="font-size:.85rem">
+                        </div>
+
+                        <!-- TikTok -->
+                        <div>
+                            <label style="font-size:.78rem;font-weight:700;color:#94a3b8;display:flex;align-items:center;gap:.4rem;margin-bottom:.45rem">
+                                <i class="fab fa-tiktok" style="color:#94a3b8;font-size:.9rem"></i> TikTok
+                            </label>
+                            <input type="url" id="contactTiktok" class="admin-input"
+                                   placeholder="https://www.tiktok.com/@tu-usuario"
+                                   style="font-size:.85rem">
+                        </div>
+
+                        <!-- Separador -->
+                        <hr style="border:none;border-top:1px solid rgba(255,255,255,.06);margin:.25rem 0">
+
+                        <!-- Vista previa -->
+                        <div>
+                            <p style="font-size:.78rem;font-weight:700;color:#94a3b8;margin-bottom:.65rem;
+                                      display:flex;align-items:center;gap:.4rem">
+                                <i class="fas fa-eye" style="color:#fc25a2"></i>
+                                Vista previa — así se verán los iconos en el sitio
+                            </p>
+                            <div style="display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;padding:.75rem 1rem;
+                                        background:rgba(0,0,0,.18);border-radius:.65rem">
+                                <a id="prevWa" href="#" target="_blank" rel="noopener"
+                                   style="width:2.4rem;height:2.4rem;border-radius:.55rem;background:rgba(37,211,102,.15);
+                                          color:#25d366;display:flex;align-items:center;justify-content:center;
+                                          text-decoration:none;font-size:1.1rem;transition:opacity .15s"
+                                   title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <a id="prevFb" href="#" target="_blank" rel="noopener"
+                                   style="width:2.4rem;height:2.4rem;border-radius:.55rem;background:rgba(24,119,242,.15);
+                                          color:#1877f2;display:flex;align-items:center;justify-content:center;
+                                          text-decoration:none;font-size:1.05rem;transition:opacity .15s"
+                                   title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a id="prevIg" href="#" target="_blank" rel="noopener"
+                                   style="width:2.4rem;height:2.4rem;border-radius:.55rem;background:rgba(228,64,95,.15);
+                                          color:#e4405f;display:flex;align-items:center;justify-content:center;
+                                          text-decoration:none;font-size:1.05rem;transition:opacity .15s"
+                                   title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a id="prevTt" href="#" target="_blank" rel="noopener"
+                                   style="width:2.4rem;height:2.4rem;border-radius:.55rem;background:rgba(255,255,255,.06);
+                                          color:#94a3b8;display:flex;align-items:center;justify-content:center;
+                                          text-decoration:none;font-size:1.05rem;transition:opacity .15s"
+                                   title="TikTok"><i class="fab fa-tiktok"></i></a>
+                                <p style="font-size:.72rem;color:#475569;margin:0;margin-left:.35rem">
+                                    Haz clic en un ícono para verificar que el enlace abre correctamente.
+                                </p>
+                            </div>
+                        </div>
+
+                        <p style="font-size:.72rem;color:#475569;margin:0">
+                            <i class="fas fa-exclamation-triangle" style="color:#fbbf24;margin-right:.3rem"></i>
+                            Recuerda guardar con el botón <strong style="color:#f472b6">Guardar</strong> para que los cambios se apliquen en el sitio.
+                        </p>
+
+                    </div>
+                </div>
+
+            </div><!-- /panel-contact -->
 
         </div><!-- /admin-content -->
     </div><!-- /admin-main -->
